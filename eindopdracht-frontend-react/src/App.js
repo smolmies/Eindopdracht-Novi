@@ -1,31 +1,35 @@
+import React from "react";
 import {
     BrowserRouter as Router,
     Switch,
     Route,
 } from 'react-router-dom';
 import './App.css';
-import Header from "./components/header/Header";
+import Header from "./components/header/Header.js";
+import Home from "./pages/home/Home.js";
+import AboutUs from "./pages/aboutUs/AboutUs.js";
+import Appointment from "./pages/appointment/Appointment.js";
+import Contact from "./pages/contact/Contact.js";
+
 
 function App() {
   return (
-
       <Router>
               <Header />
               <Switch>
                   <Route exact path="/">
-                  {/*   hier komt de homepagina*/}
+                    <Home />
                   </Route>
                   <Route path="/about-us">
-                  {/*   hier komt de info/over ons pagina*/}
+                    <AboutUs />
                   </Route>
                   <Route path="/appointment">
-                  {/*    hier komt de afspraak pagina*/}
+                    <Appointment />
                   </Route>
                   <Route path="/contact">
-                  {/*    hier komt de contact pagina*/}
+                    <Contact />
                   </Route>
               </Switch>
-
       </Router>
   );
 }

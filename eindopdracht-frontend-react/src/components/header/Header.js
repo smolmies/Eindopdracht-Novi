@@ -1,9 +1,20 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import headerImage from './lilly-banner.jpg';
+import './Header.css';
 
-function Header(props) {
-    return ( <>
+function Header() {
+    return (
+        <>
             <header>
+
+                <div className="image-container">
+                    <img src={headerImage} alt="Header cozy cat" className="header-image" />
+                    <h1>Dierenpension
+                        <br />
+                        'Aan de Cuwaart'
+                    </h1>
+                </div>
                 <nav>
                     <ul>
                         <li>
@@ -21,12 +32,14 @@ function Header(props) {
                                 Afspraak maken
                             </NavLink>
                         </li>
+                        <li>
+                            <NavLink exact to="/contact">
+                                Contact
+                            </NavLink>
+                        </li>
+                        <button>Login</button>
                     </ul>
                 </nav>
-                <div className="image-container">
-                    <img src="././assets/cat-background.jpg" alt="Header image plants" className="header-image" />
-                    <h1>Dierenpension 'Aan de Cuwaart'</h1>
-                </div>
             </header>
         </>
     );
