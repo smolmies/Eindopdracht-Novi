@@ -1,0 +1,26 @@
+.page-title{
+    padding-left: 15px;
+}
+
+article{
+    background-color: #c3e0dd;
+    padding: 10px 30px;
+    margin: 10px 15px;
+    border: dashed 3px #728684;
+    border-radius: 5px;
+    width: 75%;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+}

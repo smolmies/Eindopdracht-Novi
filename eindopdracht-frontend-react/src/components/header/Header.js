@@ -7,14 +7,6 @@ function Header() {
     return (
         <>
             <header>
-
-                <div className="image-container">
-                    <img src={headerImage} alt="Header cozy cat" className="header-image" />
-                    <h1>Dierenpension
-                        <br />
-                        'Aan de Cuwaart'
-                    </h1>
-                </div>
                 <nav>
                     <ul>
                         <li>
@@ -32,6 +24,7 @@ function Header() {
                                 Afspraak maken
                             </NavLink>
                         </li>
+
                         <li>
                             <NavLink exact to="/contact">
                                 Contact
@@ -41,6 +34,13 @@ function Header() {
                     </ul>
                 </nav>
             </header>
+            <div className="image-container">
+                <img src={headerImage} alt="Header cozy cat" className="header-image" />
+                <h1>Dierenpension
+                    <br />
+                    'Aan de Cuwaart'
+                </h1>
+            </div>
         </>
     );
 }
