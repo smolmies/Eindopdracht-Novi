@@ -42,7 +42,7 @@ nav ul {
     box-shadow: 1px 1px 1px #3D1B1C;
 }
 
-a:visited{
+a, a:visited{
     color: #3D1B1C;
 }
 
@@ -50,4 +50,9 @@ a:visited{
     height: 60px;
     width: 60px;
     padding: 5px;
+}
+
+@media only screen and (min-width: 576px) {
+
+
 }
