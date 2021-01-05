@@ -1,0 +1,24 @@
+form{
+    background-color: #c3e0dd;
+    display: flex;
+    flex-direction: column;
+    align-content: space-around;
+    align-self: center;
+    align-items: center;
+    width: 400px;
+    padding: 10px;
+    position: fixed;
+    top: 50%;
+    left: 40%;
+    right: 40%;
+
+}
+
+fieldset{
+    border-radius: 5px;
+}
+
+.submit-button{
+    width: 80px;
+    margin: 5px;
+}

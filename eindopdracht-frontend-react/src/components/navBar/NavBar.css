@@ -1,0 +1,53 @@
+/*#E6B86A*/
+
+nav {
+    background-color: #c17717;
+    font-size: 24px;
+    width: 100%;
+    height: 70px;
+    box-shadow: 0 3px 4px #3D1B1C;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+nav ul {
+    color: #3D1B1C;
+    text-shadow: 1px 1px #E6B86A;
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-basis: 600px;
+    flex-shrink: 1;
+    margin: 0 30px;
+    z-index: 100;
+}
+
+.login-button{
+    height: 40px;
+    width: 100px;
+    background-color: #9B3B09;
+    color: #3D1B1C;
+    font-size: 24px;
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    border: solid 2px #3D1B1C;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px #3D1B1C;
+}
+
+a:visited{
+    color: #3D1B1C;
+}
+
+#logo{
+    height: 60px;
+    width: 60px;
+    padding: 5px;
+}

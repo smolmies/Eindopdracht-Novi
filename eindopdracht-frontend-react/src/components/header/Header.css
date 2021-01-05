@@ -1,68 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Sniglet&display=swap');
-
-* {
-    font-family: 'Sniglet', cursive;
-}
-
-header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    font-size: 24px;
-}
-
-nav {
-    background-color: #E6B86A;
-    width: 100%;
-    height: 80px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1000000;
-}
-
-nav ul {
-    color: #AC6A14;
-    list-style-type: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-basis: 600px;
-    flex-shrink: 1;
-    margin: 0 30px;
-    z-index: 1000000;
-}
-
-a:visited{
-    color: #728684;
-}
-
-button{
-    font-size: x-large;
-    height: 50px;
-    width: 100px;
-    background-color: #afcbc8;
-    color: #3D1B1C;
-    position: absolute;
-    top: 15px;
-    right: 30px;
-    border-radius: 3px;
-}
 
 .image-container h1 {
     color: #3D1B1C;
-    font-size: 40px;
+    text-shadow: 2px 3px 2px #b3d0ce;
+    padding: 15px;
+    font-size: 45px;
     text-align: center;
     position: absolute;
-    top: 70%;
-    left: 40%;
+    top: 65%;
+    right: 5%;
+
 }
 
 .image-container{
-    margin-top: 80px;
+    margin-top: 70px;
     z-index: 1;
 }
 

@@ -1,8 +1,13 @@
 import React from 'react';
+import './Appointment.css';
+import Header from "../../components/header/Header";
 
 function Appointment(props) {
     return (
-        <div><p>weeew</p></div>
+        <>
+            <Header />
+            <p>Hier komt een formulieeeerrrrrr</p>
+        </>
     );
 }
 

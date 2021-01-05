@@ -5,17 +5,19 @@ import {
     Route,
 } from 'react-router-dom';
 import './App.css';
-import Header from "./components/header/Header.js";
+
 import Home from "./pages/home/Home.js";
 import AboutUs from "./pages/aboutUs/AboutUs.js";
 import Appointment from "./pages/appointment/Appointment.js";
 import Contact from "./pages/contact/Contact.js";
+import Login from "./pages/login/Login";
+import NavBar from "./components/navBar/NavBar";
 
 
 function App() {
   return (
       <Router>
-              <Header />
+              <NavBar />
               <Switch>
                   <Route exact path="/">
                     <Home />
@@ -28,6 +30,9 @@ function App() {
                   </Route>
                   <Route path="/contact">
                     <Contact />
+                  </Route>
+                  <Route path="/login">
+                      <Login />
                   </Route>
               </Switch>
       </Router>

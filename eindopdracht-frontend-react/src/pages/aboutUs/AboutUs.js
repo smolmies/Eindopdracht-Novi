@@ -1,11 +1,11 @@
 import React from 'react';
 import './AboutUs.css';
+import Header from "../../components/header/Header";
 
 function AboutUs() {
     return (
-        <div>
-            <h1 className='page-title'>Welkom bij mijn kleine pension!</h1>
-
+        <>
+            <Header />
             <div className='row'>
                 <article className='column'>
                     <h3>Leven vol dierenliefde!</h3>
@@ -20,7 +20,7 @@ function AboutUs() {
             </div>
             <div className='row'>
                 <article className='column'>
-                    <h3>Onze eigen beestenboel</h3>
+                    <h3>Verzorging</h3>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam aliquid deserunt eaque eos esse fugiat, ipsam necessitatibus qui temporibus tenetur ullam vero. Inventore, ipsam?
                 </article>
 
@@ -32,7 +32,7 @@ function AboutUs() {
                 </article>
             </div>
 
-        </div>
+        </>
     );
 }
 
