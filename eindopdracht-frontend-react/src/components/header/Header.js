@@ -1,7 +1,7 @@
 import React from 'react';
 
 import headerImage from './lilly-banner-2.jpg';
-import './Header.css';
+import './Header.scss';
 
 function Header() {
     return (

@@ -1,11 +1,15 @@
+@import '../../components/styles/styles';
 
+.page-title{
+    padding-left: 15px;
+}
 
 article{
-    background-color: #c3e0dd;
+    background-color: $peach;
     padding: 10px 30px;
     margin: 10px 15px;
-    border: dashed 3px #728684;
-    border-radius: 5px;
+    border: dashed 3px $tangerine;
+    border-radius: 15px;
     width: 75%;
 }
 

@@ -1,7 +1,7 @@
+@import '../styles/styles.scss';
 
 .image-container h1 {
-    color: #3D1B1C;
-    text-shadow: 2px 3px 2px #b3d0ce;
+    text-shadow: 2px 3px 2px $apple;
     padding: 15px;
     font-size: 45px;
     text-align: center;

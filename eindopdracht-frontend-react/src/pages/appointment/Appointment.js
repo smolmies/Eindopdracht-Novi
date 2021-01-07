@@ -1,5 +1,5 @@
 import React from 'react';
-import './Appointment.css';
+import './Appointment.scss';
 import Header from "../../components/header/Header";
 
 function Appointment(props) {

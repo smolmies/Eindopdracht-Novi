@@ -1,5 +1,5 @@
 import React from 'react';
-import './Home.css';
+import './Home.scss';
 import Header from "../../components/header/Header";
 
 function Home() {

@@ -1,12 +1,12 @@
-import {NavLink} from "react-router-dom";
-import './NavBar.css';
+import {NavLink} from 'react-router-dom';
+import './NavBar.scss';
 import logo from './cat-logo.svg';
 
 function NavBar() {
 return(
     <nav>
         <ul>
-            <img id="logo" src={logo}/>
+            <img id="logo" src={logo} alt="logo of a cat silhouette" />
             <li>
                 <NavLink exact to="/">
                     Welkom

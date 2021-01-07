@@ -1,5 +1,8 @@
+@import '../../components/styles/styles';
+
 form{
-    background-color: #c3e0dd;
+    background-color: $peach;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
     align-content: space-around;
@@ -14,8 +17,17 @@ form{
 
 }
 
+.input-field{
+    padding: 5px;
+}
+
+.error-message p{
+    color: crimson;
+}
+
 fieldset{
     border-radius: 5px;
+    padding: 20px;
 }
 
 .submit-button{
