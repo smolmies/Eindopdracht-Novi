@@ -20,9 +20,9 @@ function Contact(props) {
                 <p>
                         Neem dan contact met mij op via:
                     <br />
-                        Mijn email: denisebrux@live.nl
+                        Mijn email: mail@mail.com
                     <br />
-                        of mijn telefoonnummer: 06 - 48928343 (Bereikbaar via WhatsApp)
+                        of mijn telefoonnummer: 06 - 123456789 (Bereikbaar via WhatsApp)
                 </p>
             </div>
         </>

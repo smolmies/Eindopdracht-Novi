@@ -1,20 +1,35 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
 import './Login.scss';
+import axios from "axios";
 
 function Login() {
     const { register, handleSubmit, errors } = useForm();
-    const onSucces = (formData) => {console.log(formData)};
+
+    async function sendLoginData(formData) {
+        try{
+            const result = await axios.post('http://localhost:8080/login', formData);
+            console.log(result);
+
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    function onSucces(formData) {
+        sendLoginData(formData);
+        console.log(formData);
+    }
 
     return (
         <>
             <form onSubmit={handleSubmit(onSucces)}>
                 <fieldset>
                     <div className="input-field">
-                        <label htmlFor="userName">Gebruikersnaam: </label>
+                        <label htmlFor="username">Gebruikersnaam: </label>
 
-                        <input name="userName" id="userName" type="text" ref={register({register: true})} />
-                        {errors.firstName && <p className="error-message">Gebruikersnaam is verplicht</p>}
+                        <input name="username" id="username" type="text" ref={register({register: true})} />
+                        {errors.username && <p className="error-message">Gebruikersnaam is verplicht</p>}
                     </div>
 
                     <div className="input-field">
