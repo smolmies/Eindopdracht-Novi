@@ -12,6 +12,7 @@ import Appointment from "./pages/appointment/Appointment.js";
 import Contact from "./pages/contact/Contact.js";
 import Login from "./pages/login/Login";
 import NavBar from "./components/navBar/NavBar";
+import Register from "./pages/register/Register";
 
 
 function App() {
@@ -33,6 +34,9 @@ function App() {
                   </Route>
                   <Route path="/login">
                       <Login />
+                  </Route>
+                  <Route path="/register">
+                      <Register />
                   </Route>
               </Switch>
       </Router>

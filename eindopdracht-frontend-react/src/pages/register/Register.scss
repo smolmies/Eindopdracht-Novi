@@ -1,0 +1,19 @@
+@import '../../components/styles/styles';
+
+
+#register-form{
+  background-color: $tangerine;
+  border: dashed 3px $carrot;
+
+  display: flex;
+  flex-direction: column;
+  align-content: space-around;
+  align-self: center;
+  align-items: baseline;
+  width: 500px;
+  padding: 10px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+
+}

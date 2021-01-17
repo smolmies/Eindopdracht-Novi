@@ -1,15 +1,15 @@
 import React from 'react';
-import { useForm } from "react-hook-form";
-import {NavLink} from 'react-router-dom';
-import './Login.scss';
+import './Register.scss';
+import {useForm} from "react-hook-form";
 import axios from "axios";
 
-function Login() {
+
+function Register() {
     const { register, handleSubmit, errors } = useForm();
 
-    async function sendLoginData(formData) {
+    async function sendRegisterData(formData) {
         try{
-            const result = await axios.post('http://localhost:8080/login', formData);
+            const result = await axios.post('http://localhost:8080/register', formData);
             console.log(result);
 
         } catch (e) {
@@ -17,14 +17,14 @@ function Login() {
         }
     }
 
-    function onSucces(formData) {
-        sendLoginData(formData);
+    function onSuccess(formData) {
+        sendRegisterData(formData);
         console.log(formData);
     }
 
     return (
         <>
-            <form id="login-form" onSubmit={handleSubmit(onSucces)}>
+            <form id="register-form" onSubmit={handleSubmit(onSuccess)}>
                 <fieldset>
                     <div className="input-field">
                         <label htmlFor="username">Gebruikersnaam: </label>
@@ -39,20 +39,20 @@ function Login() {
                         />
                         {errors.password && <p className="error-message">Wachtwoord moet tussen 6 en 25 karakters zijn en mag letters, cijfers en speciale tekens bevatten.</p>}
                     </div>
-
+                    <div className="input-field">
+                        <label htmlFor="repeatPassword">Herhaal wachtwoord: </label>
+                        <input name="repeatPassword" id="repeatPassword" type="text" ref={register({required: true, pattern: /^[\w!@#$%^&*()_=+?-]{6,25}$/})}
+                        />
+                        {errors.repeatPassword && <p className="error-message">Wachtwoord moet tussen 6 en 25 karakters zijn en mag letters, cijfers en speciale tekens bevatten.</p>}
+                    </div>
 
                 </fieldset>
-                <button type="submit" className="submit-button" onClick={console.log("je bent ingelogd")}>
+                <button type="submit" className="submit-button" onClick={console.log("je bent geregistreerd")}>
                     Log in
                 </button>
             </form>
-            <p className="register-link">
-                Als je nog geen account hebt dan kun je
-                <NavLink to = "/register">
-                hier
-                </NavLink> eentje aanmaken.</p>
         </>
     );
 }
 
-export default Login;
+export default Register;

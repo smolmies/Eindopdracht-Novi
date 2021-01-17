@@ -1,6 +1,6 @@
 @import '../../components/styles/styles';
 
-form{
+#login-form{
     background-color: $peach;
     border-radius: 5px;
     display: flex;
@@ -14,14 +14,13 @@ form{
     top: 50%;
     left: 40%;
     right: 40%;
-
 }
 
 .input-field{
     padding: 5px;
 }
 
-.error-message p{
+.error-message{
     color: crimson;
 }
 
@@ -33,4 +32,14 @@ fieldset{
 .submit-button{
     width: 80px;
     margin: 5px;
+}
+
+.register-link{
+    text-align: center;
+    color: hotpink;
+    font-size: x-large;
+    display: block;
+    position: absolute;
+    top: 80%;
+    left:50%;
 }
