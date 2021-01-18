@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import {NavLink} from 'react-router-dom';
 import './Login.scss';
 import axios from "axios";
+import fullCatLogo from "../../components/styles/aan-de-cuwaart-logo-transparent.png";
 
 function Login() {
     const { register, handleSubmit, errors } = useForm();
@@ -24,6 +25,7 @@ function Login() {
 
     return (
         <>
+            <img id="colored-logo" src={fullCatLogo} alt="Logo van het pension"/>
             <form id="login-form" onSubmit={handleSubmit(onSucces)}>
                 <fieldset>
                     <div className="input-field">
@@ -46,11 +48,12 @@ function Login() {
                     Log in
                 </button>
             </form>
+
             <p className="register-link">
                 Als je nog geen account hebt dan kun je
                 <NavLink to = "/register">
-                hier
-                </NavLink> eentje aanmaken.</p>
+                 hier
+                </NavLink>  eentje aanmaken.</p>
         </>
     );
 }

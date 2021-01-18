@@ -1,14 +1,13 @@
 import React from 'react';
-
-import headerImage from './lilly-banner-2.jpg';
+import differentHeaderImage from './cat-3678858_1920.jpg';
 import './Header.scss';
 
 function Header() {
     return (
         <>
             <div className="image-container">
-                <img src={headerImage} alt="Header cozy cat" className="header-image" />
-                <h1>Dierenpension
+                <img src={differentHeaderImage} alt="Header cozy cat" className="header-image" />
+                <h1>Kattenpension
                     <br />
                     'Aan de Cuwaart'
                 </h1>

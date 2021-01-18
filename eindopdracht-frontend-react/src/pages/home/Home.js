@@ -26,6 +26,10 @@ function Home() {
                     <article className='column'>
                         <h3>Leven vol dierenliefde!</h3>
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam aliquid deserunt eaque eos esse fugiat, ipsam necessitatibus qui temporibus tenetur ullam vero. Inventore, ipsam?
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam aliquid deserunt eaque eos esse fugiat, ipsam necessitatibus qui temporibus tenetur ullam vero. Inventore, ipsam?
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam aliquid deserunt eaque eos esse fugiat, ipsam necessitatibus qui temporibus tenetur ullam vero. Inventore, ipsam?
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam aliquid deserunt eaque eos esse fugiat, ipsam necessitatibus qui temporibus tenetur ullam vero. Inventore, ipsam?
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam aliquid deserunt eaque eos esse fugiat, ipsam necessitatibus qui temporibus tenetur ullam vero. Inventore, ipsam?
 
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus aliquam aliquid deserunt eaque eos esse fugiat, ipsam necessitatibus qui temporibus tenetur ullam vero. Inventore, ipsam?
                     </article>

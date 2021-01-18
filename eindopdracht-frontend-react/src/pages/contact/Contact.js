@@ -1,13 +1,14 @@
 import React from 'react';
 import './Contact.scss';
-import Header from "../../components/header/Header";
+import fullCatLogo from "../../components/styles/aan-de-cuwaart-logo-transparent.png";
 
-function Contact(props) {
+function Contact() {
     return (
         <>
-            <Header />
+            <img id="colored-logo" src={fullCatLogo} alt="Logo van het pension"/>
             <div className='contact-info'>
                 <h2>Contact opnemen</h2>
+
                 <h3>
                     Mocht u vragen hebben voor mij voordat U een afspraak wilt maken?
                 </h3>
@@ -24,6 +25,7 @@ function Contact(props) {
                     <br />
                         of mijn telefoonnummer: 06 - 123456789 (Bereikbaar via WhatsApp)
                 </p>
+
             </div>
         </>
     );

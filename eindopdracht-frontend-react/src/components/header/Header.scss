@@ -2,23 +2,17 @@
 
 .image-container h1 {
     text-shadow: 2px 3px 2px $apple;
-    padding: 15px;
-    font-size: 45px;
+    padding: 1rem;
+    font-size: 3rem;
     text-align: center;
     position: absolute;
-    top: 65%;
-    right: 5%;
-
-}
-
-.image-container{
-    margin-top: 70px;
-    z-index: 1;
+    top: 15%;
+    left: 45vw;
 }
 
 .header-image {
-     width: 100%;
-     height:75vh;
-     opacity: 90%;
+    width: 100%;
+    height:75vh;
+    opacity: 90%;
     z-index: 1;
  }
