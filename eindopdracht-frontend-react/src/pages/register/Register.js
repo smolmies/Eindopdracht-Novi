@@ -1,56 +1,77 @@
-import React from 'react';
-import './Register.scss';
+import React, {useState} from 'react';
 import {useForm} from "react-hook-form";
 import axios from "axios";
+import {Link} from "react-router-dom";
 
+const endPointUpLink = 'https://polar-lake-14365.herokuapp.com/api/auth/signup';
 
 function Register() {
+    const [loading, toggleLoading] = useState(false);
+    const [ registerSuccess, setRegisterSuccess ] = useState(false);
     const { register, handleSubmit, errors } = useForm();
 
-    async function sendRegisterData(formData) {
+    async function sendRegisterData(data) {
+        toggleLoading(true);
         try{
-            const result = await axios.post('http://localhost:8080/register', formData);
+            const result = await axios.post(endPointUpLink, {
+                username: data.username,
+                password: data.password,
+                email: data.email,
+                });
             console.log(result);
-
+            setRegisterSuccess(true);
         } catch (e) {
             console.log(e)
         }
+        toggleLoading(false);
     }
 
-    function onSuccess(formData) {
-        sendRegisterData(formData);
-        console.log(formData);
-    }
+    function togglePassword() {
+        let p = document.getElementById("password");
+        let rp = document.getElementById("repeatPassword");
+        if(p.type === "password" && rp.type === "password"){
+            p.type = "text";
+            rp.type = "text";
+        }
+        else{
+            p.type = "password";
+            rp.type = "password";
+        };}
 
     return (
         <>
-            <form id="register-form" onSubmit={handleSubmit(onSuccess)}>
-                <fieldset>
-                    <div className="input-field">
-                        <label htmlFor="username">Gebruikersnaam: </label>
+            <form id="sign-form" onSubmit={handleSubmit(sendRegisterData)}>
+                {registerSuccess === true && <p className="success-message">Yeey het is gelukt! Je kunt nu <Link to='/login'>hier </Link>inloggen</p>}
 
+                <fieldset>
+                    <legend>Maak hier een nieuw account aan</legend>
+
+                    <label htmlFor="email">Email:
+                        <input name="email" id="email" type="text" ref={register({required: true})}/>
+                    </label>
+
+                    <label htmlFor="username">Gebruikersnaam:
                         <input name="username" id="username" type="text" ref={register({register: true})} />
                         {errors.username && <p className="error-message">Gebruikersnaam is verplicht</p>}
-                    </div>
+                     </label>
 
-                    <div className="input-field">
-                        <label htmlFor="password">Wachtwoord: </label>
-                        <input name="password" id="password" type="text" ref={register({required: true, pattern: /^[\w!@#$%^&*()_=+?-]{6,25}$/})}
+                    <label htmlFor="password">Wachtwoord:
+                        <input name="password" id="password" type="password" ref={register({required: true, pattern: /^[\w!@#$%^&*()_=+?-]{6,25}$/})}
                         />
+                    </label>
                         {errors.password && <p className="error-message">Wachtwoord moet tussen 6 en 25 karakters zijn en mag letters, cijfers en speciale tekens bevatten.</p>}
-                    </div>
-                    <div className="input-field">
-                        <label htmlFor="repeatPassword">Herhaal wachtwoord: </label>
-                        <input name="repeatPassword" id="repeatPassword" type="text" ref={register({required: true, pattern: /^[\w!@#$%^&*()_=+?-]{6,25}$/})}
+                    <label htmlFor="repeatPassword">Herhaal Wachtwoord:
+                        <input name="repeatPassword" id="repeatPassword" type="password" ref={register({required: true, pattern: /^[\w!@#$%^&*()_=+?-]{6,25}$/})}
                         />
-                        {errors.repeatPassword && <p className="error-message">Wachtwoord moet tussen 6 en 25 karakters zijn en mag letters, cijfers en speciale tekens bevatten.</p>}
-                    </div>
+                        <input type="checkbox" onClick={togglePassword}/>Maak wachtwoord zichtbaar
+                    </label>
 
                 </fieldset>
-                <button type="submit" className="submit-button" onClick={console.log("je bent geregistreerd")}>
-                    Log in
+                <button type="submit" className="submit-button" disabled={loading} >
+                    {loading ? 'Loading...' : 'Maak een account aan'}
                 </button>
             </form>
+
         </>
     );
 }

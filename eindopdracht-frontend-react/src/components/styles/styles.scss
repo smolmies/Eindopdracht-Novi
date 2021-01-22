@@ -2,7 +2,7 @@
 
 $cherry: #3D1B1C;
 $carrot: #CC5803;
-$orange: #E2711D;
+$orange: #EF6F0E;
 $tangerine: #FF9505;
 $mango: #FFB627;
 $peach: #FFC971;
@@ -12,4 +12,21 @@ $apple: #FFE8C2;
 
 button{
   font-family: 'Sniglet', cursive;
+}
+
+form{
+  display: flex;
+  flex-direction: column;
+  align-content: space-around;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.success-message{
+  text-align: center;
+  color: #228322;
 }

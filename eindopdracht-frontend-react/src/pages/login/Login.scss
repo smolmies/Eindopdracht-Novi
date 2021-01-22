@@ -1,26 +1,17 @@
 @import '../../components/styles/styles';
 
-#login-form{
-    background-color: $peach;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    align-content: space-around;
-    align-self: center;
-    align-items: center;
-    width: 400px;
-    padding: 10px;
-    position: absolute;
-    top: 50%;
-    left: 40%;
-    right: 40%;
-}
+#sign-form{
+    background-color: $tangerine;
+    border: dashed 3px $carrot;
+    }
 
-.input-field{
+input{
     padding: 5px;
+    margin: 10px;
     display: flex;
     justify-content: space-between;
 }
+label{font-size: 1.25rem;}
 
 .error-message{
     color: crimson;
@@ -29,27 +20,21 @@
 fieldset{
     border-radius: 5px;
     padding: 20px;
+    width: 400px;
 }
 
 .submit-button{
-    width: 80px;
+    width: fit-content;
+    border-radius: 5px;
+    padding: 5px;
     margin: 5px;
 }
 
-.register-link{
-    text-align: center;
-    color: hotpink;
-    font-size: x-large;
-    display: block;
-    position: absolute;
-    top: 80%;
-    left:50%;
-}
-
 #colored-logo{
-    position: fixed;
-    top: 20vh;
-    left: 39%;
+    position: absolute;
+    top: 17%;
+    left: 50%;
+    transform: translate(-50%);
     height: 300px;
     width: 500px;
 }

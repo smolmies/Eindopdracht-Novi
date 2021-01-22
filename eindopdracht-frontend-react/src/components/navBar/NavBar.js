@@ -1,13 +1,14 @@
-import {NavLink} from 'react-router-dom';
+import {NavLink, useHistory} from 'react-router-dom';
 import './NavBar.scss';
 import catLogo from './aan-de-cuwaart-logo-transparent.svg';
 
 
 function NavBar() {
+    const history = useHistory();
 return(
-    <nav>
+    <nav><img id="logo" src={catLogo} alt="logo of a cat silhouette" />
         <ul>
-            <img id="logo" src={catLogo} alt="logo of a cat silhouette" />
+
             <li>
                 <NavLink exact to="/">
                     Welkom
@@ -29,10 +30,11 @@ return(
                     Contact
                 </NavLink>
             </li>
-            <button type='button' className="login-button">
-                <NavLink exact to="/login">Login</NavLink>
-            </button>
-        </ul>
+            </ul>
+        <div className="button-pack">
+        <button type='button' className="sign-button" onClick={() => history.push('/register')}>Registreer</button>
+        <button type='button' className="sign-button" onClick={() => history.push('/login')}>Log in</button>
+        </div>
     </nav>
     );
 }
