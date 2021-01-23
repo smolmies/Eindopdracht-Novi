@@ -1,23 +1,25 @@
-import React from "react";
+import React from 'react';
 import {
-    BrowserRouter as Router,
+    BrowserRouter,
     Switch,
     Route,
 } from 'react-router-dom';
 import './App.scss';
 
-import Home from "./pages/home/Home.js";
-import AboutUs from "./pages/aboutUs/AboutUs.js";
-import Appointment from "./pages/appointment/Appointment.js";
-import Contact from "./pages/contact/Contact.js";
-import Login from "./pages/login/Login";
-import NavBar from "./components/navBar/NavBar";
-import Register from "./pages/register/Register";
+import Home from './pages/home/Home.js';
+import AboutUs from './pages/aboutUs/AboutUs.js';
+import Appointment from './pages/appointment/Appointment.js';
+import Contact from './pages/contact/Contact.js';
+import Login from './pages/login/Login';
+import NavBar from './components/navBar/NavBar';
+import Register from './pages/register/Register';
+import {useAuthState} from './components/context/AuthContext';
 
 
 function App() {
+    const {isAuthenticated} = useAuthState();
   return (
-      <Router>
+      <BrowserRouter >
               <NavBar />
               <Switch>
                   <Route exact path="/">
@@ -28,6 +30,7 @@ function App() {
                   </Route>
                   <Route path="/appointment">
                       <Appointment />
+                      {/*{isAuthenticated ? (<Appointment />) : (<Redirect to="/login" />)}*/}
                   </Route>
                   <Route path="/contact">
                       <Contact />
@@ -39,7 +42,7 @@ function App() {
                       <Register />
                   </Route>
               </Switch>
-      </Router>
+      </BrowserRouter>
   );
 }
 

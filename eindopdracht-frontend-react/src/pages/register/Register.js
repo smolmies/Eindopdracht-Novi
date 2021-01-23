@@ -7,11 +7,13 @@ const endPointUpLink = 'https://polar-lake-14365.herokuapp.com/api/auth/signup';
 
 function Register() {
     const [loading, toggleLoading] = useState(false);
+    const [error, setError] = useState('');
     const [ registerSuccess, setRegisterSuccess ] = useState(false);
     const { register, handleSubmit, errors } = useForm();
 
     async function sendRegisterData(data) {
         toggleLoading(true);
+        setError('');
         try{
             const result = await axios.post(endPointUpLink, {
                 username: data.username,
@@ -21,7 +23,12 @@ function Register() {
             console.log(result);
             setRegisterSuccess(true);
         } catch (e) {
-            console.log(e)
+            if(e.message.includes('400')){
+                setError('Er bestaat al een account met deze gebruikersnaam!');
+            }
+            else {
+                setError('Er is iets misgegaan bij het verzenden. Probeer het opnieuw');
+            }
         }
         toggleLoading(false);
     }
@@ -40,9 +47,9 @@ function Register() {
 
     return (
         <>
+            {registerSuccess === true && <p className="success-message">Yeey het is gelukt! Je kunt nu <Link to='/login'>hier </Link>inloggen</p>}
+            {error && <p className="error-message">{error}</p>}
             <form id="sign-form" onSubmit={handleSubmit(sendRegisterData)}>
-                {registerSuccess === true && <p className="success-message">Yeey het is gelukt! Je kunt nu <Link to='/login'>hier </Link>inloggen</p>}
-
                 <fieldset>
                     <legend>Maak hier een nieuw account aan</legend>
 
@@ -68,7 +75,7 @@ function Register() {
 
                 </fieldset>
                 <button type="submit" className="submit-button" disabled={loading} >
-                    {loading ? 'Loading...' : 'Maak een account aan'}
+                    {loading ? 'Laden...' : 'Maak een account aan'}
                 </button>
             </form>
 

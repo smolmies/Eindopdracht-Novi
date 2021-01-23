@@ -1,21 +1,41 @@
-import React, { useState } from 'react';
-import { useForm } from "react-hook-form";
+import React, { useState, useContext, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import {useHistory} from 'react-router-dom';
+import axios from 'axios';
+import {AuthContext, useAuthState} from '../../components/context/AuthContext';
+import fullCatLogo from '../../components/styles/aan-de-cuwaart-logo-transparent.png';
 import './Login.scss';
-import axios from "axios";
-import fullCatLogo from "../../components/styles/aan-de-cuwaart-logo-transparent.png";
 
 function Login() {
     const [loading, toggleLoading] = useState(false);
-    const { register, handleSubmit, errors } = useForm();
+    const [error, setError] = useState('');
+    const { handleSubmit, register, errors } = useForm();
+    const history = useHistory();
+    const { login } = useContext(AuthContext);
+    const { isAuthenticated } = useAuthState();
 
-    async function sendLoginData(formData) {
+    useEffect(() => {
+        console.log(isAuthenticated);
+        if(isAuthenticated === true){
+            history.push('/appointment');
+        }
+    },[isAuthenticated]);
+
+    async function sendLoginData(data) {
         toggleLoading(true);
+        setError('');
         try{
-            const result = await axios.post('http://localhost:8080/login', formData);
-            console.log(result);
+            const result = await axios.post('https://polar-lake-14365.herokuapp.com/api/auth/signin',
+                {
+                    username: data.username,
+                    password: data.password,
+                });
+            // console.log(result);
+            login(result.data);
 
         } catch (e) {
             console.log(e)
+            setError('Inloggen is mislukt. Probeer opnieuw!');
         }
         toggleLoading(false);
     }
@@ -49,8 +69,9 @@ function Login() {
 
                 </fieldset>
                 <button type="submit" className="submit-button" disabled={loading}>
-                    {loading ? 'Loading...' : 'Log in'}
+                    {loading ? 'Laden...' : 'Log in'}
                 </button>
+                {error && <p className="error-message">{error}</p>}
             </form>
         </>
     );

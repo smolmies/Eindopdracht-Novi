@@ -1,9 +1,14 @@
-import {NavLink, useHistory} from 'react-router-dom';
+import React, { useContext } from 'react';
+import {NavLink, Redirect, useHistory} from 'react-router-dom';
+import { AuthContext, useAuthState } from '../context/AuthContext';
 import './NavBar.scss';
 import catLogo from './aan-de-cuwaart-logo-transparent.svg';
+import Appointment from "../../pages/appointment/Appointment";
 
 
 function NavBar() {
+    const { logout } = useContext(AuthContext);
+    const { isAuthenticated } = useAuthState();
     const history = useHistory();
 return(
     <nav><img id="logo" src={catLogo} alt="logo of a cat silhouette" />
@@ -20,20 +25,25 @@ return(
                 </NavLink>
             </li>
             <li>
-                <NavLink to="/appointment">
-                    Afspraak maken
-                </NavLink>
+            <NavLink to="/contact">
+                Contact
+            </NavLink>
             </li>
-
             <li>
-                <NavLink to="/contact">
-                    Contact
-                </NavLink>
+                {isAuthenticated ? (<NavLink to="/appointment">Afspraak maken</NavLink>) : (<></>)}
             </li>
-            </ul>
+        </ul>
         <div className="button-pack">
-        <button type='button' className="sign-button" onClick={() => history.push('/register')}>Registreer</button>
-        <button type='button' className="sign-button" onClick={() => history.push('/login')}>Log in</button>
+            {isAuthenticated ? (
+                <button type='button' className="sign-button" onClick={logout}>
+                    Log uit
+                </button>
+            ) : (
+                <>
+                <button type='button' className="sign-button" onClick={() => history.push('/register')}>Registreer</button>
+                <button type='button' className="sign-button" onClick={() => history.push('/login')}>Log in</button>
+                </>
+            )}
         </div>
     </nav>
     );

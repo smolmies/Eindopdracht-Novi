@@ -29,4 +29,12 @@ form{
 .success-message{
   text-align: center;
   color: #228322;
+  font-size: 1.20rem;
+}
+
+.error-message{
+  text-align: center;
+  color: #d4032d;
+  font-weight: bold;
+  font-size: 1.20rem;
 }
