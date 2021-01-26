@@ -38,6 +38,16 @@ public class User {
     )
     private List<Reservation> Reservations;
 
+    public User() {
+
+    }
+
+    public User(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
     public long getUserId() {
         return userId;
     }
