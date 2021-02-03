@@ -31,12 +31,13 @@ position: absolute;
     right: 30px;
 }
 
-.sign-button{
+
+.sign-button, .profile-button{
     height: 45px;
     width: fit-content;
     padding: 0 10px;
     margin: 5px;
-    background-color: $lychee;
+    background-color: $strawberry;
     font-size: 1.5rem;
     border: solid 2px $cherry;
     border-radius: 15px;

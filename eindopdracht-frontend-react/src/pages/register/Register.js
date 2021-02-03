@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useForm} from "react-hook-form";
 import axios from "axios";
 import {Link} from "react-router-dom";
+import './Register.scss';
 
 const endPointUpLink = 'https://polar-lake-14365.herokuapp.com/api/auth/signup';
 
@@ -47,6 +48,15 @@ function Register() {
 
     return (
         <>
+            <div id="signup-message">
+                <h2>Een account aanmaken</h2>
+                <p>Wij willen het je makkelijker maken om een verblijf voor je huisdier te boeken!
+                    Als het verblijf jou en je huisdier is bevallen, dan wil je natuurlijk nog eens Witje bij ons laten logeren.
+                    <br />
+                    Indien je een account bij ons hebt worden je boekingen opgeslagen en kun je ze hergebruiken zodat je nog sneller een boeking kan maken!
+                    Wij vullen het aanvraagformulier alvast voor je in met je vorige boeking, zo hoef je misschien alleen de datum nog te veranderen en klaar is kees.
+                </p>
+            </div>
             {registerSuccess === true && <p className="success-message">Yeey het is gelukt! Je kunt nu <Link to='/login'>hier </Link>inloggen</p>}
             {error && <p className="error-message">{error}</p>}
             <form id="sign-form" onSubmit={handleSubmit(sendRegisterData)}>

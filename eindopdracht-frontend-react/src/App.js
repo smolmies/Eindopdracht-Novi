@@ -3,6 +3,7 @@ import {
     BrowserRouter,
     Switch,
     Route,
+    Redirect,
 } from 'react-router-dom';
 import './App.scss';
 
@@ -10,10 +11,11 @@ import Home from './pages/home/Home.js';
 import AboutUs from './pages/aboutUs/AboutUs.js';
 import Appointment from './pages/appointment/Appointment.js';
 import Contact from './pages/contact/Contact.js';
-import Login from './pages/login/Login';
-import NavBar from './components/navBar/NavBar';
-import Register from './pages/register/Register';
-import {useAuthState} from './components/context/AuthContext';
+import Profile from './pages/profile/Profile.js';
+import Login from './pages/login/Login.js';
+import NavBar from './components/navBar/NavBar.js';
+import Register from './pages/register/Register.js';
+import {useAuthState} from './components/context/AuthContext.js';
 
 
 function App() {
@@ -30,7 +32,6 @@ function App() {
                   </Route>
                   <Route path="/appointment">
                       <Appointment />
-                      {/*{isAuthenticated ? (<Appointment />) : (<Redirect to="/login" />)}*/}
                   </Route>
                   <Route path="/contact">
                       <Contact />
@@ -40,6 +41,9 @@ function App() {
                   </Route>
                   <Route path="/register">
                       <Register />
+                  </Route>
+                  <Route path="/profile">
+                      {isAuthenticated ? (<Profile />) : (<Redirect to="/login" />)}
                   </Route>
               </Switch>
       </BrowserRouter>
