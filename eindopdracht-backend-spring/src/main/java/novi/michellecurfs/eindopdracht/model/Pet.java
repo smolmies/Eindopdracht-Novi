@@ -2,10 +2,14 @@ package novi.michellecurfs.eindopdracht.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import java.util.Set;
 
 @Entity
@@ -21,8 +25,20 @@ public class Pet {
     @Column
     private String specialNeeds;
 
-    @ManyToMany(targetEntity = Reservation.class)
-    private Set reservationSet;
+    @Column
+    private String extraInfo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId")
+    private User user;
+
+    @ManyToMany
+    @JoinTable(
+            name = "pet_booking",
+            joinColumns = @JoinColumn(name = "pet_id"),
+            inverseJoinColumns = @JoinColumn(name="booking_id")
+    )
+    private Set<Booking> bookingSet;
 
     public long getPetId() {
         return petId;
@@ -42,10 +58,22 @@ public class Pet {
     public void setSpecialNeeds(String specialNeeds) {
         this.specialNeeds = specialNeeds;
     }
-    public Set getReservationSet() {
-        return reservationSet;
+    public String getExtraInfo() {
+        return extraInfo;
     }
-    public void setReservationSet(Set reservationSet) {
-        this.reservationSet = reservationSet;
+    public void setExtraInfo(String extraInfo) {
+        this.extraInfo = extraInfo;
+    }
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
+    }
+    public Set getBookingSet() {
+        return bookingSet;
+    }
+    public void setBookingSet(Set bookingSet) {
+        this.bookingSet = bookingSet;
     }
 }

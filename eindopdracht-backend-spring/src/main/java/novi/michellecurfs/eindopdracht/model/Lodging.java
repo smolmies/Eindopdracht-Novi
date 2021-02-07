@@ -21,13 +21,13 @@ public class Lodging {
     private Boolean available;
 
     @OneToMany(
-            targetEntity = Reservation.class,
-            mappedBy = "start-date",
+            targetEntity = Booking.class,
+            mappedBy = "lodging",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER
     )
-    private List<Reservation> Reservations;
+    private List<Booking> bookings;
 
 
     public long getLodgingId() {
@@ -42,10 +42,10 @@ public class Lodging {
     public void setAvailable(Boolean available) {
         this.available = available;
     }
-    public List<Reservation> getReservations() {
-        return Reservations;
+    public List<Booking> getBookings() {
+        return bookings;
     }
-    public void setReservations(List<Reservation> reservations) {
-        Reservations = reservations;
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 }

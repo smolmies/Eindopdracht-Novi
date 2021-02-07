@@ -10,35 +10,33 @@ import javax.persistence.ManyToOne;
 import java.util.Set;
 
 @Entity
-public class Reservation {
+public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long reservationId;
+    private long bookingId;
 
-    @Column(name = "start-date")
+    @Column
     private String startDate;
 
-    @Column(name = "end-date")
+    @Column
     private String endDate;
 
-    @Column(name = "amount-pets")
+    @Column
     private String amountPets;
-
-    @ManyToOne
-    private User user;
 
     @ManyToOne
     private Lodging lodging;
 
-    @ManyToMany(targetEntity = Pet.class)
-    private Set petSet;
+    @ManyToMany(mappedBy = "bookingSet")
+    private Set<Pet> petSet;
 
-    public long getReservationId() {
-        return reservationId;
+    public long getBookingId() {
+        return bookingId;
     }
-    public void setReservationId(long reservationId) {
-        this.reservationId = reservationId;
+
+    public void setBookingId(long bookingId) {
+        this.bookingId = bookingId;
     }
     public String getStartDate() {
         return startDate;
@@ -58,12 +56,6 @@ public class Reservation {
     public void setAmountPets(String amountPets) {
         this.amountPets = amountPets;
     }
-    public User getUser() {
-        return user;
-    }
-    public void setUser(User user) {
-        this.user = user;
-    }
     public Lodging getLodging() {
         return lodging;
     }
@@ -73,7 +65,7 @@ public class Reservation {
     public Set getPetSet() {
         return petSet;
     }
-    public void setPetSet(Set petSet) {
+    public void setPetSet(Set<Pet> petSet) {
         this.petSet = petSet;
     }
 }

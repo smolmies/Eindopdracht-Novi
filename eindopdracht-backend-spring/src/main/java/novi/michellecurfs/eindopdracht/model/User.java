@@ -8,9 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id
@@ -24,19 +26,23 @@ public class User {
     private String password;
 
     @Column
+    private String phoneNumber;
+
+    @Column
     private String email;
 
     @Column
-    private String phoneNumber;
+    private ERole role;
 
     @OneToMany(
-            targetEntity = Reservation.class,
-            mappedBy = "start-date",
+            targetEntity = Pet.class,
+            mappedBy = "user",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.EAGER
     )
-    private List<Reservation> Reservations;
+    private List<Pet> pets;
+
 
     public User() {
 
@@ -78,11 +84,11 @@ public class User {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-    public List<Reservation> getReservations() {
-        return Reservations;
+    public List<Pet> getPets() {
+        return pets;
     }
-    public void setReservations(List<Reservation> reservations) {
-        Reservations = reservations;
+    public void setPets(List<Pet> pets) {
+        this.pets = pets;
     }
 }
 

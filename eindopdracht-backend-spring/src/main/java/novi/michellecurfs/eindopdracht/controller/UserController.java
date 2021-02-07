@@ -16,7 +16,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/{username}")
+    @GetMapping(value = "/user/{username}")
     public ResponseEntity<Object> getUser(@PathVariable("username") String username) {
         return ResponseEntity.ok().body(userService.getUser(username));
     }
