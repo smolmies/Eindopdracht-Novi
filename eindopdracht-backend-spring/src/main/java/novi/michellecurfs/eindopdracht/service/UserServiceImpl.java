@@ -13,7 +13,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-
     @Override
     public String createUser(User user) {
         User newUser = userRepository.save(user);
@@ -22,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(String username, User newUser) {
-        User user = userRepository.findById(username).get();
+        User user = userRepository.findByUsername(username).get();
         user.setPassword(newUser.getPassword());
         userRepository.save(user);
     }
@@ -36,4 +35,5 @@ public class UserServiceImpl implements UserService {
     public Optional<User> getUser(String username) {
         return  userRepository.findByUsername(username);
     }
+
 }

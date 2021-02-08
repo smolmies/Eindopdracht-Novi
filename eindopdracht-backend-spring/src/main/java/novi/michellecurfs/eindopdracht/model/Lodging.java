@@ -18,6 +18,12 @@ public class Lodging {
     private long lodgingId;
 
     @Column
+    private String roomName;
+
+    @Column
+    private String roomDescription;
+
+    @Column
     private Boolean available;
 
     @OneToMany(
@@ -29,12 +35,32 @@ public class Lodging {
     )
     private List<Booking> bookings;
 
+    public Lodging() {
+
+    }
+
+    public Lodging(String roomName, String roomDescription) {
+        this.roomName = roomName;
+        this.roomDescription = roomDescription;
+    }
 
     public long getLodgingId() {
         return lodgingId;
     }
     public void setLodgingId(long lodgingId) {
         this.lodgingId = lodgingId;
+    }
+    public String getRoomName() {
+        return roomName;
+    }
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
+    public String getRoomDescription() {
+        return roomDescription;
+    }
+    public void setRoomDescription(String roomDescription) {
+        this.roomDescription = roomDescription;
     }
     public Boolean getAvailable() {
         return available;
@@ -48,4 +74,5 @@ public class Lodging {
     public void setBookings(List<Booking> bookings) {
         this.bookings = bookings;
     }
+
 }

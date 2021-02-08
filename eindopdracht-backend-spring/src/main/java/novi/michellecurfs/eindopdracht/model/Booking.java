@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -17,10 +18,10 @@ public class Booking {
     private long bookingId;
 
     @Column
-    private String startDate;
+    private Date startDate;
 
     @Column
-    private String endDate;
+    private Date endDate;
 
     @Column
     private String amountPets;
@@ -31,23 +32,32 @@ public class Booking {
     @ManyToMany(mappedBy = "bookingSet")
     private Set<Pet> petSet;
 
+    public Booking(){
+
+    }
+
+    public Booking(Date startDate, Date endDate, String amountPets ){
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.amountPets = amountPets;
+    }
+
     public long getBookingId() {
         return bookingId;
     }
-
     public void setBookingId(long bookingId) {
         this.bookingId = bookingId;
     }
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
     public String getAmountPets() {

@@ -40,6 +40,17 @@ public class Pet {
     )
     private Set<Booking> bookingSet;
 
+    public Pet(){
+
+    }
+
+    public Pet(String petName, String specialNeeds, String extraInfo){
+        this.petName = petName;
+        this.specialNeeds = specialNeeds;
+        this.extraInfo = extraInfo;
+    }
+
+
     public long getPetId() {
         return petId;
     }
