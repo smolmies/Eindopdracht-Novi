@@ -21,19 +21,19 @@ public class BookingServiceImpl implements BookingService{
 
     @Override
     public void updateBooking(long bookingId, Booking newBooking) {
-        Booking booking = bookingRepository.findById(bookingId).get();
+        Booking booking = bookingRepository.findByBookingId(bookingId).get();
         booking.setEndDate(newBooking.getEndDate());
         bookingRepository.save(booking);
     }
 
     @Override
     public void deleteBooking(long bookingId) {
-        bookingRepository.deleteById(bookingId);
+        bookingRepository.deleteByBookingId(bookingId);
     }
 
     @Override
     public Optional<Booking> getBooking(long bookingId) {
-        return bookingRepository.findById(bookingId);
+        return bookingRepository.findByBookingId(bookingId);
     }
 }
 
