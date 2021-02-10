@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Sniglet&display=swap');
-
 $cherry: #3D1B1C;
 $strawberry: #f56e72;
 $carrot: #CC5803;
@@ -9,7 +8,6 @@ $mango: #FFB627;
 $peach: #FFC971;
 $lychee: #E5C691;
 $apple: #FFE8C2;
-
 
 button{
   font-family: 'Sniglet', cursive;
@@ -39,3 +37,13 @@ form{
   font-weight: bold;
   font-size: 1.20rem;
 }
+
+//@media only screen and (max-width: 768px) {
+//  nav{
+//    font-size: 0.5rem;
+//    background-color: $tangerine;
+//  }
+//  #date-picker{
+//    display: flex;
+//  }
+//}

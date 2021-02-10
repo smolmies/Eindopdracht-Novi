@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import {useForm} from "react-hook-form";
-import axios from "axios";
-import {Link} from "react-router-dom";
+import {useForm} from 'react-hook-form';
+import axios from 'axios';
+import {Link} from 'react-router-dom';
 import './Register.scss';
 
 const endPointUpLink = 'https://polar-lake-14365.herokuapp.com/api/auth/signup';

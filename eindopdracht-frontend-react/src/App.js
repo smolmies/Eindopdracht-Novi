@@ -9,7 +9,7 @@ import './App.scss';
 
 import Home from './pages/home/Home.js';
 import AboutUs from './pages/aboutUs/AboutUs.js';
-import Appointment from './pages/appointment/Appointment.js';
+import Booking from './pages/booking/Booking.js';
 import Contact from './pages/contact/Contact.js';
 import Profile from './pages/profile/Profile.js';
 import Login from './pages/login/Login.js';
@@ -30,8 +30,8 @@ function App() {
                   <Route path="/about-us">
                       <AboutUs />
                   </Route>
-                  <Route path="/appointment">
-                      <Appointment />
+                  <Route path="/booking">
+                      <Booking />
                   </Route>
                   <Route path="/contact">
                       <Contact />

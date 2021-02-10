@@ -1,0 +1,33 @@
+@import '../../components/styles/styles';
+
+#booking-form {
+
+  width: 60%;
+  height: 70%;
+  position: absolute;
+  top: 50%;
+  left: 40%;
+
+  input{
+    padding: 5px;
+    margin: 3px;
+    display: block;
+    justify-content: space-between;
+  }
+
+  #date-picker{
+    display: block;
+    position: absolute;
+    right: 10%;
+
+      fieldset{
+        width: fit-content;
+        margin: 5px;
+      }
+
+  }
+
+}
+textarea{
+  margin: 5px;
+}

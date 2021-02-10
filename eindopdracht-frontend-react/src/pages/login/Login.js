@@ -17,7 +17,7 @@ function Login() {
     useEffect(() => {
         console.log(isAuthenticated);
         if(isAuthenticated === true){
-            history.push('/appointment');
+            history.push('/booking');
         }
     },[isAuthenticated]);
 

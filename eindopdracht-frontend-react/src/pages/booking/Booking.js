@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import './Appointment.scss';
+import './Booking.scss';
 import {useForm} from "react-hook-form";
 import axios from "axios";
 
-function Appointment(props) {
+function Booking(props) {
     const { register, handleSubmit, errors } = useForm();
     const [loading, toggleLoading] = useState(false);
     const [error, setError] = useState('');
@@ -33,7 +33,7 @@ const endPointLink = '';
         <>
             <form id="booking-form" onSubmit={handleSubmit(sendBookingData)}>
 
-                    <legend>Velden met een * zijn verplicht om in te vullen!</legend>
+
                     <label htmlFor="ownerName">* Naam:
                         <input name="ownerName" id="ownerName" type="text" size="40" ref={register({register: true})} />
                         {errors.ownerName && <p className="error-message">Naam is verplicht</p>}
@@ -55,25 +55,26 @@ const endPointLink = '';
                         <input type="radio" id="no" name="specialCheck" value="no"/><label>Nee</label>
                         <input type="radio" id="yes" name="specialCheck" value="yes"/><label>Ja, namelijk:</label>
                         <br />
-                        <textarea name="petSpecialNeeds" id="petSpecialNeeds" rows="6" cols="50" placeholder="Bijv. Poes moet iedere dag met natvlees haar medicijnen innemen" ref={register}/>
+                        <textarea name="petSpecialNeeds" id="petSpecialNeeds" rows="6" cols="50" placeholder="Bijv. Poes moet iedere dag met natvlees haar medicijnen innemen." ref={register}/>
                     </label>
                     <label htmlFor="petExtra"> Andere bijzonderheden:
                         <br />
-                        <textarea name="petExtra" id="petExtra" rows="6" cols="50" placeholder="Bijv. Poes is erg schuw, dus veel verstop plekken maken haar blijer" ref={register}/>
+                        <textarea name="petExtra" id="petExtra" rows="6" cols="50" placeholder="Bijv. Poes is erg schuw, dus graag veel rust en ruimte geven." ref={register}/>
                     </label>
-
-                    <fieldset>
-                        <legend>Gewenste dagen voor het verblijf</legend>
-                        <label htmlFor="startDate">Startdatum:
-                            <input type="date" id="startDate" name="startDate" ref={register({required: true})} />
-                            {errors.startDate && <p className="error-message">Startdatum is verplicht</p>}
-                        </label>
-                        <label htmlFor="endDate">Einddatum:
-                            <input type="date" id="endDate" name="endDate" ref={register({required: true})} />
-                            {errors.endDate && <p className="error-message">Einddatum is verplicht</p>}
-                        </label>
-                    </fieldset>
-
+                    <div id="date-picker">
+                        <fieldset>
+                            <legend>Gewenste dagen voor het verblijf</legend>
+                            <label htmlFor="startDate">Startdatum:
+                                <input type="date" id="startDate" name="startDate" ref={register({required: true})} />
+                                {errors.startDate && <p className="error-message">Startdatum is verplicht</p>}
+                            </label>
+                            <label htmlFor="endDate">Einddatum:
+                                <input type="date" id="endDate" name="endDate" ref={register({required: true})} />
+                                {errors.endDate && <p className="error-message">Einddatum is verplicht</p>}
+                            </label>
+                        </fieldset>
+                        <legend>Velden met een * zijn verplicht om in te vullen!</legend>
+                    </div>
                     <button type="submit" className="submit-button" disabled={loading} >
                         {loading ? 'Laden...' : 'Boek mijn afspraak!'}
                     </button>
@@ -82,4 +83,4 @@ const endPointLink = '';
     );
 }
 
-export default Appointment;
+export default Booking;

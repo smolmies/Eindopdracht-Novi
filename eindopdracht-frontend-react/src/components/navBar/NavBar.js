@@ -23,7 +23,7 @@ return(
                 </NavLink>
             </li>
             <li>
-                <NavLink to="/appointment">Afspraak maken</NavLink>
+                <NavLink to="/booking">Afspraak maken</NavLink>
             </li>
             <li>
             <NavLink to="/contact">

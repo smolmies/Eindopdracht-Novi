@@ -1,11 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-// import {useHistory} from "react-router-dom";
+import axios from 'axios';
 
 const AuthContext = createContext({});
 
 function AuthContextProvider({ children }) {
-
-     // const history = useHistory();
 
     const [authState, setAuthState] = useState({
         status: 'pending',
@@ -14,16 +12,51 @@ function AuthContextProvider({ children }) {
     });
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
 
-        setTimeout(() => {
-        // er is geen token, dus we beginnen met een schone lei!
+        async function getUserInfo() {
+            try {
+                const response = await axios.get('https://polar-lake-14365.herokuapp.com/api/user', {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                console.log(response);
+
+                setAuthState({
+                    ...authState,
+                    user: {
+                        id: response.id,
+                        username: response.username,
+                        email: response.email,
+                    },
+                    status: 'done',
+                });
+            } catch (e) {
+                setAuthState({
+                    ...authState,
+                    user: null,
+                    error: e,
+                    status: 'done'
+                });
+            }
+        }
+
+        if (authState.user === null && token) {
+            getUserInfo();
+        } else {
             setAuthState({
                 ...authState,
-                status: 'done',
-            })
-        },1000)
-    }, []);
+                error: null,
+                user: null,
+                status: 'done'
+            });
+        }
 
+    }, []);
 
     function login(data) {
         localStorage.setItem('token', data.accessToken);
@@ -42,8 +75,7 @@ function AuthContextProvider({ children }) {
     setAuthState({
         ...authState,
         user: null,
-    });
-    // history.push('/appointment')
+        });
     }
 
     const providerData = {
