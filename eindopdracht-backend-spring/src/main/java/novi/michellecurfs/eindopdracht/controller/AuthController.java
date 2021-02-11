@@ -32,12 +32,12 @@ public class AuthController {
     @Autowired
     AuthorizationService authorizationService;
 
-    @PostMapping("/signin")
+    @PostMapping("/login")
     public ResponseEntity<JwtResponse> authenticateUser(@RequestBody LoginRequest loginRequest) {
         return authorizationService.authenticateUser(loginRequest);
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/register")
     public ResponseEntity<MessageResponse> registerUser(@RequestBody SignupRequest signUpRequest) {
         return authorizationService.registerUser(signUpRequest);
     }

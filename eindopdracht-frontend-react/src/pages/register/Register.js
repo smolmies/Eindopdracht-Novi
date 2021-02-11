@@ -4,8 +4,6 @@ import axios from 'axios';
 import {Link} from 'react-router-dom';
 import './Register.scss';
 
-const endPointUpLink = 'https://polar-lake-14365.herokuapp.com/api/auth/signup';
-
 function Register() {
     const [loading, toggleLoading] = useState(false);
     const [error, setError] = useState('');
@@ -16,10 +14,10 @@ function Register() {
         toggleLoading(true);
         setError('');
         try{
-            const result = await axios.post(endPointUpLink, {
+            const result = await axios.post('http://localhost:8080/api/auth/register', {
+                email: data.email,
                 username: data.username,
                 password: data.password,
-                email: data.email,
                 });
             console.log(result);
             setRegisterSuccess(true);
@@ -36,20 +34,18 @@ function Register() {
 
     function togglePassword() {
         let p = document.getElementById("password");
-        let rp = document.getElementById("repeatPassword");
-        if(p.type === "password" && rp.type === "password"){
+        if(p.type === "password"){
             p.type = "text";
-            rp.type = "text";
         }
         else{
             p.type = "password";
-            rp.type = "password";
-        };}
+        };
+    }
 
     return (
         <>
             <div id="signup-message">
-                <h2>Een account aanmaken</h2>
+                {/*<h2>Een account aanmaken</h2>*/}
                 <p>Wij willen het je makkelijker maken om een verblijf voor je huisdier te boeken!
                     Als het verblijf jou en je huisdier is bevallen, dan wil je natuurlijk nog eens Witje bij ons laten logeren.
                     <br />
@@ -77,12 +73,7 @@ function Register() {
                         />
                     </label>
                         {errors.password && <p className="error-message">Wachtwoord moet tussen 6 en 25 karakters zijn en mag letters, cijfers en speciale tekens bevatten.</p>}
-                    <label htmlFor="repeatPassword">Herhaal Wachtwoord:
-                        <input name="repeatPassword" id="repeatPassword" type="password" ref={register({required: true, pattern: /^[\w!@#$%^&*()_=+?-]{6,25}$/})}
-                        />
                         <input type="checkbox" onClick={togglePassword}/>Maak wachtwoord zichtbaar
-                    </label>
-
                 </fieldset>
                 <button type="submit" className="submit-button" disabled={loading} >
                     {loading ? 'Laden...' : 'Maak een account aan'}

@@ -1,21 +1,22 @@
 @import '../../components/styles/styles';
 
 #booking-form {
-
-  width: 60%;
+  width: 80%;
   height: 70%;
-  position: absolute;
-  top: 50%;
-  left: 40%;
+  padding-bottom: 20px;
+
+  #special-check{
+      display: inline-block;
+  }
 
   input{
-    padding: 5px;
+    padding: 3px;
     margin: 3px;
     display: block;
     justify-content: space-between;
   }
 
-  #date-picker{
+  #date-picker {
     display: block;
     position: absolute;
     right: 10%;
@@ -24,10 +25,14 @@
         width: fit-content;
         margin: 5px;
       }
-
   }
 
+  .success-message{
+    text-align: left;
+  }
 }
+
+
 textarea{
   margin: 5px;
 }

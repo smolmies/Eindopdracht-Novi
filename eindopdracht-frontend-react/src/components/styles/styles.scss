@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Sniglet&display=swap');
 $cherry: #3D1B1C;
-$strawberry: #f56e72;
+$strawberry: #f57a7d;
 $carrot: #CC5803;
 $orange: #EF6F0E;
 $tangerine: #FF9505;
@@ -9,8 +9,20 @@ $peach: #FFC971;
 $lychee: #E5C691;
 $apple: #FFE8C2;
 
-button{
+body{
+  background-color: $apple;
   font-family: 'Sniglet', cursive;
+  font-size: 1rem;
+  color: $cherry;
+}
+
+.submit-button{
+  font-family: 'Sniglet', cursive;
+  width: fit-content;
+  background-color: $peach;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
 }
 
 form{
@@ -28,7 +40,7 @@ form{
 .success-message{
   text-align: center;
   color: #228322;
-  font-size: 1.20rem;
+  font-size: 1rem;
 }
 
 .error-message{

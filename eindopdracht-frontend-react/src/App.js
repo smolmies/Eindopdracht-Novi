@@ -5,7 +5,6 @@ import {
     Route,
     Redirect,
 } from 'react-router-dom';
-import './App.scss';
 
 import Home from './pages/home/Home.js';
 import AboutUs from './pages/aboutUs/AboutUs.js';

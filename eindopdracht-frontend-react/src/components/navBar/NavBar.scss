@@ -4,7 +4,7 @@ nav {
     background-color: $orange;
     width: 100%;
     height: 90px;
-    box-shadow: 0 3px 4px $cherry;
+    box-shadow: 0 1px 2px $cherry;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -27,19 +27,19 @@ nav ul {
 }
 
 .button-pack{
-position: absolute;
+    position: absolute;
     right: 30px;
 }
 
-
 .sign-button, .profile-button{
+    font-family: 'Sniglet', cursive;
     height: 45px;
     width: fit-content;
     padding: 0 10px;
     margin: 5px;
     background-color: $strawberry;
     font-size: 1.5rem;
-    border: solid 2px $cherry;
+    border: solid 1px $cherry;
     border-radius: 15px;
     box-shadow: 1px 1px 1px $cherry;
 }
@@ -49,7 +49,7 @@ a, a:visited{
 }
 
 #logo{
-    width: 115px;
+    width: 100px;
     padding: 5px;
     margin-left: 10px;
 

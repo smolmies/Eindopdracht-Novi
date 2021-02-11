@@ -25,7 +25,7 @@ function Login() {
         toggleLoading(true);
         setError('');
         try{
-            const result = await axios.post('https://polar-lake-14365.herokuapp.com/api/auth/signin',
+            const result = await axios.post('http://localhost:8080/api/auth/login',
                 {
                     username: data.username,
                     password: data.password,

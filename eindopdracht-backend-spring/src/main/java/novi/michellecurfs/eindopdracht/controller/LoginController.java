@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoginController {
 
-    @PostMapping(value = "/login")
-    public ResponseEntity<Object> checkLogin(@RequestBody User user){
-        //TODO
-        // Go to login service (or user service) and get the username from db, Hash entered password and compare
-        // The password in the DB with the entered password, and then return if ok or not ok
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
+//    @PostMapping(value = "/login")
+//    public ResponseEntity<Object> checkLogin(@RequestBody User user){
+//        //TODO
+//        // Go to login service (or user service) and get the username from db, Hash entered password and compare
+//        // The password in the DB with the entered password, and then return if ok or not ok
+//        return new ResponseEntity<>(user, HttpStatus.OK);
+//    }
 
 
 }
