@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import {useHistory} from 'react-router-dom';
 import axios from 'axios';
 import {AuthContext, useAuthState} from '../../components/context/AuthContext';
-import fullCatLogo from '../../components/styles/aan-de-cuwaart-logo-transparent.png';
 import './Login.scss';
 
 function Login() {
@@ -48,7 +47,6 @@ function Login() {
 
     return (
         <>
-            <img id="colored-logo" src={fullCatLogo} alt="Logo van het pension"/>
             <form id="sign-form" onSubmit={handleSubmit(sendLoginData)}>
                 <fieldset>
                     <legend>Log hier in</legend>

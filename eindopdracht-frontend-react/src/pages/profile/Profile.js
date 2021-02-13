@@ -13,13 +13,13 @@ function Profile() {
             setError('');
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get('http://localhost:8080/api/test/user', {
+                const response = await axios.get('http://localhost:8080/api/user', {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${token}`,
                     }
                 });
-
+                console.log(response.data);
                 setProtectedData(response.data);
             } catch(e) {
                 setError('Er is iets misgegaan bij het ophalen van de data')

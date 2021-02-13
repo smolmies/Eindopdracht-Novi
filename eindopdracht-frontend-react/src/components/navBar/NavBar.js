@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {NavLink, useHistory} from 'react-router-dom';
 import { AuthContext, useAuthState } from '../context/AuthContext';
 import './NavBar.scss';
@@ -8,6 +8,7 @@ function NavBar() {
     const { logout } = useContext(AuthContext);
     const { isAuthenticated } = useAuthState();
     const history = useHistory();
+
 return(
     <nav>
         <img id="logo" src={catLogo} alt="logo of a cat silhouette" />
@@ -35,7 +36,7 @@ return(
         <div className="button-pack">
             {isAuthenticated ? (
                 <>
-                <button type='button' className="sign-button" onClick={logout}>Log uit</button>
+                <button type='button' className="sign-button" onClick={() => logout()}>Log uit</button>
                 <button type='button' className="profile-button" onClick={() => history.push('/profile')}>Mijn profiel</button>
                 </>
             ) : (
