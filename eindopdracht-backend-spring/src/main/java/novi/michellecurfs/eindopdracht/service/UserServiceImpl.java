@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.DatatypeConverter;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -99,5 +100,16 @@ public class UserServiceImpl implements UserService {
                 "Email: " + user.getEmail() +
                 "Telefoon: " + user.getPhoneNumber() +
                 "Huisdieren: " + user.getPets();
+    }
+
+    @Override
+    public ResponseEntity<?> getAllUsers() {
+
+        List<User> users = userRepository.findAll();
+
+        if(users.isEmpty()) {
+            return ResponseEntity.badRequest().body(new MessageResponse("No Users found!"));
+        }
+        return ResponseEntity.ok(users);
     }
 }

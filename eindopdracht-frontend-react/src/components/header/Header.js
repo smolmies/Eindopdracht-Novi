@@ -1,5 +1,5 @@
 import React from 'react';
-import differentHeaderImage from './cat-3678858_1920.jpg';
+import differentHeaderImage from './cat-header.jpg';
 import './Header.scss';
 
 function Header() {

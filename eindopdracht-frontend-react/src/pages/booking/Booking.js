@@ -37,7 +37,7 @@ const endPointLink = '';
                     {success && <p className="success-message">Je boeking is goed aangekomen bij ons en<br /> wij nemen z.s.m. contact met je op om betaling te regelen!</p>}
                 </div>
                     <label htmlFor="ownerName">* Naam:
-                        <input name="ownerName" id="ownerName" type="text" size="35" ref={register({register: true})} />
+                        <input name="ownerName" id="ownerName" type="text" size="35" ref={register({required: true})} />
                         {errors.ownerName && <p className="error-message">Naam is verplicht</p>}
                     </label>
                     <label htmlFor="phoneNumber">Telefoonnummer:
