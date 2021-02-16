@@ -54,15 +54,15 @@ function Login() {
                         <label htmlFor="username">Gebruikersnaam:
                         <input name="username" id="username" type="text" ref={register({required: true})}
                         />
-                        {errors.username && <p className="error-message">Gebruikersnaam is verplicht</p>}
+                        {errors.username && <p className="error-message">Gebruikersnaam is verplicht.</p>}
                         </label>
 
                         <label htmlFor="password">Wachtwoord:
                         <input name="password" id="password" type="password" ref={register(
-                            {required: true, pattern: /^[\w!@#$%^&*()_=+?-]{6,25}$/})}
+                            {required: true, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[#$^+=!*()@%&]).{6,40}$/})}
                         />
                             <input type="checkbox" onClick={togglePassword}/>Maak wachtwoord zichtbaar
-                        {errors.password && <p className="error-message">Wachtwoord moet tussen 6 en 25 karakters zijn en mag letters, cijfers en speciale tekens bevatten.</p>}
+                        {errors.password && <p className="error-message">Wachtwoord is verplicht.</p>}
                         </label>
 
                 </fieldset>

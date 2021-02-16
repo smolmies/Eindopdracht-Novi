@@ -1,14 +1,16 @@
 package novi.michellecurfs.eindopdracht.service;
 
 import novi.michellecurfs.eindopdracht.model.Booking;
-import org.springframework.stereotype.Service;
+import novi.michellecurfs.eindopdracht.payload.request.BookingRequest;
+import novi.michellecurfs.eindopdracht.payload.response.MessageResponse;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 
 
 public interface BookingService {
 
-    public abstract long createBooking(Booking booking);
+    public abstract ResponseEntity<MessageResponse> createBooking(BookingRequest bookingRequest);
     public abstract void updateBooking(long bookingId, Booking booking);
     public abstract void deleteBooking(long bookingId);
     public abstract Optional<Booking> getBooking(long bookingId);

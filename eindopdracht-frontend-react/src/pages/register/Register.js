@@ -16,6 +16,7 @@ function Register() {
         try{
             const result = await axios.post('http://localhost:8080/api/auth/register', {
                 email: data.email,
+                phoneNumber: data.phoneNumber,
                 username: data.username,
                 password: data.password,
                 });
@@ -45,7 +46,7 @@ function Register() {
     return (
         <>
             <div id="signup-message">
-                {/*<h2>Een account aanmaken</h2>*/}
+                <h2>Een account aanmaken</h2>
                 <p>Wij willen het je makkelijker maken om een verblijf voor je huisdier te boeken!
                     Als het verblijf jou en je huisdier is bevallen, dan wil je natuurlijk nog eens Witje bij ons laten logeren.
                     <br />
@@ -62,17 +63,19 @@ function Register() {
                     <label htmlFor="email">Email:
                         <input name="email" id="email" type="text" ref={register({required: true})}/>
                     </label>
-
+                    <label htmlFor="phoneNumber">Telefoonnummer:
+                        <input name="phoneNumber" id="phoneNumber" type="text" ref={register}/>
+                    </label>
                     <label htmlFor="username">Gebruikersnaam:
                         <input name="username" id="username" type="text" ref={register({register: true})} />
                         {errors.username && <p className="error-message">Gebruikersnaam is verplicht</p>}
                      </label>
 
                     <label htmlFor="password">Wachtwoord:
-                        <input name="password" id="password" type="password" ref={register({required: true, pattern: /^[\w!@#$%^&*()_=+?-]{6,25}$/})}
+                        <input name="password" id="password" type="password" ref={register({required: true, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[#$^+=!*()@%&]).{6,40}$/})}
                         />
                     </label>
-                        {errors.password && <p className="error-message">Wachtwoord moet tussen 6 en 25 karakters zijn en mag letters, cijfers en speciale tekens bevatten.</p>}
+                        {errors.password && <p className="error-message">Wachtwoord moet minimaal 6 karakters lang zijn en moet minimaal 1 hoofdletter en 1 speciaal tekens bevatten.</p>}
                         <input type="checkbox" onClick={togglePassword}/>Maak wachtwoord zichtbaar
                 </fieldset>
                 <button type="submit" className="submit-button" disabled={loading} >
@@ -83,5 +86,9 @@ function Register() {
         </>
     );
 }
+
+
+// (CODE TO CHECK PHONENUMBER)
+// /^((\+|00(\s|\s?\-\s?)?)31(\s|\s?\-\s?)?(\(0\)[\-\s]?)?|0)[1-9]((\s|\s?\-\s?)?[0-9])((\s|\s?-\s?)?[0-9])((\s|\s?-\s?)?[0-9])\s?[0-9]\s?[0-9]\s?[0-9]\s?[0-9]\s?[0-9]$/gm
 
 export default Register;

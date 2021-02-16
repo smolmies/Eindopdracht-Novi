@@ -13,7 +13,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.TableGenerator;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Set;
@@ -62,10 +61,11 @@ public class User {
 
     }
 
-    public User(String username, String password, String email) {
+    public User(String username, String password, String email, String phoneNumber) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
     public long getUserId() {

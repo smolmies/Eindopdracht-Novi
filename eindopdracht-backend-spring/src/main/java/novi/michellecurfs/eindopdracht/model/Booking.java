@@ -7,14 +7,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.Set;
 
 @Entity
+@Table
+@SequenceGenerator(name="tableseq")
 public class Booking {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tableseq")
     private long bookingId;
 
     @Column
@@ -24,7 +28,7 @@ public class Booking {
     private Date endDate;
 
     @Column
-    private String amountPets;
+    private int amountPets;
 
     @ManyToOne
     private Lodging lodging;
@@ -36,7 +40,7 @@ public class Booking {
 
     }
 
-    public Booking(Date startDate, Date endDate, String amountPets ){
+    public Booking(Date startDate, Date endDate, int amountPets ){
         this.startDate = startDate;
         this.endDate = endDate;
         this.amountPets = amountPets;
@@ -60,10 +64,10 @@ public class Booking {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
-    public String getAmountPets() {
+    public int getAmountPets() {
         return amountPets;
     }
-    public void setAmountPets(String amountPets) {
+    public void setAmountPets(int amountPets) {
         this.amountPets = amountPets;
     }
     public Lodging getLodging() {

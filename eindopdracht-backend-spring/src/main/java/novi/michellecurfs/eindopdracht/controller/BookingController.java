@@ -1,7 +1,13 @@
 package novi.michellecurfs.eindopdracht.controller;
 
-
+import novi.michellecurfs.eindopdracht.payload.request.BookingRequest;
+import novi.michellecurfs.eindopdracht.payload.response.MessageResponse;
+import novi.michellecurfs.eindopdracht.service.BookingService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,5 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/booking")
 public class BookingController {
 
+    private BookingService bookingService;
 
+    @Autowired
+    public void setBookingService(BookingService bookingService) {
+        this.bookingService = bookingService;
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<MessageResponse> createBooking(@RequestBody BookingRequest bookingRequest){
+        return bookingService.createBooking(bookingRequest);
+    }
 }

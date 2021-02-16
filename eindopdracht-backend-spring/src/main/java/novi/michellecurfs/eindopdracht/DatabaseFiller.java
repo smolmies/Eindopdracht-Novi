@@ -27,6 +27,7 @@ public class DatabaseFiller implements CommandLineRunner {
 
         SignupRequest user = new SignupRequest();
         user.setEmail("user@user.nl");
+        user.setPhoneNumber("0612345678");
         user.setUsername("user");
         user.setPassword("useruser");
         user.setRole(rollen);
@@ -34,6 +35,7 @@ public class DatabaseFiller implements CommandLineRunner {
 
         SignupRequest admin = new SignupRequest();
         admin.setEmail("admin@admin.nl");
+        admin.setPhoneNumber("0623456789");
         admin.setUsername("admin");
         admin.setPassword("adminadmin");
         rollen.add("admin");
@@ -42,6 +44,7 @@ public class DatabaseFiller implements CommandLineRunner {
 
         SignupRequest superuser = new SignupRequest();
         superuser.setEmail("super@user.nl");
+        superuser.setPhoneNumber("0634567890");
         superuser.setUsername("superuser");
         superuser.setPassword("123456");
         rollen.add("admin");

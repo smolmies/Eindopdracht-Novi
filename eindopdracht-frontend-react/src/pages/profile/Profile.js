@@ -62,6 +62,7 @@ function Profile() {
                        <p>{data.userId}</p>
                        <p>{data.username}</p>
                        <p>{data.email}</p>
+                       <p>{data.phoneNumber}</p>
                    </fieldset>
                );
             })}
