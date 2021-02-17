@@ -75,7 +75,9 @@ function Register() {
                         <input name="password" id="password" type="password" ref={register({required: true, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[#$^+=!*()@%&]).{6,40}$/})}
                         />
                     </label>
-                        {errors.password && <p className="error-message">Wachtwoord moet minimaal 6 karakters lang zijn en moet minimaal 1 hoofdletter en 1 speciaal tekens bevatten.</p>}
+                        {errors.password &&
+                        <p className="error-message">Wachtwoord moet minimaal 6 karakters lang zijn en moet minimaal 1 hoofdletter en 1 speciaal teken bevatten.</p>
+                        }
                         <input type="checkbox" onClick={togglePassword}/>Maak wachtwoord zichtbaar
                 </fieldset>
                 <button type="submit" className="submit-button" disabled={loading} >

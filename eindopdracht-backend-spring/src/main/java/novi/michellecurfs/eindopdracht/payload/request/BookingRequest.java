@@ -1,18 +1,9 @@
 package novi.michellecurfs.eindopdracht.payload.request;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class BookingRequest {
-
-    @NotBlank
-    private String ownerName;
-
-    @NotBlank
-    @Email
-    private String email;
 
     @NotNull
     private Date startDate;
@@ -28,22 +19,6 @@ public class BookingRequest {
     private String specialNeeds;
 
     private String extraInfo;
-
-    public String getOwnerName() {
-        return ownerName;
-    }
-
-    public void setOwnerName(String ownerName) {
-        this.ownerName = ownerName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public Date getStartDate() {
         return startDate;

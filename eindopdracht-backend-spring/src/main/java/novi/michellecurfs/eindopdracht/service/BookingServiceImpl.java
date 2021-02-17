@@ -61,7 +61,6 @@ public class BookingServiceImpl implements BookingService{
     public ResponseEntity<MessageResponse> createBooking(@Valid BookingRequest bookingRequest) {
 // TODO check the booking form/ date available
 
-
         Booking booking = new Booking(
                 bookingRequest.getStartDate(),
                 bookingRequest.getEndDate(),

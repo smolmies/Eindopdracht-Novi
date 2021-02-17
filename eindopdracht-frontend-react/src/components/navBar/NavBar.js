@@ -24,15 +24,19 @@ return(
                 </NavLink>
             </li>
             <li>
-                <NavLink to="/booking">Afspraak maken</NavLink>
+                <NavLink to="/contact">
+                    Contact
+                </NavLink>
             </li>
+            {isAuthenticated &&
             <li>
-            <NavLink to="/contact">
-                Contact
-            </NavLink>
+                <NavLink to="/booking">
+                    Afspraak maken
+                </NavLink>
             </li>
-
+            }
         </ul>
+
         <div className="button-pack">
             {isAuthenticated ? (
                 <>

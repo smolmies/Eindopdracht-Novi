@@ -1,9 +1,15 @@
 @import '../../components/styles/styles';
 
 #booking-form {
-  width: 80%;
-  height: 70%;
+  width: 70%;
+  height: 60%;
   padding-bottom: 20px;
+
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
   input{
     padding: 3px;
@@ -13,9 +19,7 @@
   }
 
   #date-picker {
-    display: block;
-    position: absolute;
-    right: 10%;
+
 
       fieldset{
         width: fit-content;
@@ -27,7 +31,11 @@
     text-align: left;
   }
 }
-
+#price{
+  display: block;
+  position: absolute;
+  right: 20%;
+}
 
 textarea{
   margin: 5px;

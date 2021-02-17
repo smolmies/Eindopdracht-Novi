@@ -29,7 +29,7 @@ public class DatabaseFiller implements CommandLineRunner {
         user.setEmail("user@user.nl");
         user.setPhoneNumber("0612345678");
         user.setUsername("user");
-        user.setPassword("useruser");
+        user.setPassword("Useruser!");
         user.setRole(rollen);
         authorizationService.registerUser(user);
 
@@ -37,7 +37,7 @@ public class DatabaseFiller implements CommandLineRunner {
         admin.setEmail("admin@admin.nl");
         admin.setPhoneNumber("0623456789");
         admin.setUsername("admin");
-        admin.setPassword("adminadmin");
+        admin.setPassword("Adminadmin!");
         rollen.add("admin");
         admin.setRole(rollen);
         authorizationService.registerUser(admin);
@@ -46,7 +46,7 @@ public class DatabaseFiller implements CommandLineRunner {
         superuser.setEmail("super@user.nl");
         superuser.setPhoneNumber("0634567890");
         superuser.setUsername("superuser");
-        superuser.setPassword("123456");
+        superuser.setPassword("Superuser!");
         rollen.add("admin");
         superuser.setRole(rollen);
         authorizationService.registerUser(superuser);

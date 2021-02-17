@@ -30,7 +30,7 @@ function App() {
                       <AboutUs />
                   </Route>
                   <Route path="/booking">
-                      <Booking />
+                      {isAuthenticated ? (<Booking />) : (<Redirect to="/login" />)}
                   </Route>
                   <Route path="/contact">
                       <Contact />
