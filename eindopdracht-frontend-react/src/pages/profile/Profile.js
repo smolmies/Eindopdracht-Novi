@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useAuthState } from '../../components/context/AuthContext';
 import axios from 'axios';
 import './Profile.scss';
+import UserCard from "../../components/cards/UserCard";
 
 function Profile() {
-    // const { user } = useAuthState();
+    const { user } = useAuthState();
     const [error, setError] = useState('');
     const [protectedData, setProtectedData] = useState('');
     const [adminData, setAdminData] = useState([]);
@@ -42,7 +43,7 @@ function Profile() {
             console.log(result.data);
             setAdminData(result.data);
         } catch(e) {
-            setError('Je bent niet bevoegd om deze data in te zien')
+            setError('Niet gelukt om data op te halen')
         }
     }
     return (
@@ -53,19 +54,21 @@ function Profile() {
             {protectedData && <p>{protectedData}</p>}
             {error && <p className="error-message">{error}</p>}
 
-            <button type="button" onClick={() => getAdminData()}>Klik hier om alle gebruikers op te halen</button>
-            {adminData &&
-                adminData.map((data, index) => {
-               return(
-                   <fieldset className="user-info" key={index}>
-                       <h3>Gebruiker {index + 1}:</h3>
-                       <p>{data.userId}</p>
-                       <p>{data.username}</p>
-                       <p>{data.email}</p>
-                       <p>{data.phoneNumber}</p>
-                   </fieldset>
-               );
-            })}
+            {user.roles.includes("ROLE_ADMIN") &&
+                <>
+                <button type="button" onClick={() => getAdminData()}>Klik hier om alle gebruikers op te halen</button>
+                {adminData &&
+                    adminData.map((data, index) => {
+                   return(
+                           <UserCard
+                           name={data.username}
+                           email={data.email}
+                           phoneNumber={data.phoneNumber}
+                           userId={index+1}
+                           />
+                   );
+                })};
+                </>}
         </div>
     );
 }

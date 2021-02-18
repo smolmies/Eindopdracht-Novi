@@ -3,6 +3,7 @@ package novi.michellecurfs.eindopdracht.service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import novi.michellecurfs.eindopdracht.model.User;
+import novi.michellecurfs.eindopdracht.payload.request.UserUpdateRequest;
 import novi.michellecurfs.eindopdracht.payload.response.MessageResponse;
 import novi.michellecurfs.eindopdracht.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import javax.xml.bind.DatatypeConverter;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -35,17 +35,40 @@ public class UserServiceImpl implements UserService {
     }
     private PasswordEncoder encoder;
 
+
     @Override
-    public String createUser(User user) {
-        User newUser = userRepository.save(user);
-        return newUser.getUsername();
+    public ResponseEntity<?> getAllUsers() {
+
+        List<User> users = userRepository.findAll();
+
+        if(users.isEmpty()) {
+            return ResponseEntity.badRequest().body(new MessageResponse("No Users found!"));
+        }
+        return ResponseEntity.ok(users);
     }
 
     @Override
-    public void updateUser(String username, User newUser) {
-        User user = userRepository.findByUsername(username).get();
-        user.setPassword(newUser.getPassword());
-        userRepository.save(user);
+    public ResponseEntity<?> updateUserById(String token, UserUpdateRequest updateRequest) {
+        if(token == null || token.isEmpty()) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Invalid token"));
+        }
+        String username =  getUsernameFromToken(token);
+
+        if(userExists(username) && updateRequestIsValid(updateRequest)) {
+            User updatedUser = findUserByUsername(username);
+            if(!updateRequest.getPassword().isEmpty() && !updateRequest.getRepeatedPassword().isEmpty()) {
+                updatedUser.setPassword(encoder.encode(updateRequest.getPassword()));
+            }
+            if(updateRequest.getEmail() != null && !updateRequest.getEmail().isEmpty()) {
+                updatedUser.setEmail(updateRequest.getEmail());
+            }
+            if(updateRequest.getPhoneNumber() != null && !updateRequest.getPhoneNumber().isEmpty()) {
+                updatedUser.setPhoneNumber(updateRequest.getPhoneNumber());
+            }
+            return ResponseEntity.ok().body(userRepository.save(updatedUser));
+        }
+
+        return ResponseEntity.badRequest().body(new MessageResponse("User cannot be updated with provided data."));
     }
 
     @Override
@@ -53,10 +76,7 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(username);
     }
 
-//    @Override
-//    public Optional<User> getUser(String username) {
-//        return  userRepository.findByUsername(username);
-//    }
+
 
     @Override
     public ResponseEntity<?> findUserByToken(String token) {
@@ -67,8 +87,6 @@ public class UserServiceImpl implements UserService {
         }
         return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
     }
-
-
 
 
     private String getUsernameFromToken(String token) {
@@ -95,21 +113,20 @@ public class UserServiceImpl implements UserService {
 
     private String userToString(String username){
         User user = findUserByUsername(username);
-        return "Huidige gebruiker: " +
+        return ("Huidige gebruiker: " +
                 "Naam: " + user.getUsername() +
                 "Email: " + user.getEmail() +
                 "Telefoon: " + user.getPhoneNumber() +
-                "Huisdieren: " + user.getPets();
+                "Huisdieren: " + user.getPets());
     }
 
-    @Override
-    public ResponseEntity<?> getAllUsers() {
 
-        List<User> users = userRepository.findAll();
-
-        if(users.isEmpty()) {
-            return ResponseEntity.badRequest().body(new MessageResponse("No Users found!"));
+    private boolean updateRequestIsValid(UserUpdateRequest userUpdateRequest) {
+        if(userUpdateRequest.getPassword().equals(userUpdateRequest.getRepeatedPassword())) {
+            return true;
         }
-        return ResponseEntity.ok(users);
+        return false;
     }
+
+
 }
