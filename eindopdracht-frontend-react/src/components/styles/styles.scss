@@ -5,9 +5,9 @@ $carrot: #CC5803;
 $orange: #EF6F0E;
 $tangerine: #FF9505;
 $mango: #FFB627;
-$peach: #FFC971;
-$lychee: #E5C691;
-$apple: #FFE8C2;
+$peach: #ffc971;
+$lychee: #f8d79d;
+$apple: #ffebc9;
 
 body{
   background-color: $apple;
@@ -39,15 +39,15 @@ form{
 
 .success-message{
   text-align: center;
-  color: #228322;
+  color: #32c132;
   font-size: 1rem;
 }
 
 .error-message{
   text-align: center;
-  color: #d4032d;
+  color: #e00006;
   font-weight: bold;
-  font-size: 1.20rem;
+  font-size: 1rem;
 }
 
 //@media only screen and (max-width: 768px) {

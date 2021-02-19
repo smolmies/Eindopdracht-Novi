@@ -1,14 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import './Register.scss';
 
 function Register() {
-    const [loading, toggleLoading] = useState(false);
-    const [error, setError] = useState('');
+    const [ loading, toggleLoading ] = useState(false);
+    const [ error, setError ] = useState('');
     const [ registerSuccess, setRegisterSuccess ] = useState(false);
     const { register, handleSubmit, errors } = useForm();
+    const history = useHistory();
 
     async function sendRegisterData(data) {
         toggleLoading(true);
@@ -20,7 +21,7 @@ function Register() {
                 username: data.username,
                 password: data.password,
                 });
-            console.log(result);
+
             setRegisterSuccess(true);
         } catch (e) {
             if(e.message.includes('400')){
@@ -32,6 +33,13 @@ function Register() {
         }
         toggleLoading(false);
     }
+
+    useEffect(() => {
+        if(registerSuccess === true){
+            history.push('/login');
+        }
+    },[registerSuccess]);
+
 
     function togglePassword() {
         let p = document.getElementById("password");
@@ -45,16 +53,7 @@ function Register() {
 
     return (
         <>
-            <div id="signup-message">
-                <h2>Een account aanmaken</h2>
-                <p>Wij willen het je makkelijker maken om een verblijf voor je huisdier te boeken!
-                    Als het verblijf jou en je huisdier is bevallen, dan wil je natuurlijk nog eens Witje bij ons laten logeren.
-                    <br />
-                    Indien je een account bij ons hebt worden je boekingen opgeslagen en kun je ze hergebruiken zodat je nog sneller een boeking kan maken!
-                    Wij vullen het aanvraagformulier alvast voor je in met je vorige boeking, zo hoef je misschien alleen de datum nog te veranderen en klaar is kees.
-                </p>
-            </div>
-            {registerSuccess === true && <p className="success-message">Yeey het is gelukt! Je kunt nu <Link to='/login'>hier </Link>inloggen</p>}
+
             {error && <p className="error-message">{error}</p>}
             <form id="sign-form" onSubmit={handleSubmit(sendRegisterData)}>
                 <fieldset>
@@ -84,7 +83,15 @@ function Register() {
                     {loading ? 'Laden...' : 'Maak een account aan'}
                 </button>
             </form>
-
+            <div id="signup-message">
+                <h2>Een account aanmaken</h2>
+                <p>Wij willen het je makkelijker maken om een verblijf voor je huisdier te boeken!
+                    Als het verblijf jou en je huisdier is bevallen, dan wil je natuurlijk nog eens Witje bij ons laten logeren.
+                    <br />
+                    Indien je een account bij ons hebt worden je boekingen opgeslagen en kun je ze hergebruiken zodat je nog sneller een boeking kan maken!
+                    Wij vullen het aanvraagformulier alvast voor je in met je vorige boeking, zo hoef je misschien alleen de datum nog te veranderen en klaar is kees.
+                </p>
+            </div>
         </>
     );
 }

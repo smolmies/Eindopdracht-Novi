@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
         String username = getUsernameFromToken(token);
 
         if(userExists(username)) {
-            return ResponseEntity.ok(userToString(username));
+            return ResponseEntity.ok(findUserByUsername(username));
         }
         return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
     }

@@ -14,7 +14,6 @@ function Login() {
     const { isAuthenticated } = useAuthState();
 
     useEffect(() => {
-        console.log(isAuthenticated);
         if(isAuthenticated === true){
             history.push('/profile');
         }
@@ -29,7 +28,6 @@ function Login() {
                     username: data.username,
                     password: data.password,
                 });
-            // console.log(result);
             login(result.data);
 
         } catch (e) {

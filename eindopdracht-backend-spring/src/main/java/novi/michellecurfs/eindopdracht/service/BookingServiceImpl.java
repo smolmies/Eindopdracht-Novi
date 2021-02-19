@@ -49,14 +49,6 @@ public class BookingServiceImpl implements BookingService{
     }
 
 
-
-
-
-
-
-
-
-
     @Override
     public ResponseEntity<MessageResponse> createBooking(@Valid BookingRequest bookingRequest) {
 // TODO check the booking form/ date available
@@ -77,7 +69,7 @@ public class BookingServiceImpl implements BookingService{
 
         System.out.println(booking);
         System.out.println(pet);
-        return ResponseEntity.ok(new MessageResponse("Booking registered successfully!"));
+        return ResponseEntity.ok(new MessageResponse("Booking registered successfully! Here is the ID " + booking.getBookingId()));
     }
 }
 

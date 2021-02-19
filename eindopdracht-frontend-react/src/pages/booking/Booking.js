@@ -17,19 +17,21 @@ function Booking() {
         try{
             const token = localStorage.getItem('token');
             const result = await axios.post('http://localhost:8080/api/booking/create', {
+
+                startDate: data.startDate,
+                endDate: data.endDate,
+                amountPets: data.amountPets,
+                petName: data.petName,
+                specialNeeds: data.specialNeeds,
+                extraInfo: data.extraInfo
+            }, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,
-                }, body: {
-                    startDate: data.startDate,
-                    endDate: data.endDate,
-                    amountPets: data.amountPets,
-                    petName: data.petName,
-                    specialNeeds: data.specialNeeds,
-                    extraInfo: data.extraInfo
                 }
             });
             console.log(result);
+            setSuccess(true);
         } catch (e) {
             setError(e);
         }
@@ -37,7 +39,7 @@ function Booking() {
         toggleLoading(false);
     }
     return (
-        <>
+
             <form id="booking-form" onSubmit={handleSubmit(sendBookingData)}>
                 {error && <p className="error-message">{error}</p>}
                 <div id="date-picker">
@@ -71,7 +73,7 @@ function Booking() {
                     <div id="price">
                         <legend>Velden met een * zijn verplicht om in te vullen!</legend>
                         <h2>De berekende prijs voor het verblijf:</h2>
-                        {}
+
                             {success && <p className="success-message">Je boeking is goed aangekomen bij ons en<br /> wij nemen z.s.m. contact met je op om betaling te regelen!</p>}
                     </div>
 
@@ -79,7 +81,7 @@ function Booking() {
                         {loading ? 'Laden...' : 'Boek mijn afspraak!'}
                     </button>
             </form>
-        </>
+
     );
 }
 

@@ -4,20 +4,25 @@
     background-color: $tangerine;
     border: dashed 3px $carrot;
 
+    legend{
+        font-size: 1.2rem;
+    }
     input{
         padding: 5px;
         margin: 10px;
         display: flex;
         justify-content: space-between;
         }
+
+    label{
+        font-size: 1rem;
     }
 
-label{
-    font-size: 1.15rem;
+    fieldset{
+        border-radius: 5px;
+        padding: 20px;
+        width: 400px;
+    }
 }
 
-fieldset{
-    border-radius: 5px;
-    padding: 20px;
-    width: 400px;
-}
+

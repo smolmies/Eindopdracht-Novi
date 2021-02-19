@@ -11,6 +11,7 @@ import AboutUs from './pages/aboutUs/AboutUs.js';
 import Booking from './pages/booking/Booking.js';
 import Contact from './pages/contact/Contact.js';
 import Profile from './pages/profile/Profile.js';
+import Edit from './pages/edit/Edit.js';
 import Login from './pages/login/Login.js';
 import NavBar from './components/navBar/NavBar.js';
 import Register from './pages/register/Register.js';
@@ -43,6 +44,9 @@ function App() {
                   </Route>
                   <Route path="/profile">
                       {isAuthenticated ? (<Profile />) : (<Redirect to="/login" />)}
+                  </Route>
+                  <Route path="/edit">
+                      {isAuthenticated ? (<Edit />) : (<Redirect to="/login" />)}
                   </Route>
               </Switch>
       </BrowserRouter>
