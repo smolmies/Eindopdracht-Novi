@@ -16,13 +16,25 @@ body{
   color: $cherry;
 }
 
-.submit-button{
+button{
   font-family: 'Sniglet', cursive;
+}
+
+.submit-button{
   width: fit-content;
   background-color: $peach;
   border-radius: 5px;
   padding: 5px;
   margin: 5px;
+}
+
+.crud-button{
+  color: #FFF;
+  font-size: 1rem;
+  background-color: $carrot;
+  padding: 5px;
+  margin-left: 1rem;
+  border-radius: 5px;
 }
 
 form{

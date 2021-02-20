@@ -53,7 +53,7 @@ function Profile() {
         <div id="profile-body">
             <h1>Profielpagina</h1>
 
-            <h2>Jouw eigen gegevens</h2>
+            <h2 className="your-info">Jouw eigen gegevens</h2>
             {protectedData &&
             <>
                 <UserCard
@@ -62,7 +62,7 @@ function Profile() {
                     phoneNumber={protectedData.phoneNumber}
                     userId={protectedData.userId}
                 />
-                <button type="button" onClick={() => {
+                <button className="crud-button" type="button" onClick={() => {
                     history.push('/Edit')
                 }}>Update je gegevens
                 </button>
@@ -72,7 +72,7 @@ function Profile() {
 
             {user.roles.includes("ROLE_ADMIN") &&
             <>
-                <button type="button" onClick={() => getAdminData()}>Klik hier om alle gebruikers op te halen</button>
+                <button className="crud-button" type="button" onClick={() => getAdminData()}>Klik hier om alle gebruikers op te halen</button>
                 {adminData &&
                 adminData.map((data, index) => {
                     return (

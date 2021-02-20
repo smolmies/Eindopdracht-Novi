@@ -2,18 +2,23 @@ package novi.michellecurfs.eindopdracht.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import novi.michellecurfs.eindopdracht.model.ERole;
+import novi.michellecurfs.eindopdracht.model.Role;
 import novi.michellecurfs.eindopdracht.model.User;
 import novi.michellecurfs.eindopdracht.payload.request.UserUpdateRequest;
 import novi.michellecurfs.eindopdracht.payload.response.MessageResponse;
+import novi.michellecurfs.eindopdracht.repository.RoleRepository;
 import novi.michellecurfs.eindopdracht.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.bind.DatatypeConverter;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -28,6 +33,11 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
     private UserRepository userRepository;
+    @Autowired
+    public void setRoleRepository(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
+    private RoleRepository roleRepository;
 
     @Autowired
     public void setEncoder(PasswordEncoder encoder) {
@@ -45,6 +55,12 @@ public class UserServiceImpl implements UserService {
             return ResponseEntity.badRequest().body(new MessageResponse("No Users found!"));
         }
         return ResponseEntity.ok(users);
+    }
+
+    @Override
+    public Optional<User> getUserByUsername(String username) {
+       return userRepository.findByUsername(username);
+
     }
 
     @Override
@@ -72,13 +88,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(String username) {
-        userRepository.deleteById(username);
-    }
-
-
-
-    @Override
     public ResponseEntity<?> findUserByToken(String token) {
         String username = getUsernameFromToken(token);
 
@@ -88,6 +97,19 @@ public class UserServiceImpl implements UserService {
         return ResponseEntity.badRequest().body(new MessageResponse("User not found"));
     }
 
+    @Override
+    @Transactional
+    public ResponseEntity<?> deleteUser(String token, String username) {
+        String currentUsername = getUsernameFromToken(token);
+        User currentUser = findUserByUsername(currentUsername);
+        User targetUser = findUserByUsername(username);
+        Optional<Role> admin = roleRepository.findByName(ERole.ROLE_ADMIN);
+        if(currentUser.getUsername().equalsIgnoreCase(targetUser.getUsername()) || currentUser.getRoles().contains(admin)){
+            userRepository.deleteByUsername(targetUser.getUsername());
+            return ResponseEntity.ok().body(new MessageResponse("User has been deleted"));
+        }
+        return ResponseEntity.badRequest().body(new MessageResponse("User can not be deleted"));
+    }
 
     private String getUsernameFromToken(String token) {
         String tokenWithoutBearer = removePrefix(token);
@@ -95,7 +117,6 @@ public class UserServiceImpl implements UserService {
         Claims claims = Jwts.parser()
                 .setSigningKey(DatatypeConverter.parseBase64Binary(jwtSecret))
                 .parseClaimsJws(tokenWithoutBearer).getBody();
-
         return claims.getSubject();
     }
 

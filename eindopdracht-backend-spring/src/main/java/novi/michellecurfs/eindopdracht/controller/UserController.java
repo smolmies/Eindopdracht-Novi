@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,36 +30,34 @@ public class UserController {
         this.userService = userService;
     }
 
-//    @GetMapping(value = "/user/{username}")
-//    public ResponseEntity<Object> getUser(@PathVariable("username") String username) {
-//        return ResponseEntity.ok().body(userService.getUser(username));
-//    }
 
-    @GetMapping("")
+
+    @GetMapping(value = "/{username}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Object> getUser(@PathVariable("username") String username) {
+
+        return ResponseEntity.ok().body(userService.getUserByUsername(username));
+    }
+
+    @GetMapping(value = "")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> findUserByToken(@RequestHeader Map<String, String> headers) {
 
         return userService.findUserByToken(headers.get("authorization"));
     }
 
-
-    @PatchMapping("/update")
+    @PatchMapping(value = "/update")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updateUser(@RequestHeader Map<String, String> headers, @RequestBody UserUpdateRequest userUpdateRequest){
 
         return userService.updateUserById(headers.get("authorization"), userUpdateRequest);
     }
 
-
-    //TODO
-    //    public deleteUser(string username){
-    //        User currentUser = GetCurrentLoggedInUser();
-    //        if(currentUser.username == username || currentUser.role == admin){
-    //            return Ok(userService.deleteUser(username));
-    //        } else {
-    //            return BadRequest("Bruh je hebt geen rechten om dit te doen")
-    //        }
-    //    }
+    @DeleteMapping(value = "/delete")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> deleteUser(@RequestHeader Map<String, String> headers, @RequestBody String username){
+        return userService.deleteUser(headers.get("authorization"), username);
+    }
 
 
 }

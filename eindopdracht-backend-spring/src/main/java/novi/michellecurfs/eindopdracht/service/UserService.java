@@ -8,8 +8,9 @@ import java.util.Optional;
 
 public interface UserService {
     public abstract ResponseEntity<?> updateUserById(String token, UserUpdateRequest updateRequest);
-    public abstract void deleteUser(String username);
+    public abstract ResponseEntity<?> deleteUser(String token, String username);
     public abstract ResponseEntity<?> findUserByToken(String token);
-    public ResponseEntity<?> getAllUsers();
+    public abstract Optional<User> getUserByUsername(String username);
+    public abstract ResponseEntity<?> getAllUsers();
 
 }
