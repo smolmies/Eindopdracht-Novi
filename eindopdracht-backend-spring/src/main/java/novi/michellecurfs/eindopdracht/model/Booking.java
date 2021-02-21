@@ -1,5 +1,7 @@
 package novi.michellecurfs.eindopdracht.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -34,7 +38,8 @@ public class Booking {
     private Lodging lodging;
 
     @ManyToMany(mappedBy = "bookingSet")
-    private Set<Pet> petSet;
+    @JsonIgnore
+    private List<Pet> petSet;
 
     public Booking(){
 
@@ -76,10 +81,10 @@ public class Booking {
     public void setLodging(Lodging lodging) {
         this.lodging = lodging;
     }
-    public Set getPetSet() {
+    public List<Pet> getPetSet() {
         return petSet;
     }
-    public void setPetSet(Set<Pet> petSet) {
+    public void setPetSet(List<Pet> petSet) {
         this.petSet = petSet;
     }
 }

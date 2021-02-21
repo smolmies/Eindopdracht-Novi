@@ -52,7 +52,7 @@ public class User {
             mappedBy = "user",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
     private List<Pet> pets;
 

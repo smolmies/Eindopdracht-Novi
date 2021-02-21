@@ -4,6 +4,7 @@ import novi.michellecurfs.eindopdracht.model.Booking;
 import novi.michellecurfs.eindopdracht.model.Pet;
 import novi.michellecurfs.eindopdracht.model.User;
 import novi.michellecurfs.eindopdracht.payload.request.BookingRequest;
+import novi.michellecurfs.eindopdracht.payload.response.BookingResponse;
 import novi.michellecurfs.eindopdracht.payload.response.MessageResponse;
 import novi.michellecurfs.eindopdracht.repository.BookingRepository;
 import novi.michellecurfs.eindopdracht.repository.PetRepository;
@@ -50,16 +51,28 @@ public class BookingServiceImpl implements BookingService{
 
         List<Booking> bookings = bookingRepository.findAll();
 
+        List<BookingResponse> bookingResponse = new ArrayList<>();
+        for(Booking book : bookings){
+            bookingResponse.add(new BookingResponse(
+                    book.getBookingId(),
+                    book.getStartDate(),
+                    book.getEndDate(),
+                    book.getPetSet().get(0).getPetName(),
+                    book.getPetSet().get(0).getSpecialNeeds(),
+                    book.getPetSet().get(0).getExtraInfo()
+            ));
+        }
+
         if(bookings.isEmpty()) {
             return ResponseEntity.badRequest().body(new MessageResponse("No Bookings found!"));
         }
-        return ResponseEntity.ok(bookings);
+        return ResponseEntity.ok(bookingResponse);
     }
 
     @Override
     public void updateBooking(long bookingId, Booking newBooking) {
         Booking booking = bookingRepository.findByBookingId(bookingId).get();
-        booking.setEndDate(newBooking.getEndDate());
+        // TODO
         bookingRepository.save(booking);
     }
 

@@ -1,5 +1,7 @@
 package novi.michellecurfs.eindopdracht.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,8 +14,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 @Table
@@ -35,15 +38,17 @@ public class Pet {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
+    @JsonIgnore
     private User user;
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(
             name = "pet_booking",
             joinColumns = @JoinColumn(name = "pet_id"),
             inverseJoinColumns = @JoinColumn(name="booking_id")
     )
-    private Set<Booking> bookingSet;
+    private List<Booking> bookingSet;
 
     public Pet(){
 
@@ -53,7 +58,7 @@ public class Pet {
         this.petName = petName;
         this.specialNeeds = specialNeeds;
         this.extraInfo = extraInfo;
-        this.bookingSet = new HashSet<Booking>();
+        this.bookingSet = new ArrayList<Booking>();
     }
 
 
@@ -87,10 +92,10 @@ public class Pet {
     public void setUser(User user) {
         this.user = user;
     }
-    public Set getBookingSet() {
+    public List<Booking> getBookingSet() {
         return bookingSet;
     }
-    public void setBookingSet(Set bookingSet) {
+    public void setBookingSet(List<Booking> bookingSet) {
         this.bookingSet = bookingSet;
     }
 

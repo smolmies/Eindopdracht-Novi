@@ -3,14 +3,16 @@ import { useAuthState } from '../../components/context/AuthContext';
 import {useHistory} from 'react-router-dom';
 import axios from 'axios';
 import './Profile.scss';
-import UserCard from "../../components/cards/UserCard";
+import UserCard from '../../components/cards/UserCard';
+import BookingCard from '../../components/cards/BookingCard';
 
 function Profile() {
     const { user } = useAuthState();
     const history = useHistory();
     const [error, setError] = useState('');
     const [protectedData, setProtectedData] = useState('');
-    const [adminData, setAdminData] = useState([]);
+    const [usersData, setUsersData] = useState([]);
+    const [bookingsData, setBookingsData] = useState([]);
 
     useEffect(() => {
         async function getProtectedData() {
@@ -32,7 +34,7 @@ function Profile() {
         getProtectedData();
     }, []);
 
-    async function getAdminData() {
+    async function getUsersAsAdmin() {
         setError('');
         try {
             const token = localStorage.getItem('token');
@@ -43,7 +45,24 @@ function Profile() {
                 }
             });
             console.log(result.data);
-            setAdminData(result.data);
+            setUsersData(result.data);
+        } catch (e) {
+            setError('Niet gelukt om data op te halen')
+        }
+    }
+
+    async function getBookingsAsAdmin() {
+        setError('');
+        try {
+            const token = localStorage.getItem('token');
+            const result = await axios.get('http://localhost:8080/api/admin/all/bookings', {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            console.log(result.data);
+            setBookingsData(result.data);
         } catch (e) {
             setError('Niet gelukt om data op te halen')
         }
@@ -71,20 +90,35 @@ function Profile() {
             {error && <p className="error-message">{error}</p>}
 
             {user.roles.includes("ROLE_ADMIN") &&
-            <>
-                <button className="crud-button" type="button" onClick={() => getAdminData()}>Klik hier om alle gebruikers op te halen</button>
-                {adminData &&
-                adminData.map((data, index) => {
-                    return (
-                        <UserCard key={index}
-                                  name={data.username}
-                                  email={data.email}
-                                  phoneNumber={data.phoneNumber}
-                                  userId={index + 1}
-                        />
-                    );
-                })}
-            </>}
+                <>
+                    <button className="crud-button" type="button" onClick={() => getUsersAsAdmin()}>Klik hier om alle gebruikers op te halen</button>
+                    {usersData &&
+                    usersData.map((data, index) => {
+                        return (
+                            <UserCard key={index}
+                                      name={data.username}
+                                      email={data.email}
+                                      phoneNumber={data.phoneNumber}
+                                      userId={index + 1}
+                            />
+                        );
+                    })}
+                    <button className="crud-button" type="button" onClick={() => getBookingsAsAdmin()}>Klik hier om alle boekingen op te halen</button>
+                    {bookingsData &&
+                    bookingsData.map((data, index) => {
+                        return (
+                            <BookingCard key={index}
+                                      bookingId={data.bookingId}
+                                      petName = {data.petName}
+                                      startDate={new Date(data.startDate).toLocaleDateString()}
+                                      endDate={new Date(data.endDate).toLocaleDateString()}
+                                      specialNeeds={data.specialNeeds}
+                                      extraInfo={data.extraInfo}
+                            />
+                        );
+                    })}
+                </>
+            }
         </div>
     );
 }
