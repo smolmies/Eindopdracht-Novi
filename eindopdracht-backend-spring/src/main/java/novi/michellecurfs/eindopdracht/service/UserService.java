@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.Optional;
 
 public interface UserService {
+
     public abstract ResponseEntity<?> updateUserById(String token, UserUpdateRequest updateRequest);
     public abstract ResponseEntity<?> deleteUser(String token, String username);
     public abstract ResponseEntity<?> findUserByToken(String token);

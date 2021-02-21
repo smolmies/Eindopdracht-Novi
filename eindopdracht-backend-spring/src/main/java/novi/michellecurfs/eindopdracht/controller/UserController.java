@@ -30,8 +30,6 @@ public class UserController {
         this.userService = userService;
     }
 
-
-
     @GetMapping(value = "/{username}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Object> getUser(@PathVariable("username") String username) {

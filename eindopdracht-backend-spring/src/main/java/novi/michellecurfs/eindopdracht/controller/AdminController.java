@@ -1,5 +1,6 @@
 package novi.michellecurfs.eindopdracht.controller;
 
+import novi.michellecurfs.eindopdracht.service.BookingService;
 import novi.michellecurfs.eindopdracht.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +15,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/admin")
 public class AdminController {
 
+    private BookingService bookingService;
     private UserService userService;
+
+    @Autowired
+    public void setBookingService(BookingService bookingService) {
+        this.bookingService = bookingService;
+    }
 
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
-    @GetMapping("/all")
+    @GetMapping("/all/users")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> findAllUsers() {
         return userService.getAllUsers();
+    }
+
+    @GetMapping("/all/bookings")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> findAllBookings() {
+        return bookingService.getAllBookings();
     }
 }

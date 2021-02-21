@@ -36,7 +36,7 @@ function Profile() {
         setError('');
         try {
             const token = localStorage.getItem('token');
-            const result = await axios.get('http://localhost:8080/api/admin/all', {
+            const result = await axios.get('http://localhost:8080/api/admin/all/users', {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`,

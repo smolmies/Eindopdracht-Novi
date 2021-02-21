@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
 import javax.xml.bind.DatatypeConverter;
 import java.util.List;
 import java.util.Optional;
@@ -28,23 +29,24 @@ public class UserServiceImpl implements UserService {
 
     private static final String PREFIX = "Bearer ";
 
+    private PasswordEncoder encoder;
+    private RoleRepository roleRepository;
+    private UserRepository userRepository;
+
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    private UserRepository userRepository;
+
     @Autowired
     public void setRoleRepository(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
-    private RoleRepository roleRepository;
 
     @Autowired
     public void setEncoder(PasswordEncoder encoder) {
         this.encoder = encoder;
     }
-    private PasswordEncoder encoder;
-
 
     @Override
     public ResponseEntity<?> getAllUsers() {
@@ -64,7 +66,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<?> updateUserById(String token, UserUpdateRequest updateRequest) {
+    public ResponseEntity<?> updateUserById(String token, @Valid UserUpdateRequest updateRequest) {
         if(token == null || token.isEmpty()) {
             return ResponseEntity.badRequest().body(new MessageResponse("Invalid token"));
         }
@@ -131,16 +133,6 @@ public class UserServiceImpl implements UserService {
     private User findUserByUsername(String username) {
         return userRepository.findByUsername(username).get();
     }
-
-    private String userToString(String username){
-        User user = findUserByUsername(username);
-        return ("Huidige gebruiker: " +
-                "Naam: " + user.getUsername() +
-                "Email: " + user.getEmail() +
-                "Telefoon: " + user.getPhoneNumber() +
-                "Huisdieren: " + user.getPets());
-    }
-
 
     private boolean updateRequestIsValid(UserUpdateRequest userUpdateRequest) {
         if(userUpdateRequest.getPassword().equals(userUpdateRequest.getRepeatedPassword())) {

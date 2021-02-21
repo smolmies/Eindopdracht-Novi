@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -52,6 +53,7 @@ public class Pet {
         this.petName = petName;
         this.specialNeeds = specialNeeds;
         this.extraInfo = extraInfo;
+        this.bookingSet = new HashSet<Booking>();
     }
 
 
@@ -90,5 +92,9 @@ public class Pet {
     }
     public void setBookingSet(Set bookingSet) {
         this.bookingSet = bookingSet;
+    }
+
+    public void addBooking(Booking booking){
+        this.bookingSet.add(booking);
     }
 }
