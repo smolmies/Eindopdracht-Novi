@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Booking.scss';
-import {useForm} from "react-hook-form";
-import axios from "axios";
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
 
 function Booking() {
     const { register, handleSubmit, errors } = useForm();

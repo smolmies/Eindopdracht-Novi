@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from '../../components/context/AuthContext';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import './Profile.scss';
 import UserCard from '../../components/cards/UserCard';

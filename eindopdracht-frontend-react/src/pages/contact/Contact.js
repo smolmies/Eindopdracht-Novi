@@ -1,12 +1,12 @@
 import React from 'react';
 import './Contact.scss';
-import fullCatLogo from "../../components/styles/aan-de-cuwaart-logo-transparent.png";
+import fullCatLogo from '../../components/styles/aan-de-cuwaart-logo-transparent.png';
 
 function Contact() {
     return (
         <>
 
-            <div className='contact'>
+            <div className="contact">
                 <img id="colored-logo" src={fullCatLogo} alt="Logo van het pension"/>
                 <div id="contact-info">
                     <h3>

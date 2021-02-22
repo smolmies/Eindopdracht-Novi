@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import {AuthContext, useAuthState} from '../../components/context/AuthContext';
 import './Login.scss';
@@ -48,7 +48,6 @@ function Login() {
             <form id="sign-form" onSubmit={handleSubmit(sendLoginData)}>
                 <fieldset>
                     <legend>Log hier in</legend>
-
                         <label htmlFor="username">Gebruikersnaam:
                         <input name="username" id="username" type="text" ref={register({required: true})}
                         />
@@ -56,13 +55,10 @@ function Login() {
                         </label>
 
                         <label htmlFor="password">Wachtwoord:
-                        <input name="password" id="password" type="password" ref={register(
-                            {required: true, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[#$^+=!*()@%&]).{6,40}$/})}
-                        />
-                            <input type="checkbox" onClick={togglePassword}/>Maak wachtwoord zichtbaar
+                        <input name="password" id="password" type="password" ref={register({required: true, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[#$^+=!*()@%&]).{6,40}$/})}/>
                         {errors.password && <p className="error-message">Wachtwoord is verplicht.</p>}
+                        <input type="checkbox" onClick={togglePassword}/>Maak wachtwoord zichtbaar
                         </label>
-
                 </fieldset>
                 <button type="submit" className="submit-button" disabled={loading}>
                     {loading ? 'Laden...' : 'Log in'}

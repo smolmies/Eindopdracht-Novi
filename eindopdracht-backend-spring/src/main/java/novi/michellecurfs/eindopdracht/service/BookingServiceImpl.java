@@ -1,17 +1,21 @@
 package novi.michellecurfs.eindopdracht.service;
 
 import novi.michellecurfs.eindopdracht.model.Booking;
+import novi.michellecurfs.eindopdracht.model.ERole;
 import novi.michellecurfs.eindopdracht.model.Pet;
+import novi.michellecurfs.eindopdracht.model.Role;
 import novi.michellecurfs.eindopdracht.model.User;
 import novi.michellecurfs.eindopdracht.payload.request.BookingRequest;
 import novi.michellecurfs.eindopdracht.payload.response.BookingResponse;
 import novi.michellecurfs.eindopdracht.payload.response.MessageResponse;
 import novi.michellecurfs.eindopdracht.repository.BookingRepository;
 import novi.michellecurfs.eindopdracht.repository.PetRepository;
+import novi.michellecurfs.eindopdracht.repository.RoleRepository;
 import novi.michellecurfs.eindopdracht.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -23,6 +27,7 @@ public class BookingServiceImpl implements BookingService{
 
     private BookingRepository bookingRepository;
     private PetRepository petRepository;
+    private RoleRepository roleRepository;
     private UserRepository userRepository;
     private UserService userService;
 
@@ -34,6 +39,11 @@ public class BookingServiceImpl implements BookingService{
     @Autowired
     public void setPetRepository(PetRepository petRepository) {
         this.petRepository = petRepository;
+    }
+
+    @Autowired
+    public void setRoleRepository(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
     }
 
     @Autowired
@@ -70,6 +80,12 @@ public class BookingServiceImpl implements BookingService{
     }
 
     @Override
+    public ResponseEntity<?> getBookingsOfUser(String token) {
+        return null;
+       //TODO
+    }
+
+    @Override
     public void updateBooking(long bookingId, Booking newBooking) {
         Booking booking = bookingRepository.findByBookingId(bookingId).get();
         // TODO
@@ -77,14 +93,26 @@ public class BookingServiceImpl implements BookingService{
     }
 
     @Override
-    public void deleteBooking(long bookingId) {
-        bookingRepository.deleteByBookingId(bookingId);
+    @Transactional
+    public ResponseEntity<?> deleteBooking(String token, long bookingId) {
+        Optional<Role> admin = roleRepository.findByName(ERole.ROLE_ADMIN);
+        User bookingUser = (User) userService.findUserByToken(token).getBody();
+        List<Pet> pets = bookingUser.getPets();
+        List<Booking> bookingsOfUser = pets.get(0).getBookingSet();
+
+        List<Long> bookingIdsList = new ArrayList<>();
+        for (Booking b : bookingsOfUser) {
+            bookingIdsList.add(b.getBookingId());
+        }
+
+        if (bookingIdsList.contains(bookingId) || bookingUser.getRoles().contains(admin)) {
+            bookingRepository.deleteByBookingId(bookingId);
+            return ResponseEntity.ok(new MessageResponse( "Booking " + bookingId + " has been deleted successfully!"));
+        }
+        return ResponseEntity.badRequest().body(new MessageResponse("Booking doesn't exist or can not be deleted"));
     }
 
-    @Override
-    public Optional<Booking> getBooking(long bookingId) {
-        return bookingRepository.findByBookingId(bookingId);
-    }
+
 
     @Override
     public ResponseEntity<MessageResponse> createBooking(String token, @Valid BookingRequest bookingRequest) {

@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import {useForm} from 'react-hook-form';
+import React, { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import './Register.scss';
 
 function Register() {
@@ -63,14 +63,14 @@ function Register() {
                         <input name="email" id="email" type="text" ref={register({required: true})}/>
                     </label>
                     <label htmlFor="phoneNumber">Telefoonnummer:
-                        <input name="phoneNumber" id="phoneNumber" type="text" ref={register}/>
+                        <input name="phoneNumber" id="phoneNumber" type="text" ref={register({required: true, pattern: /^((\+|00(\s|\s?\-\s?)?)31(\s|\s?\-\s?)?(\(0\)[\-\s]?)?|0)[1-9]((\s|\s?\-\s?)?[0-9])((\s|\s?-\s?)?[0-9])((\s|\s?-\s?)?[0-9])\s?[0-9]\s?[0-9]\s?[0-9]\s?[0-9]\s?[0-9]$/})}/>
                     </label>
                     <label htmlFor="username">Gebruikersnaam:
-                        <input name="username" id="username" type="text" ref={register({register: true})} />
+                        <input name="username" id="username" type="text" ref={register({required: true})} />
                         {errors.username && <p className="error-message">Gebruikersnaam is verplicht</p>}
                      </label>
 
-                    <label htmlFor="password">Wachtwoord:
+                    <label htmlFor="password" title="Wachtwoord moet minimaal 6 karakters lang zijn en moet minimaal 1 hoofdletter en 1 speciaal teken bevatten.">Wachtwoord:
                         <input name="password" id="password" type="password" ref={register({required: true, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[#$^+=!*()@%&]).{6,40}$/})}
                         />
                     </label>
@@ -96,8 +96,5 @@ function Register() {
     );
 }
 
-
-// (CODE TO CHECK PHONENUMBER)
-// /^((\+|00(\s|\s?\-\s?)?)31(\s|\s?\-\s?)?(\(0\)[\-\s]?)?|0)[1-9]((\s|\s?\-\s?)?[0-9])((\s|\s?-\s?)?[0-9])((\s|\s?-\s?)?[0-9])\s?[0-9]\s?[0-9]\s?[0-9]\s?[0-9]\s?[0-9]$/gm
 
 export default Register;

@@ -30,28 +30,28 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/{username}")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Object> getUser(@PathVariable("username") String username) {
-
-        return ResponseEntity.ok().body(userService.getUserByUsername(username));
-    }
-
-    @GetMapping(value = "")
+    @GetMapping("")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> findUserByToken(@RequestHeader Map<String, String> headers) {
 
         return userService.findUserByToken(headers.get("authorization"));
     }
 
-    @PatchMapping(value = "/update")
+    @GetMapping("/{username}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Object> getUser(@PathVariable("username") String username) {
+
+        return ResponseEntity.ok().body(userService.getUserByUsername(username));
+    }
+
+    @PatchMapping("/update")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updateUser(@RequestHeader Map<String, String> headers, @RequestBody UserUpdateRequest userUpdateRequest){
 
         return userService.updateUserById(headers.get("authorization"), userUpdateRequest);
     }
 
-    @DeleteMapping(value = "/delete")
+    @DeleteMapping("/delete")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> deleteUser(@RequestHeader Map<String, String> headers, @RequestBody String username){
         return userService.deleteUser(headers.get("authorization"), username);

@@ -1,6 +1,6 @@
 import React from 'react';
 import './AboutUs.scss';
-import Header from "../../components/header/Header";
+import Header from '../../components/header/Header';
 
 function AboutUs() {
     return (
