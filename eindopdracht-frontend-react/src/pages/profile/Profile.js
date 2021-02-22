@@ -10,12 +10,13 @@ function Profile() {
     const { user } = useAuthState();
     const history = useHistory();
     const [error, setError] = useState('');
-    const [protectedData, setProtectedData] = useState('');
+    const [personalData, setPersonalData] = useState('');
+    const [personalBookings, setPersonalBookings] = useState([]);
     const [usersData, setUsersData] = useState([]);
     const [bookingsData, setBookingsData] = useState([]);
 
     useEffect(() => {
-        async function getProtectedData() {
+        async function getPersonalData() {
             setError('');
             try {
                 const token = localStorage.getItem('token');
@@ -25,15 +26,30 @@ function Profile() {
                         Authorization: `Bearer ${token}`,
                     }
                 });
-                setProtectedData(response.data);
+                setPersonalData(response.data);
             } catch (e) {
                 setError('Er is iets misgegaan bij het ophalen van de data')
             }
         }
 
-        getProtectedData();
+        getPersonalData();
     }, []);
 
+    async function getPersonalBookings() {
+        setError('');
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.get('http://localhost:8080/api/booking', {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            setPersonalBookings(response.data);
+        } catch (e) {
+            setError('Er is iets misgegaan bij het ophalen van de data')
+        }
+    }
     async function getUsersAsAdmin() {
         setError('');
         try {
@@ -50,7 +66,6 @@ function Profile() {
             setError('Niet gelukt om data op te halen')
         }
     }
-
     async function getBookingsAsAdmin() {
         setError('');
         try {
@@ -73,21 +88,43 @@ function Profile() {
             <h1>Profielpagina</h1>
 
             <h2 className="your-info">Jouw eigen gegevens</h2>
-            {protectedData &&
+            {personalData &&
             <>
                 <UserCard
-                    name={protectedData.username}
-                    email={protectedData.email}
-                    phoneNumber={protectedData.phoneNumber}
-                    userId={protectedData.userId}
+                    name={personalData.username}
+                    email={personalData.email}
+                    phoneNumber={personalData.phoneNumber}
+                    userId={personalData.userId}
                 />
-                <button className="crud-button" type="button" onClick={() => {
-                    history.push('/Edit')
-                }}>Update je gegevens
+                <button className="crud-button" type="button" onClick={() => {history.push('/Edit')}}>
+                    Update je gegevens
+                </button>
+                <button className="crud-button" type="button" onClick={() => getPersonalBookings()}>
+                    Haal mijn boekingen op!
                 </button>
             </>
             }
             {error && <p className="error-message">{error}</p>}
+
+            <div className="bookings-container">
+                {personalBookings &&
+                    personalBookings.map((data, index) => {
+                        return (
+                            <>
+                                <BookingCard key={index}
+                                 bookingId={data.bookingId}
+                                 petName = {data.petName}
+                                 startDate={new Date(data.startDate).toLocaleDateString()}
+                                 endDate={new Date(data.endDate).toLocaleDateString()}
+                                 specialNeeds={data.specialNeeds}
+                                 extraInfo={data.extraInfo}
+                                />
+                                <button className="crud-button" type="button">Update deze boeking</button>
+                                <button className="crud-button" type="button">Verwijder deze boeking</button>
+                            </>
+                    )})
+                }
+            </div>
 
             {user.roles.includes("ROLE_ADMIN") &&
                 <>
@@ -103,20 +140,22 @@ function Profile() {
                             />
                         );
                     })}
-                    <button className="crud-button" type="button" onClick={() => getBookingsAsAdmin()}>Klik hier om alle boekingen op te halen</button>
-                    {bookingsData &&
-                    bookingsData.map((data, index) => {
-                        return (
-                            <BookingCard key={index}
-                                      bookingId={data.bookingId}
-                                      petName = {data.petName}
-                                      startDate={new Date(data.startDate).toLocaleDateString()}
-                                      endDate={new Date(data.endDate).toLocaleDateString()}
-                                      specialNeeds={data.specialNeeds}
-                                      extraInfo={data.extraInfo}
-                            />
-                        );
-                    })}
+                    <div className="bookings-container">
+                        <button className="crud-button" type="button" onClick={() => getBookingsAsAdmin()}>Klik hier om alle boekingen op te halen</button>
+                        {bookingsData &&
+                        bookingsData.map((data, index) => {
+                            return (
+                                <BookingCard key={index}
+                                          bookingId={data.bookingId}
+                                          petName = {data.petName}
+                                          startDate={new Date(data.startDate).toLocaleDateString()}
+                                          endDate={new Date(data.endDate).toLocaleDateString()}
+                                          specialNeeds={data.specialNeeds}
+                                          extraInfo={data.extraInfo}
+                                />
+                            );
+                        })}
+                    </div>
                 </>
             }
         </div>

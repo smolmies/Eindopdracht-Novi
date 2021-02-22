@@ -60,7 +60,20 @@ public class BookingServiceImpl implements BookingService{
     public ResponseEntity<?> getAllBookings() {
 
         List<Booking> bookings = bookingRepository.findAll();
+        List<BookingResponse> bookingResponse = createBookingResponse(bookings);
+        if(bookings.isEmpty()) {
+            return ResponseEntity.badRequest().body(new MessageResponse("No Bookings found!"));
+        }
+        return ResponseEntity.ok(bookingResponse);
+    }
 
+    @Override
+    public ResponseEntity<?> getBookingsOfUser(String token) {
+        List<Booking> bookings = findBookingsByUser(token);
+        return ResponseEntity.ok(createBookingResponse(bookings));
+    }
+
+    private List<BookingResponse> createBookingResponse(List<Booking> bookings){
         List<BookingResponse> bookingResponse = new ArrayList<>();
         for(Booking book : bookings){
             bookingResponse.add(new BookingResponse(
@@ -72,17 +85,19 @@ public class BookingServiceImpl implements BookingService{
                     book.getPetSet().get(0).getExtraInfo()
             ));
         }
-
-        if(bookings.isEmpty()) {
-            return ResponseEntity.badRequest().body(new MessageResponse("No Bookings found!"));
-        }
-        return ResponseEntity.ok(bookingResponse);
+        return bookingResponse;
     }
 
-    @Override
-    public ResponseEntity<?> getBookingsOfUser(String token) {
-        return null;
-       //TODO
+    private List<Booking> findBookingsByUser(String token){
+        User bookingUser = (User) userService.findUserByToken(token).getBody();
+        List<Pet> pets = bookingUser.getPets();
+
+        List<Booking> bookings = new ArrayList<>();
+        for (Pet p : pets){
+            bookings.addAll(p.getBookingSet());
+        }
+
+        return bookings;
     }
 
     @Override
@@ -97,8 +112,7 @@ public class BookingServiceImpl implements BookingService{
     public ResponseEntity<?> deleteBooking(String token, long bookingId) {
         Optional<Role> admin = roleRepository.findByName(ERole.ROLE_ADMIN);
         User bookingUser = (User) userService.findUserByToken(token).getBody();
-        List<Pet> pets = bookingUser.getPets();
-        List<Booking> bookingsOfUser = pets.get(0).getBookingSet();
+        List<Booking> bookingsOfUser = findBookingsByUser(token);
 
         List<Long> bookingIdsList = new ArrayList<>();
         for (Booking b : bookingsOfUser) {
@@ -141,6 +155,8 @@ public class BookingServiceImpl implements BookingService{
                     petRepository.save(pet);
         } else {
             Pet pet = petRepository.findByPetName(bookingRequest.getPetName()).get();
+            pet.setSpecialNeeds(bookingRequest.getSpecialNeeds());
+            pet.setExtraInfo(bookingRequest.getExtraInfo());
             pet.addBooking(savedBooking);
             petRepository.save(pet);
         }

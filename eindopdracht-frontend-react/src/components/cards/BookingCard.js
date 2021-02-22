@@ -6,7 +6,7 @@ function BookingCard({bookingId, petName, startDate, endDate, specialNeeds, extr
     return (
         <article className="booking-card">
             <h2 className="booking-name">
-                <img src={Pawprint} alt="Pawprint" />  Boekingnummer {bookingId}
+                <img src={Pawprint} alt="Pawprint" />  Boeking nummer {bookingId}
             </h2>
             <h4 className="booking-details">Naam dier: {petName}</h4>
             <p className="booking-details">Startdatum: {startDate}</p>
