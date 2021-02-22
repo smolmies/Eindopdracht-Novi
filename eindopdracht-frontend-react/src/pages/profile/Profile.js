@@ -86,7 +86,6 @@ function Profile() {
     return (
         <div id="profile-body">
             <h1>Profielpagina</h1>
-
             <h2 className="your-info">Jouw eigen gegevens</h2>
             {personalData &&
             <>
