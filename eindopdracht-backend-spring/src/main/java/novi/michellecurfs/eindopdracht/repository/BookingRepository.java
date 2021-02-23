@@ -8,7 +8,6 @@ import java.util.Optional;
 
 public interface BookingRepository extends JpaRepository<Booking, String> {
 
-    List<Booking> findAllOrderByStartDate(long bookingId);
     Optional<Booking> findByBookingId(long bookingId);
     void deleteByBookingId(long bookingId);
 }

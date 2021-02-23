@@ -40,8 +40,6 @@ function EditBooking(){
                 bookingId: data.bookingId,
                 startDate: data.startDate,
                 endDate: data.endDate,
-                amountPets: data.amountPets,
-                petName: data.petName,
                 specialNeeds: data.specialNeeds,
                 extraInfo: data.extraInfo
             },{
@@ -73,7 +71,7 @@ function EditBooking(){
             {error && <p className="error-message">{error}</p>}
 
             <label htmlFor="bookingId">Welke boeking wil je wijzigen:</label>
-                <select id="bookingId" name="bookingId">
+                <select id="bookingId" name="bookingId" ref={register}>
                     <Options options={personalBookings} />
                 </select>
 
@@ -90,12 +88,6 @@ function EditBooking(){
                     </label>
                 </fieldset>
             </div>
-            <label htmlFor="amountPets">* Aantal huisdieren (max. aantal 5):
-                <input type="number" id="amountPets" name="amountPets" min="1" max="5" ref={register({required: true})}/>
-            </label>
-            <label htmlFor="petName">Naam huisdier:
-                <input name="petName" id="petName" type="text" size="35" ref={register}/>
-            </label>
             <label htmlFor="specialNeeds"> Speciale behoeftes:
                 <br />
                 <textarea name="specialNeeds" id="specialNeeds" rows="5" cols="40" placeholder="Bijv. Poes moet iedere dag met natvlees haar medicijnen innemen." ref={register}/>
@@ -112,7 +104,7 @@ function EditBooking(){
             </div>
 
             <button type="submit" className="submit-button" disabled={loading} >
-                {loading ? 'Laden...' : 'Boek mijn afspraak!'}
+                {loading ? 'Laden...' : 'Wijzig mijn boeking!'}
             </button>
         </form>
 

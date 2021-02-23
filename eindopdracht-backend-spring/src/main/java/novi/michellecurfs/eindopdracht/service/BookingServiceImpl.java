@@ -106,10 +106,28 @@ public class BookingServiceImpl implements BookingService{
 
     @Override
     public ResponseEntity<?> updateBookingById(String token, @Valid BookingRequest bookingRequest) {
+        List <Booking> bookingsOfUser = findBookingsByUser(token);
         Booking booking = bookingRepository.findByBookingId(bookingRequest.getBookingId()).get();
-        // TODO
-        Booking updatedBooking = bookingRepository.save(booking);
-        return ResponseEntity.ok().body(bookingRepository.save(updatedBooking));
+
+        if (bookingsOfUser.contains(booking)) {
+            Booking updatedBooking = bookingRepository.findByBookingId(booking.getBookingId()).get();
+            if(bookingRequest.getStartDate() != null){
+                updatedBooking.setStartDate(bookingRequest.getStartDate());
+            }
+            if(bookingRequest.getEndDate() != null){
+                updatedBooking.setEndDate(bookingRequest.getEndDate());
+            }
+            if(bookingRequest.getSpecialNeeds() != null && !bookingRequest.getSpecialNeeds().isEmpty()){
+                updatedBooking.getPetSet().get(0).setSpecialNeeds(bookingRequest.getSpecialNeeds());
+            }
+            if(bookingRequest.getExtraInfo() != null && !bookingRequest.getExtraInfo().isEmpty()){
+                updatedBooking.getPetSet().get(0).setExtraInfo(bookingRequest.getExtraInfo());
+            }
+            return ResponseEntity.ok().body(bookingRepository.save(updatedBooking));
+
+        }
+        return ResponseEntity.badRequest().body(new MessageResponse("Booking cannot be updated with provided data."));
+
     }
 
     @Override

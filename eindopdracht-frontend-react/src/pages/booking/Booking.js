@@ -78,7 +78,7 @@ function Booking() {
                     </div>
 
                     <button type="submit" className="submit-button" disabled={loading} >
-                        {loading ? 'Laden...' : 'Boek mijn afspraak!'}
+                        {loading ? 'Laden...' : 'Maak mijn boeking!'}
                     </button>
             </form>
 
