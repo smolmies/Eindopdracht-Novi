@@ -62,15 +62,10 @@ function EditBooking(){
         return(
           options.map(option =>
               <option key={option.bookingId} name={option.bookingId} value={option.bookingId}>
-                  {option.bookingId}
+                  Boeking nummer {option.bookingId} (voor {option.petName}) van {new Date(option.startDate).toLocaleDateString()} t/m {new Date(option.endDate).toLocaleDateString()}
               </option>)
         );
     }
-    {/*{personalBookings.length > 0*/}
-    {/*&& personalBookings?.map((data, index) => {*/}
-    {/*    return (<option key={index} value={data.bookingId}>{data.bookingId}</option>);*/}
-    {/*        */}
-    {/*    })}*/}
 
     return (
 

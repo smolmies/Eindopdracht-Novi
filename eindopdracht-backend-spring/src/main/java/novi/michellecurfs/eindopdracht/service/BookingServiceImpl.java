@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,6 +87,8 @@ public class BookingServiceImpl implements BookingService{
                     book.getPetSet().get(0).getExtraInfo()
             ));
         }
+        Collections.sort(bookingResponse, Comparator.comparing(BookingResponse::getStartDate));
+
         return bookingResponse;
     }
 

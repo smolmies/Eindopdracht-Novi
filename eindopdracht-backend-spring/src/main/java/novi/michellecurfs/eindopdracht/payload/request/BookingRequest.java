@@ -22,6 +22,10 @@ public class BookingRequest {
 
     private String extraInfo;
 
+    public BookingRequest(){
+
+    }
+
     public BookingRequest(Long bookingId, Date startDate, Date endDate, int amountPets, String petName, String specialNeeds, String extraInfo) {
         this.bookingId = bookingId;
         this.startDate = startDate;
@@ -32,7 +36,7 @@ public class BookingRequest {
         this.extraInfo = extraInfo;
     }
 
-    public BookingRequest(@NotNull Date startDate, @NotNull Date endDate, @NotNull int amountPets, String petName, String specialNeeds, String extraInfo) {
+    public BookingRequest(Date startDate, Date endDate, int amountPets, String petName, String specialNeeds, String extraInfo) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.amountPets = amountPets;
