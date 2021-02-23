@@ -1,6 +1,8 @@
 package novi.michellecurfs.eindopdracht.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,6 +41,7 @@ public class Booking {
 
     @ManyToMany(mappedBy = "bookingSet")
     @JsonIgnore
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Pet> petSet;
 
     public Booking(){

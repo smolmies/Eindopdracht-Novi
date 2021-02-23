@@ -50,6 +50,21 @@ function Profile() {
             setError('Er is iets misgegaan bij het ophalen van de data')
         }
     }
+    async function deletePersonalBooking(bookingId) {
+        setError('');
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.delete('http://localhost:8080/api/booking/delete', {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                }, data: bookingId
+            });
+            setPersonalBookings(response.data);
+        } catch (e) {
+            setError('Er is iets misgegaan bij het bewerken van de data')
+        }
+    }
     async function getUsersAsAdmin() {
         setError('');
         try {
@@ -95,7 +110,7 @@ function Profile() {
                     phoneNumber={personalData.phoneNumber}
                     userId={personalData.userId}
                 />
-                <button className="crud-button" type="button" onClick={() => {history.push('/Edit')}}>
+                <button className="crud-button" type="button" onClick={() => {history.push('/EditUser')}}>
                     Update je gegevens
                 </button>
                 <button className="crud-button" type="button" onClick={() => getPersonalBookings()}>
@@ -107,7 +122,7 @@ function Profile() {
 
             <div className="bookings-container">
                 {personalBookings &&
-                    personalBookings.map((data, index) => {
+                    personalBookings?.map((data, index) => {
                         return (
                             <>
                                 <BookingCard key={index}
@@ -118,8 +133,8 @@ function Profile() {
                                  specialNeeds={data.specialNeeds}
                                  extraInfo={data.extraInfo}
                                 />
-                                <button className="crud-button" type="button">Update deze boeking</button>
-                                <button className="crud-button" type="button">Verwijder deze boeking</button>
+                                <button className="crud-button" type="button" onClick={() => history.push('/edit/booking')}>Update boeking</button>
+                                <button className="crud-button" type="button" onClick={() => deletePersonalBooking(data.bookingId)}>Verwijder deze boeking</button>
                             </>
                     )})
                 }

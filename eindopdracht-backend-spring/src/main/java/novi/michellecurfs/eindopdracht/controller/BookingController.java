@@ -1,6 +1,7 @@
 package novi.michellecurfs.eindopdracht.controller;
 
 import novi.michellecurfs.eindopdracht.payload.request.BookingRequest;
+import novi.michellecurfs.eindopdracht.payload.request.UserUpdateRequest;
 import novi.michellecurfs.eindopdracht.payload.response.MessageResponse;
 import novi.michellecurfs.eindopdracht.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -35,11 +37,18 @@ public class BookingController {
         return bookingService.getBookingsOfUser(headers.get("authorization"));
     }
 
-
     @PostMapping("/create")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<MessageResponse> createBooking(@RequestHeader Map<String, String> headers, @RequestBody BookingRequest bookingRequest){
         return bookingService.createBooking(headers.get("authorization"), bookingRequest);
+    }
+
+
+    @PatchMapping("/update")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> updateBooking(@RequestHeader Map<String, String> headers, @RequestBody BookingRequest bookingRequest){
+
+        return bookingService.updateBookingById(headers.get("authorization"), bookingRequest);
     }
 
     @DeleteMapping("/delete")

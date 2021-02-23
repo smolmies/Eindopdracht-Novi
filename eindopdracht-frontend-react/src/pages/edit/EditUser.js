@@ -4,7 +4,7 @@ import { AuthContext, useAuthState } from '../../components/context/AuthContext'
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
-function Edit(){
+function EditUser(){
     const [loading, toggleLoading] = useState(false);
     const [error, setError] = useState('');
     const { register, handleSubmit, errors } = useForm();
@@ -100,4 +100,4 @@ function Edit(){
         </>
     )
 }
-export default Edit;
+export default EditUser;

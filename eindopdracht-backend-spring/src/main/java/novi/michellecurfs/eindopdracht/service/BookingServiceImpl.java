@@ -101,10 +101,11 @@ public class BookingServiceImpl implements BookingService{
     }
 
     @Override
-    public void updateBooking(long bookingId, Booking newBooking) {
-        Booking booking = bookingRepository.findByBookingId(bookingId).get();
+    public ResponseEntity<?> updateBookingById(String token, @Valid BookingRequest bookingRequest) {
+        Booking booking = bookingRepository.findByBookingId(bookingRequest.getBookingId()).get();
         // TODO
-        bookingRepository.save(booking);
+        Booking updatedBooking = bookingRepository.save(booking);
+        return ResponseEntity.ok().body(bookingRepository.save(updatedBooking));
     }
 
     @Override
@@ -119,6 +120,8 @@ public class BookingServiceImpl implements BookingService{
             bookingIdsList.add(b.getBookingId());
         }
 
+        // TODO make check for bookings, only bookings that are in the future can be deleted by the user. (admin can delete any?)
+
         if (bookingIdsList.contains(bookingId) || bookingUser.getRoles().contains(admin)) {
             bookingRepository.deleteByBookingId(bookingId);
             return ResponseEntity.ok(new MessageResponse( "Booking " + bookingId + " has been deleted successfully!"));
@@ -127,10 +130,9 @@ public class BookingServiceImpl implements BookingService{
     }
 
 
-
     @Override
     public ResponseEntity<MessageResponse> createBooking(String token, @Valid BookingRequest bookingRequest) {
-// TODO check the booking form/ date available
+        // TODO check the booking form/ date available
 
         Booking booking = new Booking(
                 bookingRequest.getStartDate(),

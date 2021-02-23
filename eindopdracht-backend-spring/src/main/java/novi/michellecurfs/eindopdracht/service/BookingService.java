@@ -9,10 +9,11 @@ import java.util.Optional;
 
 public interface BookingService {
 
-    public abstract ResponseEntity<MessageResponse> createBooking(String token, BookingRequest bookingRequest);
     public abstract ResponseEntity<?> getAllBookings();
     public abstract ResponseEntity<?> getBookingsOfUser(String token);
-    public abstract void updateBooking(long bookingId, Booking booking);
+    public abstract ResponseEntity<MessageResponse> createBooking(String token, BookingRequest bookingRequest);
+    public abstract ResponseEntity<?> updateBookingById(String token, BookingRequest bookingRequest);
     public abstract ResponseEntity<?> deleteBooking(String token, long bookingId);
+
 
 }
