@@ -12,6 +12,8 @@ import novi.michellecurfs.eindopdracht.repository.BookingRepository;
 import novi.michellecurfs.eindopdracht.repository.PetRepository;
 import novi.michellecurfs.eindopdracht.repository.RoleRepository;
 import novi.michellecurfs.eindopdracht.repository.UserRepository;
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,39 +78,12 @@ public class BookingServiceImpl implements BookingService{
         return ResponseEntity.ok(createBookingResponse(bookings));
     }
 
-    private List<BookingResponse> createBookingResponse(List<Booking> bookings){
-        List<BookingResponse> bookingResponse = new ArrayList<>();
-        for(Booking book : bookings){
-            bookingResponse.add(new BookingResponse(
-                    book.getBookingId(),
-                    book.getStartDate(),
-                    book.getEndDate(),
-                    book.getPetSet().get(0).getPetName(),
-                    book.getPetSet().get(0).getSpecialNeeds(),
-                    book.getPetSet().get(0).getExtraInfo()
-            ));
-        }
-        Collections.sort(bookingResponse, Comparator.comparing(BookingResponse::getStartDate));
-
-        return bookingResponse;
-    }
-
-    private List<Booking> findBookingsByUser(String token){
-        User bookingUser = (User) userService.findUserByToken(token).getBody();
-        List<Pet> pets = bookingUser.getPets();
-
-        List<Booking> bookings = new ArrayList<>();
-        for (Pet p : pets){
-            bookings.addAll(p.getBookingSet());
-        }
-
-        return bookings;
-    }
-
     @Override
     public ResponseEntity<?> updateBookingById(String token, @Valid BookingRequest bookingRequest) {
         List <Booking> bookingsOfUser = findBookingsByUser(token);
         Booking booking = bookingRepository.findByBookingId(bookingRequest.getBookingId()).get();
+
+      // TODO  checkIfDateAvailable(bookingRequest.getStartDate(), bookingRequest.getEndDate());
 
         if (bookingsOfUser.contains(booking)) {
             Booking updatedBooking = bookingRepository.findByBookingId(booking.getBookingId()).get();
@@ -151,10 +127,10 @@ public class BookingServiceImpl implements BookingService{
         return ResponseEntity.badRequest().body(new MessageResponse("Booking doesn't exist or can not be deleted"));
     }
 
-
     @Override
     public ResponseEntity<MessageResponse> createBooking(String token, @Valid BookingRequest bookingRequest) {
         // TODO check the booking form/ date available
+        //  checkIfDateAvailable(bookingRequest.getStartDate(), bookingRequest.getEndDate());
 
         Booking booking = new Booking(
                 bookingRequest.getStartDate(),
@@ -185,6 +161,58 @@ public class BookingServiceImpl implements BookingService{
             petRepository.save(pet);
         }
         return ResponseEntity.ok(new MessageResponse("Booking registered successfully! Here is the ID " + booking.getBookingId()));
+    }
+
+    @Override
+    public ResponseEntity<?> checkIfDateAvailable(Date startDate, Date endDate){
+        Date today = DateTime.now().toDate();
+        if(startDate.before(today) || endDate.before(today)){
+            return ResponseEntity.badRequest().body(new MessageResponse("Cannot book a booking in the past"));
+        }
+        if(endDate.before(startDate)) {
+            return ResponseEntity.badRequest().body(new MessageResponse("A booking cannot end before it starts"));
+        }
+
+        Interval newBookingInterval = new Interval(new DateTime(startDate),new DateTime(endDate));
+        List<Booking> allBookings = bookingRepository.findAll();
+        boolean overlaps = false;
+        for(Booking b : allBookings){
+            Interval currentBooking = new Interval(new DateTime(b.getStartDate()),new DateTime(b.getEndDate()));
+            overlaps = newBookingInterval.overlaps(currentBooking);
+            if(overlaps){
+                break;
+            }
+        }
+        return ResponseEntity.ok(!overlaps);
+    }
+
+    private List<Booking> findBookingsByUser(String token){
+        User bookingUser = (User) userService.findUserByToken(token).getBody();
+        List<Pet> pets = bookingUser.getPets();
+
+        List<Booking> bookings = new ArrayList<>();
+        for (Pet p : pets){
+            bookings.addAll(p.getBookingSet());
+        }
+
+        return bookings;
+    }
+
+    private List<BookingResponse> createBookingResponse(List<Booking> bookings){
+        List<BookingResponse> bookingResponse = new ArrayList<>();
+        for(Booking book : bookings){
+            bookingResponse.add(new BookingResponse(
+                    book.getBookingId(),
+                    book.getStartDate(),
+                    book.getEndDate(),
+                    book.getPetSet().get(0).getPetName(),
+                    book.getPetSet().get(0).getSpecialNeeds(),
+                    book.getPetSet().get(0).getExtraInfo()
+            ));
+        }
+        Collections.sort(bookingResponse, Comparator.comparing(BookingResponse::getStartDate));
+
+        return bookingResponse;
     }
 }
 

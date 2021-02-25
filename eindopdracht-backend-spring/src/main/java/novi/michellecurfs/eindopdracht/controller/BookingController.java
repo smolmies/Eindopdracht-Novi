@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Map;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -55,5 +57,10 @@ public class BookingController {
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> deleteBooking(@RequestHeader Map<String, String> headers, @RequestBody long bookingId){
         return bookingService.deleteBooking(headers.get("authorization"), bookingId);
+    }
+
+    @PostMapping("/checkDate")
+    public ResponseEntity<?> checkDate(@RequestBody Date startDate, Date endDate){
+        return bookingService.checkIfDateAvailable(startDate, endDate);
     }
 }

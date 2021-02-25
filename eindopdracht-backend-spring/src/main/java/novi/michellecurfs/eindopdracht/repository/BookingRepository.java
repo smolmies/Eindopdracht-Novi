@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface BookingRepository extends JpaRepository<Booking, String> {
 
+    List<Booking> findAll();
     Optional<Booking> findByBookingId(long bookingId);
     void deleteByBookingId(long bookingId);
 }
