@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
             if(!updateRequest.getPassword().isEmpty() && !updateRequest.getRepeatedPassword().isEmpty()) {
                 updatedUser.setPassword(encoder.encode(updateRequest.getPassword()));
             }
-            if(updateRequest.getEmail() != null && !updateRequest.getEmail().isEmpty()) {
+            if(!userRepository.existsByEmail(updateRequest.getEmail()) && updateRequest.getEmail() != null && !updateRequest.getEmail().isEmpty())  {
                 updatedUser.setEmail(updateRequest.getEmail());
             }
             if(updateRequest.getPhoneNumber() != null && !updateRequest.getPhoneNumber().isEmpty()) {

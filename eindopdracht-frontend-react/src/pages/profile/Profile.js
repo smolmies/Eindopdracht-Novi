@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useAuthState } from '../../components/context/AuthContext';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import './Profile.scss';
 import UserCard from '../../components/cards/UserCard';
 import BookingCard from '../../components/cards/BookingCard';
+import './Profile.scss';
 
 function Profile() {
     const { user } = useAuthState();
     const history = useHistory();
     const [error, setError] = useState('');
-    const [personalData, setPersonalData] = useState('');
+    const [personalData, setPersonalData] = useState([]);
     const [personalBookings, setPersonalBookings] = useState([]);
     const [usersData, setUsersData] = useState([]);
     const [bookingsData, setBookingsData] = useState([]);
@@ -47,24 +47,10 @@ function Profile() {
             });
             setPersonalBookings(response.data);
         } catch (e) {
-            setError('Er is iets misgegaan bij het ophalen van de data')
+            setError('Er zijn geen boekingen gevonden')
         }
     }
-    async function deletePersonalBooking(bookingId) {
-        setError('');
-        try {
-            const token = localStorage.getItem('token');
-            const response = await axios.delete('http://localhost:8080/api/booking/delete', {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                }, data: bookingId
-            });
-            setPersonalBookings(response.data);
-        } catch (e) {
-            setError('Er is iets misgegaan bij het bewerken van de data')
-        }
-    }
+
     async function getUsersAsAdmin() {
         setError('');
         try {
@@ -110,7 +96,7 @@ function Profile() {
                     phoneNumber={personalData.phoneNumber}
                     userId={personalData.userId}
                 />
-                <button className="crud-button" type="button" onClick={() => {history.push('/EditUser')}}>
+                <button className="crud-button" type="button" onClick={() => {history.push('/edit/user')}}>
                     Update je gegevens
                 </button>
                 <button className="crud-button" type="button" onClick={() => getPersonalBookings()}>
@@ -133,8 +119,8 @@ function Profile() {
                                  specialNeeds={data.specialNeeds}
                                  extraInfo={data.extraInfo}
                                 />
-                                <button className="crud-button" type="button" onClick={() => history.push('/edit/booking')}>Update boeking</button>
-                                <button className="crud-button" type="button" onClick={() => deletePersonalBooking(data.bookingId)}>Verwijder deze boeking</button>
+                                <button className="crud-button" type="button" onClick={() => history.push('/edit/booking')}>Wijzig of verwijder boeking</button>
+
                             </>
                     )})
                 }

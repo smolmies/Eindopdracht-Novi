@@ -63,7 +63,7 @@ function Register() {
                         <input name="email" id="email" type="text" ref={register({required: true})}/>
                     </label>
                     <label htmlFor="phoneNumber">Telefoonnummer:
-                        <input name="phoneNumber" id="phoneNumber" type="text" ref={register({required: true, pattern: /^((\+|00(\s|\s?\-\s?)?)31(\s|\s?\-\s?)?(\(0\)[\-\s]?)?|0)[1-9]((\s|\s?\-\s?)?[0-9])((\s|\s?-\s?)?[0-9])((\s|\s?-\s?)?[0-9])\s?[0-9]\s?[0-9]\s?[0-9]\s?[0-9]\s?[0-9]$/})}/>
+                        <input name="phoneNumber" id="phoneNumber" type="text" ref={register({required: true})}/>
                     </label>
                     <label htmlFor="username">Gebruikersnaam:
                         <input name="username" id="username" type="text" ref={register({required: true})} />

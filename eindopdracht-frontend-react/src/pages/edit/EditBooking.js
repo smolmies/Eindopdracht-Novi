@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import '../booking/Booking.scss';
+import { useHistory } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { useHistory } from "react-router-dom";
+import '../booking/Booking.scss';
 
 function EditBooking(){
     const history = useHistory();
     const [loading, toggleLoading] = useState(false);
     const [error, setError] = useState('');
+    const [checkedTerms, toggleCheckedTerms] = useState(false);
     const [personalBookings, setPersonalBookings] = useState([]);
+    const [priceCalculated, setPriceCalculated] = useState('');
     const { register, handleSubmit, errors } = useForm();
 
     useEffect(() =>{
@@ -30,6 +32,17 @@ function EditBooking(){
     }
     getPersonalBookings();
     },[])
+
+    // async function checkIfDateAvailable(startDate, endDate) {
+    //     toggleLoading(true);
+    //     setError('');
+    //     try{ const result = await axios.post('http://localhost:8080/api/booking/checkDate',
+    //         {startDate: startDate.value, endDate: endDate.value});
+    //         console.log(result);
+    //     } catch(e){
+    //         setError("Deze datums zijn niet beschikbaar voor een boeking");
+    //     }
+    // }
 
     async function sendBookingUpdate(data){
         toggleLoading(true);
@@ -55,6 +68,21 @@ function EditBooking(){
         }
         toggleLoading(false);
     }
+    async function deletePersonalBooking(bookingId) {
+        setError('');
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.delete('http://localhost:8080/api/booking/delete', {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                }, data: bookingId
+            });
+            history.push("/profile");
+        } catch (e) {
+            setError('Er is iets misgegaan bij het bewerken van de data')
+        }
+    }
 
     function Options({ options }){
         return(
@@ -71,7 +99,7 @@ function EditBooking(){
             {error && <p className="error-message">{error}</p>}
 
             <label htmlFor="bookingId">Welke boeking wil je wijzigen:</label>
-                <select id="bookingId" name="bookingId" ref={register}>
+                <select id="bookingId" name="bookingId" ref={register({required: true})}>
                     <Options options={personalBookings} />
                 </select>
 
@@ -86,6 +114,7 @@ function EditBooking(){
                         <input type="date" id="endDate" name="endDate" ref={register({required: true})} />
                         {errors.endDate && <p className="error-message">Einddatum is verplicht</p>}
                     </label>
+                    {/*<button className="check-date" onClick={checkIfDateAvailable(document.getElementById('startDate').value, document.getElementById('endDate').value)}></button>*/}
                 </fieldset>
             </div>
             <label htmlFor="specialNeeds"> Speciale behoeftes:
@@ -100,12 +129,19 @@ function EditBooking(){
             <div id="price">
                 <legend>Velden met een * zijn verplicht om in te vullen!</legend>
                 <h2>De berekende prijs voor het verblijf:</h2>
-
+                {priceCalculated ? <p>Prijs wordt berekend...</p> : <p>{priceCalculated}</p>}
             </div>
 
             <button type="submit" className="submit-button" disabled={loading} >
                 {loading ? 'Laden...' : 'Wijzig mijn boeking!'}
             </button>
+            <br />
+            <label htmlFor="delete-check">
+                <input
+                    type="checkbox" name="delete-check" id="delete-check" checked={checkedTerms} onChange={() => toggleCheckedTerms(!checkedTerms)}/>
+                Ik wil deze boeking verwijderen!
+            </label>
+            <button className="crud-button" type="button" disabled={!checkedTerms} onClick={() => deletePersonalBooking(document.getElementById('bookingId').value)}>Verwijder deze boeking</button>
         </form>
 
     );

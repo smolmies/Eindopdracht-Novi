@@ -7,6 +7,7 @@ import axios from 'axios';
 function EditUser(){
     const [loading, toggleLoading] = useState(false);
     const [error, setError] = useState('');
+    const [checkedTerms, toggleCheckedTerms] = useState(false);
     const { register, handleSubmit, errors } = useForm();
     const { user } = useAuthState();
     const { logout } = useContext(AuthContext);
@@ -15,12 +16,6 @@ function EditUser(){
     async function sendUpdateData(data){
         toggleLoading(true);
         setError('');
-
-        let p = document.getElementById("password").value;
-        let rp = document.getElementById("repeatedPassword").value;
-        if(p !== rp){
-            setError("Wachtwoorden zijn niet gelijk!")
-        }
         try{
             const token = localStorage.getItem('token');
             const result = await axios.patch('http://localhost:8080/api/user/update', {
@@ -73,7 +68,7 @@ function EditUser(){
                         <input name="email" id="email" type="text" ref={register({required: true})}/>
                     </label>
                     <label htmlFor="phoneNumber">Telefoonnummer:
-                        <input name="phoneNumber" id="phoneNumber" type="text" ref={register({required: true, pattern: /^((\+|00(\s|\s?\-\s?)?)31(\s|\s?\-\s?)?(\(0\)[\-\s]?)?|0)[1-9]((\s|\s?\-\s?)?[0-9])((\s|\s?-\s?)?[0-9])((\s|\s?-\s?)?[0-9])\s?[0-9]\s?[0-9]\s?[0-9]\s?[0-9]\s?[0-9]$/})}/>
+                        <input name="phoneNumber" id="phoneNumber" type="text" ref={register({required: true})}/>
                     </label>
                     <label htmlFor="password" title="Wachtwoord moet minimaal 6 karakters lang zijn en moet minimaal 1 hoofdletter en 1 speciaal teken bevatten.">Wachtwoord:
                         <input name="password" id="password" type="password" ref={register({required: true, pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[#$^+=!*()@%&]).{6,40}$/})}
@@ -94,7 +89,12 @@ function EditUser(){
                 <button type="submit" className="submit-button" disabled={loading} >
                     {loading ? 'Laden...' : 'Wijzig mijn gegevens'}
                 </button>
-                <button className="crud-button" type="button" onClick={() => {deleteMyAccount()}}>VERWIJDER MIJN ACCOUNT</button>
+                <label>
+                <input
+                    type="checkbox" name="delete-check" id="delete-check" checked={checkedTerms} onChange={() => toggleCheckedTerms(!checkedTerms)}/>
+                    Weet je zeker dat je jouw account wilt verwijderen?
+                </label>
+                <button className="crud-button" type="button" disabled={!checkedTerms} onClick={() => {deleteMyAccount()}}>VERWIJDER MIJN ACCOUNT</button>
             </form>
 
         </>
