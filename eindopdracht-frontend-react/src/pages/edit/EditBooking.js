@@ -33,18 +33,23 @@ function EditBooking(){
     getPersonalBookings();
     },[])
 
-    // async function checkIfDateAvailable(startDate, endDate) {
-    //     toggleLoading(true);
-    //     setError('');
-    //     try{ const result = await axios.post('http://localhost:8080/api/booking/checkDate',
-    //         {startDate: startDate.value, endDate: endDate.value});
-    //         console.log(result);
-    //     } catch(e){
-    //         setError("Deze datums zijn niet beschikbaar voor een boeking");
-    //     }
-    // }
+    async function checkIfDateAvailable() {
+        toggleLoading(true);
+        setError('');
+
+        let startDate = document.getElementById('startDate').value;
+        let endDate = document.getElementById('endDate').value;
+        console.log(startDate);
+        try{ const result = await axios.post('http://localhost:8080/api/booking/checkDate',
+            {startDate, endDate});
+            console.log(result);
+        } catch(e){
+            setError("Deze datums zijn niet beschikbaar voor een boeking");
+        }
+    }
 
     async function sendBookingUpdate(data){
+        console.log("Ring ring hello i am being called")
         toggleLoading(true);
         setError('');
         try{
@@ -114,7 +119,7 @@ function EditBooking(){
                         <input type="date" id="endDate" name="endDate" ref={register({required: true})} />
                         {errors.endDate && <p className="error-message">Einddatum is verplicht</p>}
                     </label>
-                    {/*<button className="check-date" onClick={checkIfDateAvailable(document.getElementById('startDate').value, document.getElementById('endDate').value)}></button>*/}
+                    <button className="check-date" type="button" onClick={checkIfDateAvailable}>Check datum(s) voor beschikbaarheid</button>
                 </fieldset>
             </div>
             <label htmlFor="specialNeeds"> Speciale behoeftes:

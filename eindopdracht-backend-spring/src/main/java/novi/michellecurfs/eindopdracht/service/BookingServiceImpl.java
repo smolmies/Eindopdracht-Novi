@@ -165,12 +165,21 @@ public class BookingServiceImpl implements BookingService{
 
     @Override
     public ResponseEntity<?> checkIfDateAvailable(Date startDate, Date endDate){
+        Boolean available = checkIfDateIsFree(startDate, endDate);
+        if (available == false){
+            return ResponseEntity.badRequest().body(new MessageResponse("Cannot book a booking with provided date"));
+        }
+        return ResponseEntity.ok().body(new MessageResponse("Date is available for booking!"));
+    }
+
+
+    public boolean checkIfDateIsFree(Date startDate, Date endDate){
         Date today = DateTime.now().toDate();
         if(startDate.before(today) || endDate.before(today)){
-            return ResponseEntity.badRequest().body(new MessageResponse("Cannot book a booking in the past"));
+            return false;
         }
         if(endDate.before(startDate)) {
-            return ResponseEntity.badRequest().body(new MessageResponse("A booking cannot end before it starts"));
+            return false;
         }
 
         Interval newBookingInterval = new Interval(new DateTime(startDate),new DateTime(endDate));
@@ -182,9 +191,9 @@ public class BookingServiceImpl implements BookingService{
             if(overlaps){
                 break;
             }
-        }
-        return ResponseEntity.ok(!overlaps);
+        } return overlaps;
     }
+
 
     private List<Booking> findBookingsByUser(String token){
         User bookingUser = (User) userService.findUserByToken(token).getBody();
