@@ -24,8 +24,6 @@ function AuthContextProvider({ children }) {
                     }
                 );
 
-                console.log(response);
-
                 setAuthState({
                     ...authState,
                     user: {

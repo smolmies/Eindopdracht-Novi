@@ -11,7 +11,6 @@ function EditBooking(){
     const [available, setAvailable] = useState('');
     const [checkedTerms, toggleCheckedTerms] = useState(false);
     const [personalBookings, setPersonalBookings] = useState([]);
-    const [priceCalculated, setPriceCalculated] = useState('');
     const { register, handleSubmit, errors } = useForm();
 
     useEffect(() =>{
@@ -40,8 +39,8 @@ function EditBooking(){
 
         let startDate = document.getElementById('startDate').value;
         let endDate = document.getElementById('endDate').value;
-        console.log(startDate);
-        try{ const result = await axios.post('http://localhost:8080/api/booking/checkDate',
+        try{
+            const result = await axios.post('http://localhost:8080/api/booking/checkDate',
             {startDate, endDate});
             setAvailable("Beschikbaar voor boeking!");
         } catch(e){

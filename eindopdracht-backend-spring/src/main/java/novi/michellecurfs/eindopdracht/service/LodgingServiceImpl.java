@@ -24,6 +24,7 @@ public class LodgingServiceImpl implements LodgingService{
     @Override
     public void updateLodging(String roomName, String roomDescription, Lodging lodging) {
         Lodging newLodging = lodgingRepository.findByRoomName(roomName);
+        newLodging.setRoomName(lodging.getRoomName());
         newLodging.setRoomDescription(lodging.getRoomDescription());
         lodgingRepository.save(newLodging);
     }
@@ -44,6 +45,7 @@ public class LodgingServiceImpl implements LodgingService{
         if(lodgings.isEmpty()) {
             return ResponseEntity.badRequest().body(new MessageResponse("No lodgings found!"));
         }
-        return ResponseEntity.ok(lodgings);}
+        return ResponseEntity.ok(lodgings);
+    }
 
 }

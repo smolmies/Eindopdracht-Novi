@@ -29,10 +29,10 @@ public class UserServiceImpl implements UserService {
 
     private static final String PREFIX = "Bearer ";
 
-    private PasswordEncoder encoder;
+    private UserRepository userRepository;
     private RoleRepository roleRepository;
     private BookingService bookingService;
-    private UserRepository userRepository;
+    private PasswordEncoder encoder;
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
     public void setRoleRepository(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
+
     @Autowired
     public void setBookingService(BookingService bookingService) {
         this.bookingService = bookingService;
