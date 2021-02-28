@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 public interface BookingService {
@@ -18,6 +19,5 @@ public interface BookingService {
     public abstract ResponseEntity<?> checkIfDateAvailable(Date startDate, Date endDate);
     public abstract ResponseEntity<?> updateBookingById(String token, BookingRequest bookingRequest);
     public abstract ResponseEntity<?> deleteBooking(String token, long bookingId);
-
-
+    public abstract boolean hasNoFutureBookings(String username);
 }

@@ -1,6 +1,7 @@
 package novi.michellecurfs.eindopdracht.controller;
 
 import novi.michellecurfs.eindopdracht.payload.request.BookingRequest;
+import novi.michellecurfs.eindopdracht.payload.request.DateCheckRequest;
 import novi.michellecurfs.eindopdracht.payload.request.UserUpdateRequest;
 import novi.michellecurfs.eindopdracht.payload.response.MessageResponse;
 import novi.michellecurfs.eindopdracht.service.BookingService;
@@ -45,7 +46,6 @@ public class BookingController {
         return bookingService.createBooking(headers.get("authorization"), bookingRequest);
     }
 
-
     @PatchMapping("/update")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> updateBooking(@RequestHeader Map<String, String> headers, @RequestBody BookingRequest bookingRequest){
@@ -60,7 +60,7 @@ public class BookingController {
     }
 
     @PostMapping("/checkDate")
-    public ResponseEntity<?> checkDate(@RequestBody Date startDate, Date endDate){
-        return bookingService.checkIfDateAvailable(startDate, endDate);
+    public ResponseEntity<?> checkDate(@RequestBody DateCheckRequest dateCheckRequest){
+        return bookingService.checkIfDateAvailable(dateCheckRequest.getStartDate(), dateCheckRequest.getEndDate());
     }
 }

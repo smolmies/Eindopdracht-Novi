@@ -2,6 +2,7 @@ package novi.michellecurfs.eindopdracht.service;
 
 import novi.michellecurfs.eindopdracht.model.Booking;
 import novi.michellecurfs.eindopdracht.model.ERole;
+import novi.michellecurfs.eindopdracht.model.Lodging;
 import novi.michellecurfs.eindopdracht.model.Pet;
 import novi.michellecurfs.eindopdracht.model.Role;
 import novi.michellecurfs.eindopdracht.model.User;
@@ -9,6 +10,7 @@ import novi.michellecurfs.eindopdracht.payload.request.BookingRequest;
 import novi.michellecurfs.eindopdracht.payload.response.BookingResponse;
 import novi.michellecurfs.eindopdracht.payload.response.MessageResponse;
 import novi.michellecurfs.eindopdracht.repository.BookingRepository;
+import novi.michellecurfs.eindopdracht.repository.LodgingRepository;
 import novi.michellecurfs.eindopdracht.repository.PetRepository;
 import novi.michellecurfs.eindopdracht.repository.RoleRepository;
 import novi.michellecurfs.eindopdracht.repository.UserRepository;
@@ -31,14 +33,19 @@ import java.util.Optional;
 public class BookingServiceImpl implements BookingService{
 
     private BookingRepository bookingRepository;
+    private LodgingRepository lodgingRepository;
     private PetRepository petRepository;
     private RoleRepository roleRepository;
-    private UserRepository userRepository;
     private UserService userService;
 
     @Autowired
     public void setBookingRepository(BookingRepository bookingRepository) {
         this.bookingRepository = bookingRepository;
+    }
+
+    @Autowired
+    public void setLodgingRepository(LodgingRepository lodgingRepository) {
+        this.lodgingRepository = lodgingRepository;
     }
 
     @Autowired
@@ -49,11 +56,6 @@ public class BookingServiceImpl implements BookingService{
     @Autowired
     public void setRoleRepository(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
-    }
-
-    @Autowired
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
     }
 
     @Autowired
@@ -79,13 +81,51 @@ public class BookingServiceImpl implements BookingService{
     }
 
     @Override
+    public ResponseEntity<MessageResponse> createBooking(String token, @Valid BookingRequest bookingRequest) {
+        Boolean taken = checkIfDateIsTaken(bookingRequest.getStartDate(), bookingRequest.getEndDate());
+        Lodging defaultLodging = lodgingRepository.findByRoomName("Logeerkamer");
+        if(!taken) {
+            Booking booking = new Booking(
+                    bookingRequest.getStartDate(),
+                    bookingRequest.getEndDate(),
+                    bookingRequest.getAmountPets());
+            booking.setLodging(defaultLodging);
+            Booking savedBooking = bookingRepository.save(booking);
+
+            User bookingUser = (User) userService.findUserByToken(token).getBody();
+
+            List<String> names = new ArrayList<>();
+            for (Pet p : bookingUser.getPets()) {
+                names.add(p.getPetName());
+            }
+
+            if(!names.contains(bookingRequest.getPetName())) {
+                Pet pet = new Pet(
+                        bookingRequest.getPetName(),
+                        bookingRequest.getSpecialNeeds(),
+                        bookingRequest.getExtraInfo());
+                pet.addBooking(savedBooking);
+                pet.setUser(bookingUser);
+                petRepository.save(pet);
+            } else {
+                Pet pet = petRepository.findByPetName(bookingRequest.getPetName()).get();
+                pet.setSpecialNeeds(bookingRequest.getSpecialNeeds());
+                pet.setExtraInfo(bookingRequest.getExtraInfo());
+                pet.addBooking(savedBooking);
+                petRepository.save(pet);
+            }
+            return ResponseEntity.ok().body(new MessageResponse("Booking registered successfully! The booking is saved with ID " + booking.getBookingId()));
+        }
+        return ResponseEntity.badRequest().body(new MessageResponse("Booking cannot be made with provided data"));
+    }
+
+    @Override
     public ResponseEntity<?> updateBookingById(String token, @Valid BookingRequest bookingRequest) {
         List <Booking> bookingsOfUser = findBookingsByUser(token);
         Booking booking = bookingRepository.findByBookingId(bookingRequest.getBookingId()).get();
+        Boolean taken = checkIfDateIsTaken(bookingRequest.getStartDate(), bookingRequest.getEndDate());
 
-      // TODO  checkIfDateAvailable(bookingRequest.getStartDate(), bookingRequest.getEndDate());
-
-        if (bookingsOfUser.contains(booking)) {
+        if (!taken && bookingsOfUser.contains(booking)) {
             Booking updatedBooking = bookingRepository.findByBookingId(booking.getBookingId()).get();
             if(bookingRequest.getStartDate() != null){
                 updatedBooking.setStartDate(bookingRequest.getStartDate());
@@ -128,58 +168,21 @@ public class BookingServiceImpl implements BookingService{
     }
 
     @Override
-    public ResponseEntity<MessageResponse> createBooking(String token, @Valid BookingRequest bookingRequest) {
-        // TODO check the booking form/ date available
-        //  checkIfDateAvailable(bookingRequest.getStartDate(), bookingRequest.getEndDate());
-
-        Booking booking = new Booking(
-                bookingRequest.getStartDate(),
-                bookingRequest.getEndDate(),
-                bookingRequest.getAmountPets());
-
-        Booking savedBooking =  bookingRepository.save(booking);
-
-        User bookingUser = (User) userService.findUserByToken(token).getBody();
-
-        List<String> names = new ArrayList<>();
-        for (Pet p : bookingUser.getPets()) {
-            names.add(p.getPetName());
-        }
-        if(!names.contains(bookingRequest.getPetName())){
-            Pet pet = new Pet(
-                    bookingRequest.getPetName(),
-                    bookingRequest.getSpecialNeeds(),
-                    bookingRequest.getExtraInfo());
-                    pet.addBooking(savedBooking);
-                    pet.setUser(bookingUser);
-                    petRepository.save(pet);
-        } else {
-            Pet pet = petRepository.findByPetName(bookingRequest.getPetName()).get();
-            pet.setSpecialNeeds(bookingRequest.getSpecialNeeds());
-            pet.setExtraInfo(bookingRequest.getExtraInfo());
-            pet.addBooking(savedBooking);
-            petRepository.save(pet);
-        }
-        return ResponseEntity.ok(new MessageResponse("Booking registered successfully! Here is the ID " + booking.getBookingId()));
-    }
-
-    @Override
     public ResponseEntity<?> checkIfDateAvailable(Date startDate, Date endDate){
-        Boolean available = checkIfDateIsFree(startDate, endDate);
-        if (available == false){
+        Boolean taken = checkIfDateIsTaken(startDate, endDate);
+        if (taken){
             return ResponseEntity.badRequest().body(new MessageResponse("Cannot book a booking with provided date"));
         }
         return ResponseEntity.ok().body(new MessageResponse("Date is available for booking!"));
     }
 
-
-    public boolean checkIfDateIsFree(Date startDate, Date endDate){
+    public boolean checkIfDateIsTaken(Date startDate, Date endDate){
         Date today = DateTime.now().toDate();
         if(startDate.before(today) || endDate.before(today)){
-            return false;
+            return true;
         }
         if(endDate.before(startDate)) {
-            return false;
+            return true;
         }
 
         Interval newBookingInterval = new Interval(new DateTime(startDate),new DateTime(endDate));
@@ -194,8 +197,33 @@ public class BookingServiceImpl implements BookingService{
         } return overlaps;
     }
 
+    @Override
+    public boolean hasNoFutureBookings(String username){
+        List<Booking> allBookings = findBookingsByUsername(username);
+        Date today = DateTime.now().toDate();
+        for(Booking b : allBookings){
+            if(b.getStartDate().after(today) || b.getEndDate().after(today)){
+                return false;
+            }
+        }
+        return true;
+    }
 
-    private List<Booking> findBookingsByUser(String token){
+
+    private List<Booking> findBookingsByUsername(String username){
+        User bookingUser = userService.getUserByUsername(username).get();
+        List<Pet> pets = bookingUser.getPets();
+
+        List<Booking> bookings = new ArrayList<>();
+        for (Pet p : pets){
+            bookings.addAll(p.getBookingSet());
+        }
+
+        return bookings;
+    }
+
+
+    public List<Booking> findBookingsByUser(String token){
         User bookingUser = (User) userService.findUserByToken(token).getBody();
         List<Pet> pets = bookingUser.getPets();
 
@@ -207,7 +235,7 @@ public class BookingServiceImpl implements BookingService{
         return bookings;
     }
 
-    private List<BookingResponse> createBookingResponse(List<Booking> bookings){
+    public List<BookingResponse> createBookingResponse(List<Booking> bookings){
         List<BookingResponse> bookingResponse = new ArrayList<>();
         for(Booking book : bookings){
             bookingResponse.add(new BookingResponse(

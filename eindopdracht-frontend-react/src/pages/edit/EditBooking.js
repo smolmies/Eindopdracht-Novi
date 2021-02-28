@@ -8,6 +8,7 @@ function EditBooking(){
     const history = useHistory();
     const [loading, toggleLoading] = useState(false);
     const [error, setError] = useState('');
+    const [available, setAvailable] = useState('');
     const [checkedTerms, toggleCheckedTerms] = useState(false);
     const [personalBookings, setPersonalBookings] = useState([]);
     const [priceCalculated, setPriceCalculated] = useState('');
@@ -42,14 +43,14 @@ function EditBooking(){
         console.log(startDate);
         try{ const result = await axios.post('http://localhost:8080/api/booking/checkDate',
             {startDate, endDate});
-            console.log(result);
+            setAvailable("Beschikbaar voor boeking!");
         } catch(e){
             setError("Deze datums zijn niet beschikbaar voor een boeking");
         }
+        toggleLoading(false);
     }
 
     async function sendBookingUpdate(data){
-        console.log("Ring ring hello i am being called")
         toggleLoading(true);
         setError('');
         try{
@@ -66,13 +67,13 @@ function EditBooking(){
                     Authorization: `Bearer ${token}`,
                 }
             });
-            console.log(result);
             history.push('/profile');
         } catch (e) {
-            console.log(e)
+            setError(e);
         }
         toggleLoading(false);
     }
+
     async function deletePersonalBooking(bookingId) {
         setError('');
         try {
@@ -107,7 +108,6 @@ function EditBooking(){
                 <select id="bookingId" name="bookingId" ref={register({required: true})}>
                     <Options options={personalBookings} />
                 </select>
-
             <div id="date-picker">
                 <fieldset>
                     <legend>Gewenste dagen voor het verblijf</legend>
@@ -119,6 +119,7 @@ function EditBooking(){
                         <input type="date" id="endDate" name="endDate" ref={register({required: true})} />
                         {errors.endDate && <p className="error-message">Einddatum is verplicht</p>}
                     </label>
+                    {available && <p className="success-message">{available}</p>}
                     <button className="check-date" type="button" onClick={checkIfDateAvailable}>Check datum(s) voor beschikbaarheid</button>
                 </fieldset>
             </div>
@@ -130,13 +131,7 @@ function EditBooking(){
                 <br />
                 <textarea name="extraInfo" id="extraInfo" rows="5" cols="40" placeholder="Bijv. Poes is erg schuw, dus graag veel rust en ruimte geven." ref={register}/>
             </label>
-
-            <div id="price">
                 <legend>Velden met een * zijn verplicht om in te vullen!</legend>
-                <h2>De berekende prijs voor het verblijf:</h2>
-                {priceCalculated ? <p>Prijs wordt berekend...</p> : <p>{priceCalculated}</p>}
-            </div>
-
             <button type="submit" className="submit-button" disabled={loading} >
                 {loading ? 'Laden...' : 'Wijzig mijn boeking!'}
             </button>
@@ -148,7 +143,6 @@ function EditBooking(){
             </label>
             <button className="crud-button" type="button" disabled={!checkedTerms} onClick={() => deletePersonalBooking(document.getElementById('bookingId').value)}>Verwijder deze boeking</button>
         </form>
-
     );
 
 }

@@ -31,6 +31,7 @@ public class UserServiceImpl implements UserService {
 
     private PasswordEncoder encoder;
     private RoleRepository roleRepository;
+    private BookingService bookingService;
     private UserRepository userRepository;
 
     @Autowired
@@ -41,6 +42,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     public void setRoleRepository(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
+    }
+    @Autowired
+    public void setBookingService(BookingService bookingService) {
+        this.bookingService = bookingService;
     }
 
     @Autowired
@@ -106,9 +111,12 @@ public class UserServiceImpl implements UserService {
         User currentUser = findUserByUsername(currentUsername);
         User targetUser = findUserByUsername(username);
         Optional<Role> admin = roleRepository.findByName(ERole.ROLE_ADMIN);
+
         if(currentUser.getUsername().equalsIgnoreCase(targetUser.getUsername()) || currentUser.getRoles().contains(admin)){
+            if(bookingService.hasNoFutureBookings(targetUser.getUsername())){
             userRepository.deleteByUsername(targetUser.getUsername());
             return ResponseEntity.ok().body(new MessageResponse("User has been deleted"));
+            }
         }
         return ResponseEntity.badRequest().body(new MessageResponse("User can not be deleted"));
     }

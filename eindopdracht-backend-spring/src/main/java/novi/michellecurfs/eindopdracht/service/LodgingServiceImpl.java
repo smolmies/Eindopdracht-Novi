@@ -1,9 +1,13 @@
 package novi.michellecurfs.eindopdracht.service;
 
 import novi.michellecurfs.eindopdracht.model.Lodging;
+import novi.michellecurfs.eindopdracht.payload.response.MessageResponse;
 import novi.michellecurfs.eindopdracht.repository.LodgingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class LodgingServiceImpl implements LodgingService{
@@ -18,10 +22,10 @@ public class LodgingServiceImpl implements LodgingService{
     }
 
     @Override
-    public void updateLodging(String roomName, Lodging newLodging) {
-        Lodging lodging = lodgingRepository.findByRoomName(roomName);
-        lodging.setRoomDescription(newLodging.getRoomDescription());
-        lodgingRepository.save(lodging);
+    public void updateLodging(String roomName, String roomDescription, Lodging lodging) {
+        Lodging newLodging = lodgingRepository.findByRoomName(roomName);
+        newLodging.setRoomDescription(lodging.getRoomDescription());
+        lodgingRepository.save(newLodging);
     }
 
     @Override
@@ -33,4 +37,13 @@ public class LodgingServiceImpl implements LodgingService{
     public Lodging getLodging(String roomName) {
         return lodgingRepository.findByRoomName(roomName);
     }
+
+    @Override
+    public ResponseEntity<?> getAllLodging(){
+        List<Lodging> lodgings = lodgingRepository.findAll();
+        if(lodgings.isEmpty()) {
+            return ResponseEntity.badRequest().body(new MessageResponse("No lodgings found!"));
+        }
+        return ResponseEntity.ok(lodgings);}
+
 }

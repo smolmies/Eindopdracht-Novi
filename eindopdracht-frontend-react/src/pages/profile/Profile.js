@@ -61,12 +61,12 @@ function Profile() {
                     Authorization: `Bearer ${token}`,
                 }
             });
-            console.log(result.data);
             setUsersData(result.data);
         } catch (e) {
             setError('Niet gelukt om data op te halen')
         }
     }
+
     async function getBookingsAsAdmin() {
         setError('');
         try {
@@ -77,7 +77,7 @@ function Profile() {
                     Authorization: `Bearer ${token}`,
                 }
             });
-            console.log(result.data);
+
             setBookingsData(result.data);
         } catch (e) {
             setError('Niet gelukt om data op te halen')

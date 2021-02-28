@@ -60,7 +60,6 @@ function AuthContextProvider({ children }) {
     }, []);
 
     function login(data) {
-        console.log(data);
         localStorage.setItem('token', data.accessToken);
         setAuthState({
             ...authState,

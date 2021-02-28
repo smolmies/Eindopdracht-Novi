@@ -29,10 +29,10 @@ function EditUser(){
                     Authorization: `Bearer ${token}`,
                 }
             });
-            console.log(result);
+
             history.push('/profile');
         } catch (e) {
-            console.log(e)
+            setError("Account kan niet gewijzigd worden met deze gegevens.")
         }
         toggleLoading(false);
     }
@@ -49,11 +49,12 @@ function EditUser(){
                     Authorization: `Bearer ${token}`,
                 }, data: userToDelete
             });
-            console.log(result);
+
             logout();
             history.push('/');
         } catch (e) {
-            console.log(e)
+            setError("Je account kan niet verwijderd worden. Check of je nog boekingen ingepland hebt " +
+                "in de toekomst en annuleer die eerst voordat je je account verwijderd!");
         }
         toggleLoading(false);
     }

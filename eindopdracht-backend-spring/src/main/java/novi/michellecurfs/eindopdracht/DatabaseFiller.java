@@ -33,6 +33,14 @@ public class DatabaseFiller implements CommandLineRunner {
         user.setRole(rollen);
         authorizationService.registerUser(user);
 
+        SignupRequest anotheruser = new SignupRequest();
+        anotheruser.setEmail("another@user.nl");
+        anotheruser.setPhoneNumber("0634567890");
+        anotheruser.setUsername("anotheruser");
+        anotheruser.setPassword("Anotheruser!");
+        anotheruser.setRole(rollen);
+        authorizationService.registerUser(anotheruser);
+
         SignupRequest admin = new SignupRequest();
         admin.setEmail("admin@admin.nl");
         admin.setPhoneNumber("0623456789");
@@ -41,15 +49,6 @@ public class DatabaseFiller implements CommandLineRunner {
         rollen.add("admin");
         admin.setRole(rollen);
         authorizationService.registerUser(admin);
-
-        SignupRequest superuser = new SignupRequest();
-        superuser.setEmail("super@user.nl");
-        superuser.setPhoneNumber("0634567890");
-        superuser.setUsername("superuser");
-        superuser.setPassword("Superuser!");
-        rollen.add("admin");
-        superuser.setRole(rollen);
-        authorizationService.registerUser(superuser);
 
     }
 }

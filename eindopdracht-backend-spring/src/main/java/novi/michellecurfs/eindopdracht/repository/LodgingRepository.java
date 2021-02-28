@@ -5,6 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LodgingRepository extends JpaRepository<Lodging, String> {
 
-
     Lodging findByRoomName(String roomName);
 }

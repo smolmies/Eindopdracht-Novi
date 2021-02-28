@@ -27,9 +27,6 @@ public class Lodging {
     @Column
     private String roomDescription;
 
-    @Column
-    private Boolean available;
-
     @OneToMany(
             targetEntity = Booking.class,
             mappedBy = "lodging",
@@ -65,12 +62,6 @@ public class Lodging {
     }
     public void setRoomDescription(String roomDescription) {
         this.roomDescription = roomDescription;
-    }
-    public Boolean getAvailable() {
-        return available;
-    }
-    public void setAvailable(Boolean available) {
-        this.available = available;
     }
     public List<Booking> getBookings() {
         return bookings;
