@@ -2,7 +2,6 @@ package novi.michellecurfs.eindopdracht.service;
 
 import novi.michellecurfs.eindopdracht.model.Booking;
 import novi.michellecurfs.eindopdracht.model.ERole;
-import novi.michellecurfs.eindopdracht.model.Lodging;
 import novi.michellecurfs.eindopdracht.model.Pet;
 import novi.michellecurfs.eindopdracht.model.Role;
 import novi.michellecurfs.eindopdracht.model.User;
@@ -10,17 +9,15 @@ import novi.michellecurfs.eindopdracht.payload.request.BookingRequest;
 import novi.michellecurfs.eindopdracht.payload.response.BookingResponse;
 import novi.michellecurfs.eindopdracht.payload.response.MessageResponse;
 import novi.michellecurfs.eindopdracht.repository.BookingRepository;
-import novi.michellecurfs.eindopdracht.repository.LodgingRepository;
 import novi.michellecurfs.eindopdracht.repository.PetRepository;
 import novi.michellecurfs.eindopdracht.repository.RoleRepository;
-import novi.michellecurfs.eindopdracht.repository.UserRepository;
+
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,7 +48,6 @@ public class BookingServiceImpl implements BookingService{
     public void setRoleRepository(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
-
 
     @Autowired
     public void setUserService(UserService userService) {
@@ -151,12 +147,13 @@ public class BookingServiceImpl implements BookingService{
             bookingIdsList.add(b.getBookingId());
         }
 
-        // TODO make check for bookings, only bookings that are in the future can be deleted by the user. (admin can delete any?)
-
+        Date toCheck = DateTime.now().plusDays(2).toDate();
         if (bookingIdsList.contains(bookingId) || bookingUser.getRoles().contains(admin)) {
             Booking toDelete = bookingRepository.findByBookingId(bookingId).get();
-            bookingRepository.delete(toDelete);
-            return ResponseEntity.ok(new MessageResponse( "Booking " + bookingId + " has been deleted successfully!"));
+            if(toDelete.getStartDate().after(toCheck)) {
+                bookingRepository.delete(toDelete);
+                return ResponseEntity.ok(new MessageResponse("Booking " + bookingId + " has been deleted successfully!"));
+            }
         }
         return ResponseEntity.badRequest().body(new MessageResponse("Booking doesn't exist or can not be deleted"));
     }
@@ -168,6 +165,18 @@ public class BookingServiceImpl implements BookingService{
             return ResponseEntity.badRequest().body(new MessageResponse("Cannot book a booking with provided date"));
         }
         return ResponseEntity.ok().body(new MessageResponse("Date is available for booking!"));
+    }
+
+    @Override
+    public boolean hasNoFutureBookings(String username){
+        List<Booking> allBookings = findBookingsByUsername(username);
+        Date today = DateTime.now().plusDays(2).toDate();
+        for(Booking b : allBookings){
+            if(b.getStartDate().after(today) || b.getEndDate().after(today)){
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean checkIfDateIsTaken(Date startDate, Date endDate){
@@ -191,19 +200,6 @@ public class BookingServiceImpl implements BookingService{
         } return overlaps;
     }
 
-    @Override
-    public boolean hasNoFutureBookings(String username){
-        List<Booking> allBookings = findBookingsByUsername(username);
-        Date today = DateTime.now().toDate();
-        for(Booking b : allBookings){
-            if(b.getStartDate().after(today) || b.getEndDate().after(today)){
-                return false;
-            }
-        }
-        return true;
-    }
-
-
     private List<Booking> findBookingsByUsername(String username){
         User bookingUser = userService.getUserByUsername(username).get();
         List<Pet> pets = bookingUser.getPets();
@@ -215,7 +211,6 @@ public class BookingServiceImpl implements BookingService{
 
         return bookings;
     }
-
 
     public List<Booking> findBookingsByUser(String token){
         User bookingUser = (User) userService.findUserByToken(token).getBody();

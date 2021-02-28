@@ -119,7 +119,7 @@ function Profile() {
                                  specialNeeds={data.specialNeeds}
                                  extraInfo={data.extraInfo}
                                 />
-                                <button className="crud-button" type="button" onClick={() => history.push('/edit/booking')}>Wijzig of verwijder boeking</button>
+                                <button className="crud-button" type="button" onClick={() => history.push('/edit/booking')}>Wijzig of annuleer boeking</button>
 
                             </>
                     )})

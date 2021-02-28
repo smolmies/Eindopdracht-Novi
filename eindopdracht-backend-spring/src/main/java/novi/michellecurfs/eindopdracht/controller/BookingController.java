@@ -2,7 +2,6 @@ package novi.michellecurfs.eindopdracht.controller;
 
 import novi.michellecurfs.eindopdracht.payload.request.BookingRequest;
 import novi.michellecurfs.eindopdracht.payload.request.DateCheckRequest;
-import novi.michellecurfs.eindopdracht.payload.request.UserUpdateRequest;
 import novi.michellecurfs.eindopdracht.payload.response.MessageResponse;
 import novi.michellecurfs.eindopdracht.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.Map;
 
 @CrossOrigin(origins = "*", maxAge = 3600)

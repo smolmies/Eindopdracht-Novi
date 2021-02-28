@@ -1,7 +1,5 @@
 package novi.michellecurfs.eindopdracht.service;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import novi.michellecurfs.eindopdracht.model.ERole;
 import novi.michellecurfs.eindopdracht.model.Role;
 import novi.michellecurfs.eindopdracht.model.User;
@@ -9,13 +7,15 @@ import novi.michellecurfs.eindopdracht.payload.request.UserUpdateRequest;
 import novi.michellecurfs.eindopdracht.payload.response.MessageResponse;
 import novi.michellecurfs.eindopdracht.repository.RoleRepository;
 import novi.michellecurfs.eindopdracht.repository.UserRepository;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.validation.Valid;
 import javax.xml.bind.DatatypeConverter;
 import java.util.List;
@@ -148,6 +148,5 @@ public class UserServiceImpl implements UserService {
         }
         return false;
     }
-
 
 }

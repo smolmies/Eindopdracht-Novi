@@ -1,7 +1,7 @@
 @import '../../components/styles/styles';
 
 .booking-form {
-
+padding-top: 100px;
   select{
     width: fit-content;
     padding: 5px;
@@ -27,8 +27,19 @@
   .success-message{
     text-align: center;
   }
+  .error-message{
+    text-align: center;
+  }
 }
 
 textarea{
   margin: 5px;
+}
+
+#cancel-message{
+  font-size: 0.8rem;
+}
+
+#delete-check{
+  display: inline;
 }

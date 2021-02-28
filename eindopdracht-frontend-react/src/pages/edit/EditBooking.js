@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import '../booking/Booking.scss';
@@ -86,7 +86,7 @@ function EditBooking(){
             });
             history.push("/profile");
         } catch (e) {
-            setError('Er is iets misgegaan bij het bewerken van de data')
+            setError('Boeking kan niet meer geannuleerd worden. Neem contact met ons op!')
         }
     }
 
@@ -102,9 +102,7 @@ function EditBooking(){
     return (
         <>
             <form className="booking-form" onSubmit={handleSubmit(sendBookingUpdate)}>
-                {error && <p className="error-message">{error}</p>}
-
-                <label htmlFor="bookingId">Welke boeking wil je wijzigen:</label>
+                <label htmlFor="bookingId">Selecteer de boeking om te wijzigen of annuleren:</label>
                     <select id="bookingId" name="bookingId" ref={register({required: true})}>
                         <Options options={personalBookings} />
                     </select>
@@ -139,9 +137,15 @@ function EditBooking(){
                 <label htmlFor="delete-check">
                     <input
                         type="checkbox" name="delete-check" id="delete-check" checked={checkedTerms} onChange={() => toggleCheckedTerms(!checkedTerms)}/>
-                    Ik wil deze boeking verwijderen!
+                    Ik wil deze boeking annuleren!
                 </label>
-                <button className="crud-button" type="button" disabled={!checkedTerms} onClick={() => deletePersonalBooking(document.getElementById('bookingId').value)}>Verwijder deze boeking</button>
+                {error && <p className="error-message">{error}</p>}
+                <button className="crud-button" type="button" disabled={!checkedTerms} onClick={() => deletePersonalBooking(document.getElementById('bookingId').value)}>Annuleer deze boeking</button>
+
+                <p id="cancel-message">
+                    Moet minimaal 48 uur voor de boeking plaatsvindt. <br />
+                    Indien niet mogelijk neem dan <Link to='/contact'> contact met ons</Link> op.
+                </p>
             </form>
         </>
     );
