@@ -35,6 +35,7 @@ public class Booking {
     private int amountPets;
 
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Lodging lodging;
 
     @ManyToMany(mappedBy = "bookingSet")

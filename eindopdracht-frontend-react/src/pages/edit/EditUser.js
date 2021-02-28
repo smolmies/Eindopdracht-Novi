@@ -61,7 +61,7 @@ function EditUser(){
 
     return(
         <>
-            <form id="sign-form" onSubmit={handleSubmit(sendUpdateData)}>
+            <form className="sign-form" onSubmit={handleSubmit(sendUpdateData)}>
                 <fieldset>
                     <legend>Vul hier je nieuwe gegevens in!</legend>
                     {error && <p className="error-message">{error}</p>}

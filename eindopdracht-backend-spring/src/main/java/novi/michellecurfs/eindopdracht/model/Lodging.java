@@ -1,5 +1,8 @@
 package novi.michellecurfs.eindopdracht.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,6 +30,7 @@ public class Lodging {
     @Column
     private String roomDescription;
 
+
     @OneToMany(
             targetEntity = Booking.class,
             mappedBy = "lodging",
@@ -34,6 +38,7 @@ public class Lodging {
             orphanRemoval = true,
             fetch = FetchType.EAGER
     )
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Booking> bookings;
 
     public Lodging() {

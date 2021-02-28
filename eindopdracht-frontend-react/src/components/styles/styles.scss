@@ -59,6 +59,7 @@ form{
 .success-message{
   text-align: center;
   color: #32c132;
+  font-weight: bold;
   font-size: 1rem;
 }
 
@@ -68,13 +69,3 @@ form{
   font-weight: bold;
   font-size: 1rem;
 }
-
-//@media only screen and (max-width: 768px) {
-//  nav{
-//    font-size: 0.5rem;
-//    background-color: $tangerine;
-//  }
-//  #date-picker{
-//    display: flex;
-//  }
-//}

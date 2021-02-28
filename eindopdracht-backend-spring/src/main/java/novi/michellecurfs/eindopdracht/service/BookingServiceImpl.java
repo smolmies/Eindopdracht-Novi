@@ -33,7 +33,6 @@ import java.util.Optional;
 public class BookingServiceImpl implements BookingService{
 
     private BookingRepository bookingRepository;
-    private LodgingRepository lodgingRepository;
     private PetRepository petRepository;
     private RoleRepository roleRepository;
     private UserService userService;
@@ -41,11 +40,6 @@ public class BookingServiceImpl implements BookingService{
     @Autowired
     public void setBookingRepository(BookingRepository bookingRepository) {
         this.bookingRepository = bookingRepository;
-    }
-
-    @Autowired
-    public void setLodgingRepository(LodgingRepository lodgingRepository) {
-        this.lodgingRepository = lodgingRepository;
     }
 
     @Autowired
@@ -57,6 +51,7 @@ public class BookingServiceImpl implements BookingService{
     public void setRoleRepository(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
+
 
     @Autowired
     public void setUserService(UserService userService) {
@@ -83,13 +78,11 @@ public class BookingServiceImpl implements BookingService{
     @Override
     public ResponseEntity<MessageResponse> createBooking(String token, @Valid BookingRequest bookingRequest) {
         Boolean taken = checkIfDateIsTaken(bookingRequest.getStartDate(), bookingRequest.getEndDate());
-        Lodging defaultLodging = lodgingRepository.findByRoomName("Logeerkamer");
         if(!taken) {
             Booking booking = new Booking(
                     bookingRequest.getStartDate(),
                     bookingRequest.getEndDate(),
                     bookingRequest.getAmountPets());
-            booking.setLodging(defaultLodging);
             Booking savedBooking = bookingRepository.save(booking);
 
             User bookingUser = (User) userService.findUserByToken(token).getBody();
@@ -161,7 +154,8 @@ public class BookingServiceImpl implements BookingService{
         // TODO make check for bookings, only bookings that are in the future can be deleted by the user. (admin can delete any?)
 
         if (bookingIdsList.contains(bookingId) || bookingUser.getRoles().contains(admin)) {
-            bookingRepository.deleteByBookingId(bookingId);
+            Booking toDelete = bookingRepository.findByBookingId(bookingId).get();
+            bookingRepository.delete(toDelete);
             return ResponseEntity.ok(new MessageResponse( "Booking " + bookingId + " has been deleted successfully!"));
         }
         return ResponseEntity.badRequest().body(new MessageResponse("Booking doesn't exist or can not be deleted"));

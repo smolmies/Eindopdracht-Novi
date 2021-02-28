@@ -55,7 +55,7 @@ function Register() {
         <>
 
             {error && <p className="error-message">{error}</p>}
-            <form id="sign-form" onSubmit={handleSubmit(sendRegisterData)}>
+            <form className="sign-form" onSubmit={handleSubmit(sendRegisterData)}>
                 <fieldset>
                     <legend>Maak hier een nieuw account aan</legend>
 

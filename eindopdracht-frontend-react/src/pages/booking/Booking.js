@@ -54,7 +54,8 @@ function Booking() {
     }
 
     return (
-            <form id="booking-form" onSubmit={handleSubmit(sendBookingData)}>
+        <>
+            <form className="booking-form" onSubmit={handleSubmit(sendBookingData)}>
                 {error && <p className="error-message">{error}</p>}
                 <div id="date-picker">
                     <fieldset>
@@ -91,7 +92,8 @@ function Booking() {
                         {loading ? 'Laden...' : 'Maak mijn boeking!'}
                     </button>
             </form>
-    );
+        </>
+    )
 }
 
 export default Booking;

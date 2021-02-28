@@ -45,7 +45,7 @@ function Login() {
 
     return (
         <>
-            <form id="sign-form" onSubmit={handleSubmit(sendLoginData)}>
+            <form className="sign-form" onSubmit={handleSubmit(sendLoginData)}>
                 <fieldset>
                     <legend>Log hier in</legend>
                         <label htmlFor="username">Gebruikersnaam:

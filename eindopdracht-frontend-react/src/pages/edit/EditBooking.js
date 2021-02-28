@@ -100,49 +100,50 @@ function EditBooking(){
     }
 
     return (
+        <>
+            <form className="booking-form" onSubmit={handleSubmit(sendBookingUpdate)}>
+                {error && <p className="error-message">{error}</p>}
 
-        <form id="booking-form" onSubmit={handleSubmit(sendBookingUpdate)}>
-            {error && <p className="error-message">{error}</p>}
-
-            <label htmlFor="bookingId">Welke boeking wil je wijzigen:</label>
-                <select id="bookingId" name="bookingId" ref={register({required: true})}>
-                    <Options options={personalBookings} />
-                </select>
-            <div id="date-picker">
-                <fieldset>
-                    <legend>Gewenste dagen voor het verblijf</legend>
-                    <label htmlFor="startDate">* Startdatum:
-                        <input type="date" id="startDate" name="startDate" ref={register({required: true})} />
-                        {errors.startDate && <p className="error-message">Startdatum is verplicht</p>}
-                    </label>
-                    <label htmlFor="endDate">* Einddatum:
-                        <input type="date" id="endDate" name="endDate" ref={register({required: true})} />
-                        {errors.endDate && <p className="error-message">Einddatum is verplicht</p>}
-                    </label>
-                    {available && <p className="success-message">{available}</p>}
-                    <button className="check-date" type="button" onClick={checkIfDateAvailable}>Check datum(s) voor beschikbaarheid</button>
-                </fieldset>
-            </div>
-            <label htmlFor="specialNeeds"> Speciale behoeftes:
+                <label htmlFor="bookingId">Welke boeking wil je wijzigen:</label>
+                    <select id="bookingId" name="bookingId" ref={register({required: true})}>
+                        <Options options={personalBookings} />
+                    </select>
+                <div id="date-picker">
+                    <fieldset>
+                        <legend>Gewenste dagen voor het verblijf</legend>
+                        <label htmlFor="startDate">* Startdatum:
+                            <input type="date" id="startDate" name="startDate" ref={register({required: true})} />
+                            {errors.startDate && <p className="error-message">Startdatum is verplicht</p>}
+                        </label>
+                        <label htmlFor="endDate">* Einddatum:
+                            <input type="date" id="endDate" name="endDate" ref={register({required: true})} />
+                            {errors.endDate && <p className="error-message">Einddatum is verplicht</p>}
+                        </label>
+                        {available && <p className="success-message">{available}</p>}
+                        <button className="check-date" type="button" onClick={checkIfDateAvailable}>Check datum(s) voor beschikbaarheid</button>
+                    </fieldset>
+                </div>
+                <label htmlFor="specialNeeds"> Speciale behoeftes:
+                    <br />
+                    <textarea name="specialNeeds" id="specialNeeds" rows="5" cols="40" placeholder="Bijv. Poes moet iedere dag met natvlees haar medicijnen innemen." ref={register}/>
+                </label>
+                <label htmlFor="extraInfo"> Andere bijzonderheden:
+                    <br />
+                    <textarea name="extraInfo" id="extraInfo" rows="5" cols="40" placeholder="Bijv. Poes is erg schuw, dus graag veel rust en ruimte geven." ref={register}/>
+                </label>
+                    <legend>Velden met een * zijn verplicht om in te vullen!</legend>
+                <button type="submit" className="submit-button" disabled={loading} >
+                    {loading ? 'Laden...' : 'Wijzig mijn boeking!'}
+                </button>
                 <br />
-                <textarea name="specialNeeds" id="specialNeeds" rows="5" cols="40" placeholder="Bijv. Poes moet iedere dag met natvlees haar medicijnen innemen." ref={register}/>
-            </label>
-            <label htmlFor="extraInfo"> Andere bijzonderheden:
-                <br />
-                <textarea name="extraInfo" id="extraInfo" rows="5" cols="40" placeholder="Bijv. Poes is erg schuw, dus graag veel rust en ruimte geven." ref={register}/>
-            </label>
-                <legend>Velden met een * zijn verplicht om in te vullen!</legend>
-            <button type="submit" className="submit-button" disabled={loading} >
-                {loading ? 'Laden...' : 'Wijzig mijn boeking!'}
-            </button>
-            <br />
-            <label htmlFor="delete-check">
-                <input
-                    type="checkbox" name="delete-check" id="delete-check" checked={checkedTerms} onChange={() => toggleCheckedTerms(!checkedTerms)}/>
-                Ik wil deze boeking verwijderen!
-            </label>
-            <button className="crud-button" type="button" disabled={!checkedTerms} onClick={() => deletePersonalBooking(document.getElementById('bookingId').value)}>Verwijder deze boeking</button>
-        </form>
+                <label htmlFor="delete-check">
+                    <input
+                        type="checkbox" name="delete-check" id="delete-check" checked={checkedTerms} onChange={() => toggleCheckedTerms(!checkedTerms)}/>
+                    Ik wil deze boeking verwijderen!
+                </label>
+                <button className="crud-button" type="button" disabled={!checkedTerms} onClick={() => deletePersonalBooking(document.getElementById('bookingId').value)}>Verwijder deze boeking</button>
+            </form>
+        </>
     );
 
 }
